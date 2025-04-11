@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { useRequest } from 'ahooks'
 import { useParams } from 'react-router'
 import {
+  roleMap,
   stageMap,
   actionMap,
   handPokeMap,
-  formatterPoke,
-  roleMap
+  formatterPoke
 } from 'texas-poker-core'
 import {
   Spin,
@@ -119,15 +119,17 @@ const AnalysisDetail = () => {
     )
   }, [data?.lowestBetAmount])
   return (
-    <div
-      style={{
-        padding: '12px 18px',
-        background: '#f5f5f5',
-        height: '100vh',
-        overflowY: 'auto'
-      }}
-    >
-      <Spin spinning={loading}>
+    <Spin spinning={loading}>
+      <div
+        style={{
+          padding: '12px 18px',
+          background: '#f5f5f5',
+          height: '100vh',
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <h4 style={{ marginTop: 0 }}>
           <span>对局信息</span>
           <span style={{ marginLeft: 4 }}>{getMatchTag(data)}</span>
@@ -157,15 +159,21 @@ const AnalysisDetail = () => {
 
         <h4>玩家</h4>
         <Table
+          pagination={false}
+          scroll={{ y: 300 }}
           columns={columnsOfWinners}
           dataSource={data?.playerHands}
-          pagination={false}
-          style={{ marginBottom: 20 }}
         />
         <h4>行为记录</h4>
-        <Table columns={columnsOfRecords} dataSource={data?.records} />
-      </Spin>
-    </div>
+        <Table
+          columns={columnsOfRecords}
+          dataSource={data?.records}
+          pagination={false}
+          style={{ flexGrow: 1, overflowY: 'auto' }}
+          sticky
+        />
+      </div>
+    </Spin>
   )
 }
 

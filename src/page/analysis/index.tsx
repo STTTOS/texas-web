@@ -94,17 +94,18 @@ const Page = () => {
     <div
       style={{
         height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         padding: 16
       }}
     >
       <Table
+        sticky
         scroll={{ x: 'max-content' }}
         {...tableProps}
         columns={columns}
-        style={{ width: '100%', height: '100%' }}
+        style={{ height: '100%', overflowY: 'auto' }}
       />
     </div>
   )
