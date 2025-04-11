@@ -5,7 +5,8 @@ import {
   stageMap,
   actionMap,
   handPokeMap,
-  formatterPoke
+  formatterPoke,
+  roleMap
 } from 'texas-poker-core'
 import {
   Spin,
@@ -41,6 +42,12 @@ const AnalysisDetail = () => {
             </Space>
           </div>
         )
+      }
+    },
+    {
+      title: '位置',
+      render(_, { role }) {
+        return roleMap.get(role)
       }
     },
     {
