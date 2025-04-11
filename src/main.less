@@ -1,0 +1,84 @@
+@import './styles/theme.less';
+@import './styles/antd.theme.less';
+
+/* stylelint-disable string-quotes */
+/* stylelint-disable value-list-comma-newline-after */
+/* stylelint-disable declaration-colon-newline-after */
+body {
+  margin: 0;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+    Hiragino Sans GB, Microsoft YaHei, Arial !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.flex {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.block {
+  display: block;
+  margin: 0 auto;
+}
+
+.markdown-it-video {
+  width: 100%;
+  max-height: 600px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.ant-menu-item-selected {
+  border-color: #94b668 !important;
+}
+
+.markdown-navigation .title-anchor.active {
+  color: #5cb963 !important;
+}
+
+.custom-html-style {
+  p {
+    overflow-wrap: break-word;
+  }
+
+  *:not(h1, h2, h3, h4, h5, h6) {
+    font-size: 16px !important;
+  }
+
+  pre * {
+    font-size: 14px !important;
+  }
+  a {
+    color: #5cb963 !important;
+  }
+}
+
+.lazy-load-image-background {
+  display: block !important;
+}
+
+.rc-md-editor {
+  border: none !important;
+}

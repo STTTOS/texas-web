@@ -1,0 +1,38 @@
+.wrapper {
+  :global {
+    .ant-upload.ant-upload-select {
+      width: auto !important;
+      height: auto !important;
+    }
+  }
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px dashed #5cb963;
+  padding: 40px;
+}
+
+.item {
+  position: relative;
+  min-height: 140px;
+
+  &:hover {
+    .close {
+      display: block;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  color: rgb(138, 31, 31);
+  font-size: 18px;
+  display: none;
+  cursor: pointer;
+}

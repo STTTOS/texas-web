@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  .contentLayout {
+    display: flex;
+    position: relative;
+    height: 100%;
+    flex: 1;
+    flex-direction: column;
+
+    .header {
+      position: sticky;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
+      height: 60px;
+      text-align: right;
+      background-color: #fff;
+      box-shadow: 0 4px 8px 8px rgb(153 153 153 / 4%);
+    }
+
+    .content {
+      overflow-y: scroll;
+      padding: 24px 24px 0;
+      flex: 1;
+    }
+  }
+
+  .logo {
+    display: flex;
+    overflow: hidden;
+    margin: 20px 0 24px;
+    height: 40px;
+    align-items: center;
+
+    .logoSvg {
+      margin-left: 24px;
+      height: 26px;
+      cursor: pointer;
+    }
+
+    .logoName {
+      margin-left: 20px;
+      font-weight: 500;
+      word-break: keep-all;
+    }
+  }
+
+  :global {
+    .ant-layout-sider {
+      box-shadow: 0 4px 8px 8px rgb(153 153 153 / 4%);
+    }
+
+    .ant-menu-vertical {
+      border-right: none;
+    }
+
+    .ant-menu-item-selected {
+      border-right: 3px solid rgb(5 111 255 / 90%);
+    }
+
+    .ant-layout-footer {
+      padding: 12px;
+      text-align: center;
+    }
+  }
+}
