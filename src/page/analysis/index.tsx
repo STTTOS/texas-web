@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
-import { Tag, Table, TableColumnProps } from 'antd'
+import { Tag, Table, TableColumnProps, Space } from 'antd'
 import { stageMap, handPokeMap, formatterPoke } from 'texas-poker-core'
 
 import { Match } from '@/service/analysis/types'
@@ -81,12 +81,12 @@ const Page = () => {
       title: '操作',
       fixed: 'right',
       render(_, record) {
-        // if (getMatchStatus(record) === 'error')
-        return (
+        return <Space>
           <a href={`/analysis/match/detail/${record.id}`} target="_blank">
             对局详情
           </a>
-        )
+          {!!record.errorCount && <a href={`/analysis/match/error/${record.id}`} target="_blank">错误记录</a>}
+        </Space>
       }
     }
   ]
@@ -94,9 +94,6 @@ const Page = () => {
     <div
       style={{
         height: '100vh',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // alignItems: 'center',
         padding: 16
       }}
     >

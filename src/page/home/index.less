@@ -1,0 +1,84 @@
+.home {
+  margin             : 0;
+  font-family        : Arial, sans-serif;
+  background-image   : url('https://cos.wishufree.com/images/compressed/nassrinart_7-mQnSWGqjYTM-unsplash%281%29__40fb77c3-6743-40c8-9320-10c8aae51e52.jpg');
+  /* 替换为高清德州扑克图像的路径 */
+  background-size    : cover;
+  background-color: rgb(0, 0, 0, .1);
+  /* 使背景图像覆盖整个页面 */
+  background-position: center;
+  /* 使背景图像居中 */
+  color: white; /* 确保文本颜色适合背景 */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+header {
+  background: rgba(44, 62, 80, 0.4);
+  /* 半透明背景 */
+  padding   : 20px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding        : 0;
+}
+
+nav ul li {
+  display: inline;
+  margin : 0 15px;
+}
+
+nav ul li a {
+  color          : white;
+  text-decoration: none;
+}
+
+.main {
+  padding: 20px;
+  min-height: 740px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero {
+  background: rgba(52, 152, 219, 0.4);
+  /* 半透明背景 */
+  padding   : 20px;
+  text-align: center;
+
+  a {
+    display: inline-block
+  }
+}
+
+.cta-button {
+  background     : #e74c3c;
+  color          : white;
+  padding        : 10px 20px;
+  text-decoration: none;
+  border-radius  : 5px;
+}
+
+.about,
+.games,
+.contact {
+  padding      : 20px;
+  background   : rgba(255, 255, 255, 0.4);
+  /* 半透明白色背景 */
+  border-radius: 5px;
+  box-shadow   : 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  flex-shrink: 0;
+  text-align: center;
+  padding   : 20px;
+  background: rgba(44, 62, 80, 0.4);
+  /* 半透明背景 */
+}

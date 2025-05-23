@@ -1,5 +1,5 @@
 {
-  "name": "blog-site",
+  "name": "texas-web",
   "private": true,
   "version": "0.0.2",
   "scripts": {
@@ -16,7 +16,7 @@
     "stylelint:fix": "stylelint --fix ./src/**/*.less --custom-syntax postcss-scss",
     "lint:fix": "npm run stylelint:fix && npm run eslint:fix",
     "pre-commit": "lint-staged",
-    "publish": "npm run build && sudo scp -r ./dist/* root@wishufree.com:/root/wish_server/apps/texas/public",
+    "publish": "npm run build && sudo scp -r ./dist/* root@wishufree.com:/root/wish_server_ssh/apps/texas/public",
     "prepare": "husky"
   },
   "dependencies": {

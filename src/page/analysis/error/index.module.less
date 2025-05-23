@@ -1,0 +1,25 @@
+.wrapper {
+  background: #f5f5f5;
+  padding   : 8px 16px;
+  height    : 100vh;
+  overflow  : auto;
+}
+
+.error_item {
+  color           : #e5e5e5;
+  background-color: #31353b;
+  padding         : 6px;
+
+  &:not(:first-of-type) {
+    margin-top: 12px;
+  }
+
+  &_createdAt {
+    margin-bottom: 10px;
+  }
+
+  &_info {
+    white-space     : pre-wrap;
+    line-height: 1.3;
+  }
+}

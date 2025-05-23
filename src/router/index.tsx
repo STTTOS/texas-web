@@ -4,6 +4,7 @@ import type { FC, LazyExoticComponent } from 'react'
 import { lazy } from 'react'
 import { join } from 'path-browserify'
 
+import Home from '@/page/home'
 import withTitleAndRedirect from '@/Hoc/withTitleAndRedirect'
 
 export interface MyRoute
@@ -32,6 +33,10 @@ const routers: MyRoute[] = [
     element: lazy(() => import('@/page/500'))
   },
   {
+    path: '/',
+    element: Home
+  },
+  {
     path: '/analysis/match',
     title: '对局列表',
     element: lazy(() => import('@/page/analysis'))
@@ -40,6 +45,11 @@ const routers: MyRoute[] = [
     path: '/analysis/match/detail/:id',
     title: '对局详情',
     element: lazy(() => import('@/page/analysis/detail'))
+  },
+  {
+    path: '/analysis/match/error/:id',
+    title: '错误详情',
+    element: lazy(() => import('@/page/analysis/error'))
   },
   {
     path: '*',

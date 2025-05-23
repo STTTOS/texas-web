@@ -21,7 +21,11 @@ import {
 import { getMatchDuration } from '..'
 import { getMatchTag } from '../index'
 import { getMatchDetail } from '@/service/analysis'
-import { PlayerHand, RecordItem } from '@/service/analysis/types'
+import {
+  PlayerHand,
+  RecordItem,
+  MatchStageTimeRecord
+} from '@/service/analysis/types'
 
 const AnalysisDetail = () => {
   const query = useParams()
@@ -57,6 +61,12 @@ const AnalysisDetail = () => {
       }
     },
     {
+      title: '奖池分配',
+      render(_, { earn }) {
+        if (earn) return <span style={{ color: 'red' }}>+{earn}</span>
+      }
+    },
+    {
       title: '胜利',
       render(_, { win }) {
         return win && <Checkbox checked />
@@ -85,7 +95,7 @@ const AnalysisDetail = () => {
             <span style={{ fontSize: 16, fontWeight: 'bold' }}>
               {actionMap.get(action)}
             </span>
-            {amount && (
+            {!!amount && (
               <span style={{ marginLeft: 6, color: 'red' }}>{amount}</span>
             )}
           </span>
@@ -102,6 +112,20 @@ const AnalysisDetail = () => {
       title: '距离比赛开始时间(秒)',
       render(_, { createdAt }) {
         return getMatchDuration(data?.startedAt, createdAt, false)
+      }
+    }
+  ]
+  const columnsOfStage: TableColumnProps<MatchStageTimeRecord>[] = [
+    {
+      title: '阶段',
+      render(_, { stage }) {
+        return stageMap.get(stage)
+      }
+    },
+    {
+      title: '持续时长',
+      render(_, { startAt, endAt }) {
+        return getMatchDuration(startAt, endAt)
       }
     }
   ]
@@ -124,53 +148,71 @@ const AnalysisDetail = () => {
         style={{
           padding: '12px 18px',
           background: '#f5f5f5',
-          height: '100vh',
-          overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column'
+          minHeight: '100vh'
         }}
       >
-        <h4 style={{ marginTop: 0 }}>
-          <span>对局信息</span>
-          <span style={{ marginLeft: 4 }}>{getMatchTag(data)}</span>
-        </h4>
-        <Descriptions column={3}>
-          <Descriptions.Item label="开始时间">
-            {data?.startedAt}
-          </Descriptions.Item>
-          <Descriptions.Item label="结束时间">
-            {data?.endedAt}
-          </Descriptions.Item>
-          <Descriptions.Item label="对局时长">{duration}</Descriptions.Item>
-          <Descriptions.Item label="结束阶段">
-            {data?.endStage && stageMap.get(data.endStage)}
-          </Descriptions.Item>
-          <Descriptions.Item label="人数">
-            {data?.playersCount}
-          </Descriptions.Item>
-          <Descriptions.Item label="盲注">{lowestBetAmount}</Descriptions.Item>
-          <Descriptions.Item label="底牌">
-            {formatterPoke(data?.commonPokes || [])}
-          </Descriptions.Item>
-          <Descriptions.Item label="最大牌型">
-            {data?.maximumType && handPokeMap.get(data.maximumType)}
-          </Descriptions.Item>
-        </Descriptions>
+        <div
+          style={{
+            background: '#f5f5f5',
+            position: 'sticky',
+            zIndex: 1,
+            top: 0,
+            padding: '8px 0'
+          }}
+        >
+          <h4 style={{ marginTop: 0 }}>
+            <span>对局信息</span>
+            <span style={{ marginLeft: 4 }}>{getMatchTag(data)}</span>
+          </h4>
+          <Descriptions column={3}>
+            <Descriptions.Item label="开始时间">
+              {data?.startedAt}
+            </Descriptions.Item>
+            <Descriptions.Item label="结束时间">
+              {data?.endedAt}
+            </Descriptions.Item>
+            <Descriptions.Item label="对局时长">{duration}</Descriptions.Item>
+            <Descriptions.Item label="结束阶段">
+              {data?.endStage && stageMap.get(data.endStage)}
+            </Descriptions.Item>
+            <Descriptions.Item label="总下注">
+              {data?.totalBetAmount?.toLocaleString()}
+            </Descriptions.Item>
+            <Descriptions.Item label="人数">
+              {data?.playersCount}
+            </Descriptions.Item>
+            <Descriptions.Item label="盲注">
+              {lowestBetAmount}
+            </Descriptions.Item>
+            <Descriptions.Item label="底牌">
+              {formatterPoke(data?.commonPokes || [])}
+            </Descriptions.Item>
+            <Descriptions.Item label="最大牌型">
+              {data?.maximumType && handPokeMap.get(data.maximumType)}
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
 
         <h4>玩家</h4>
         <Table
           pagination={false}
-          scroll={{ y: 300 }}
           columns={columnsOfWinners}
           dataSource={data?.playerHands}
         />
+
+        <h3>阶段记录</h3>
+        <Table
+          pagination={false}
+          columns={columnsOfStage}
+          dataSource={data?.matchStageTimeRecord}
+        />
+
         <h4>行为记录</h4>
         <Table
           columns={columnsOfRecords}
           dataSource={data?.records}
           pagination={false}
-          style={{ flexGrow: 1, overflowY: 'auto' }}
-          sticky
+          scroll={{ y: 500 }}
         />
       </div>
     </Spin>

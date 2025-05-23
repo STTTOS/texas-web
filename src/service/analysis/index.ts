@@ -1,18 +1,29 @@
 import type { Params } from 'ahooks/lib/usePagination/types'
 
 import request from '../../utils/http'
-import { Match, PlayerHand, RecordItem } from './types'
+import {
+  Match,
+  MatchError,
+  PlayerHand,
+  RecordItem,
+  MatchStageTimeRecord
+} from './types'
 
-const getMatchList = async (pageParams: Params[0]) => {
+const getMatchList = async ({ pageSize, current }: Params[0]) => {
   const { data } = await request<{ list: Match[]; total: number }>(
     'api/analysis/match/list',
-    pageParams
+    {
+      pageSize,
+      current
+    }
   )
   return data
 }
+
 export interface MatchDetail extends Match {
-  records: RecordItem[];
+  records: RecordItem[]
   playerHands: PlayerHand[]
+  matchStageTimeRecord: MatchStageTimeRecord[]
 }
 const getMatchDetail = async (params: Pick<Match, 'id'>) => {
   const { data } = await request<MatchDetail>(
@@ -21,5 +32,12 @@ const getMatchDetail = async (params: Pick<Match, 'id'>) => {
   )
   return data
 }
+const getMatchErrors = async (params: Pick<Match, 'id'>) => {
+  const { data } = await request<{ list: MatchError[] }>(
+    `api/analysis/match/error/${params.id}`,
+    params
+  )
+  return data.list
+}
 
-export { getMatchList, getMatchDetail }
+export { getMatchList, getMatchDetail, getMatchErrors }
