@@ -14,9 +14,10 @@
 }
 
 .container {
-  width: min(980px, calc(100% - 32px));
+  /* Horizontal margin ~= 10% of parent on small screens, capped by max width */
+  width: min(980px, calc(100% - 20%));
   margin: 0 auto;
-  padding: 28px 0 40px;
+  padding-top: 28px;
   flex: 1;
 }
 
@@ -105,9 +106,8 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 450px) {
   .container {
-    width: calc(100% - 24px);
     padding: 18px 0 26px;
   }
 

@@ -25,3 +25,8 @@ dist-ssr
 
 .eslintcache
 package-lock.json
+
+
+#calude
+.claude/
+AGENTS.md

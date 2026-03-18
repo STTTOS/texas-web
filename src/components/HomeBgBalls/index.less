@@ -1,0 +1,45 @@
+.home__balls {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.home__ball {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 999px;
+
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(253, 230, 138, 0.95) 0%,
+    rgba(245, 158, 11, 0.12) 35%,
+    rgba(245, 158, 11, 0) 70%
+  );
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25);
+  filter: blur(var(--blur));
+  opacity: var(--op);
+
+  animation: ballDrift var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes ballDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+  }
+  100% {
+    transform: translate3d(var(--dx), var(--dy), 0) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__ball {
+    animation: none !important;
+  }
+}
+

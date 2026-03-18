@@ -1,9 +1,15 @@
 import './index.less'
 
+import HomeMidAnim from '@/components/HomeMidAnim'
+import HomeBgBalls from '@/components/HomeBgBalls'
+import HomePlanetRing from '@/components/HomePlanetRing'
+
 function Home() {
   return (
     <div className="home">
       <div className="home__bg" />
+      <HomeBgBalls />
+      <HomePlanetRing />
 
       <header className="home__header">
         <div className="home__headerInner">
@@ -89,6 +95,8 @@ function Home() {
             </div>
           </div>
         </section>
+
+        <HomeMidAnim />
 
         <section className="home__grid">
           <div className="home__glass home__card">
