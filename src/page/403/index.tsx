@@ -14,7 +14,7 @@ const Forbidden = () => {
           <div className={styles.desc}>哦豁, 莫得权限哈</div>
         </Space>
       </div>
-      <FooterActions showLoginAnotherAccount />
+      <FooterActions />
     </div>
   )
 }

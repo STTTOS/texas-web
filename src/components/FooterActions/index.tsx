@@ -1,30 +1,29 @@
 import type { FC } from 'react'
 
-import { Space, Button } from 'antd'
-import { useNavigate } from 'react-router'
+import { Button, Space } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './index.module.less'
 
-interface FooterActionsProps {
-  showLoginAnotherAccount?: boolean
-}
-const FooterActions: FC<FooterActionsProps> = ({
-  showLoginAnotherAccount = false
-}) => {
+const FooterActions: FC = () => {
   const nav = useNavigate()
+
   return (
-    <Space className={styles.footer}>
-      <Button type="link" onClick={() => nav('/')}>
-        回到首页
+    <Space className={styles.footer} size={12} wrap>
+      <Button
+        type="link"
+        className={styles.link}
+        onClick={() => window.open('/rules', '_blank', 'noreferrer')}
+      >
+        游戏规则
       </Button>
-      <Button type="link" onClick={() => nav(-1)}>
-        返回上一页
+      <Button
+        type="link"
+        className={styles.link}
+        onClick={() => nav('/analysis/match')}
+      >
+        对局记录
       </Button>
-      {showLoginAnotherAccount && (
-        <Button type="link" onClick={() => nav('/login')}>
-          登录其他账号
-        </Button>
-      )}
     </Space>
   )
 }

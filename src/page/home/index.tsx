@@ -3,55 +3,167 @@ import './index.less'
 function Home() {
   return (
     <div className="home">
-      <header className="header">
-        <h1>德州扑克官网</h1>
-        <nav>
-          <ul>
-            <li>
-              <a href="/analysis/match" target="_blank">
-                对局记录
-              </a>
-            </li>
-            <li>
-              <a href="#games">游戏规则</a>
-            </li>
-            <li>
-              <a href="#join">加入我们</a>
-            </li>
-            <li>
-              <a href="#contact">联系我们</a>
-            </li>
-          </ul>
-        </nav>
+      <div className="home__bg" />
+
+      <header className="home__header">
+        <div className="home__headerInner">
+          <div className="home__brand">
+            <div className="home__logo">Texas Poker</div>
+            <div className="home__tagline">德州扑克 · 体验场</div>
+          </div>
+
+          <nav className="home__nav">
+            <a
+              className="home__navLink"
+              href="/rules"
+              target="_blank"
+              rel="noreferrer"
+            >
+              游戏规则
+            </a>
+            <a
+              className="home__navLink"
+              href="/analysis/match"
+              target="_blank"
+              rel="noreferrer"
+            >
+              对局记录
+            </a>
+          </nav>
+        </div>
       </header>
 
-      <main className="main">
-        <section className="hero">
-          <h2>欢迎来到德州扑克的世界</h2>
-          <p>体验激动人心的扑克游戏，挑战你的朋友和对手！</p>
-          <a href="#join" className="cta-button">
-            立即加入
-          </a>
+      <main className="home__main">
+        <section className="home__hero home__glass">
+          <div className="home__heroLeft">
+            <div className="home__kicker">All in or fold</div>
+            <h1 className="home__title">德州扑克 · 体验场门户</h1>
+            <p className="home__desc">
+              用更清晰的操作记录与结算记录，回放每一手牌的关键节点。
+            </p>
+
+            <div className="home__ctaRow">
+              <a
+                className="home__btn home__btnPrimary"
+                href="/analysis/match"
+                target="_blank"
+                rel="noreferrer"
+              >
+                查看对局记录
+              </a>
+              <a
+                className="home__btn home__btnGhost"
+                href="/rules"
+                target="_blank"
+                rel="noreferrer"
+              >
+                阅读游戏规则
+              </a>
+            </div>
+          </div>
+
+          <div className="home__heroRight">
+            <div className="home__miniPanel">
+              <div className="home__miniTitle">本局概览</div>
+              <div className="home__miniGrid">
+                <div className="home__miniItem">
+                  <div className="home__miniLabel">盲注</div>
+                  <div className="home__miniValue">300</div>
+                </div>
+                <div className="home__miniItem">
+                  <div className="home__miniLabel">起始筹码</div>
+                  <div className="home__miniValue">6000</div>
+                </div>
+                <div className="home__miniItem">
+                  <div className="home__miniLabel">总下注</div>
+                  <div className="home__miniValue">1.23K</div>
+                </div>
+                <div className="home__miniItem">
+                  <div className="home__miniLabel">阶段</div>
+                  <div className="home__miniValue">转牌圈</div>
+                </div>
+              </div>
+              <div className="home__miniHint">
+                以 App 同款紫色渐变与玻璃卡片风格呈现
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section id="about" className="about">
-          <h2>关于我们</h2>
-          <p>我们致力于为玩家提供最优质的扑克游戏体验。</p>
+        <section className="home__grid">
+          <div className="home__glass home__card">
+            <div className="home__cardTitle">结算记录</div>
+            <div className="home__cardDesc">
+              逐条展示底池变化、赢家与筹码增减，复盘更直观。
+            </div>
+          </div>
+          <div className="home__glass home__card">
+            <div className="home__cardTitle">操作记录</div>
+            <div className="home__cardDesc">
+              Fold / Call / Raise / All-in 一目了然，还原对局节奏。
+            </div>
+          </div>
+          <div className="home__glass home__card">
+            <div className="home__cardTitle">分析入口</div>
+            <div className="home__cardDesc">
+              直接进入对局列表与详情页，沿用现有 analysis 跳转逻辑。
+            </div>
+          </div>
         </section>
 
-        <section id="games" className="games">
-          <h2>游戏规则</h2>
-          <p>了解德州扑克的基本规则和策略。</p>
-        </section>
-
-        <section id="contact" className="contact">
-          <h2>联系我们</h2>
-          <p>有疑问？请与我们联系！</p>
+        <section className="home__glass home__footerCard">
+          <div className="home__footerLeft">
+            <div className="home__footerTitle">准备好开始复盘了吗？</div>
+            <div className="home__footerDesc">
+              从对局记录进入分析页，或先读规则再上桌。
+            </div>
+          </div>
+          <div className="home__footerRight">
+            <a
+              className="home__btn home__btnPrimary"
+              href="/analysis/match"
+              target="_blank"
+              rel="noreferrer"
+            >
+              进入对局列表
+            </a>
+            <a
+              className="home__btn home__btnGhost"
+              href="/rules"
+              target="_blank"
+              rel="noreferrer"
+            >
+              游戏规则
+            </a>
+          </div>
         </section>
       </main>
 
-      <footer className="footer">
-        <p>© 2025 德州扑克官网. 保留所有权利.</p>
+      <footer className="home__footer">
+        <div className="home__footerInner">
+          <div className="home__footerRow">
+            <div>© 2026 Texas Poker. 保留所有权利。</div>
+            <div className="home__footerLinks">
+              <a
+                className="home__footerLink"
+                href="/user-agreement"
+                target="_blank"
+                rel="noreferrer"
+              >
+                用户协议
+              </a>
+              <span className="home__footerSep">·</span>
+              <a
+                className="home__footerLink"
+                href="/privacy-policy"
+                target="_blank"
+                rel="noreferrer"
+              >
+                隐私协议
+              </a>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   )

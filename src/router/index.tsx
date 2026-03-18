@@ -37,6 +37,21 @@ const routers: MyRoute[] = [
     element: Home
   },
   {
+    path: '/rules',
+    title: '游戏规则',
+    element: lazy(() => import('@/page/rules'))
+  },
+  {
+    path: '/user-agreement',
+    title: '用户协议',
+    element: lazy(() => import('@/page/user-agreement'))
+  },
+  {
+    path: '/privacy-policy',
+    title: '隐私协议',
+    element: lazy(() => import('@/page/privacy-policy'))
+  },
+  {
     path: '/analysis/match',
     title: '对局列表',
     element: lazy(() => import('@/page/analysis'))
