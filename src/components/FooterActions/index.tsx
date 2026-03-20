@@ -20,7 +20,7 @@ const FooterActions: FC = () => {
       <Button
         type="link"
         className={styles.link}
-        onClick={() => nav('/analysis/match')}
+        onClick={() => nav('/match')}
       >
         对局记录
       </Button>

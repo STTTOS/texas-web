@@ -1,4 +1,8 @@
-import type { Announcement, AnnouncementListResult } from './types'
+import type {
+  Announcement,
+  AnnouncementListResult,
+  AnnouncementStatus
+} from './types'
 
 import betterRequest from '@/utils/http'
 
@@ -41,6 +45,14 @@ export async function updateAnnouncement(
   body: Record<string, unknown>
 ): Promise<void> {
   await betterRequest('/api/web/announcement/update', body)
+}
+
+/** 上架/下架 */
+export async function changeAnnouncementStatus(
+  id: number | string,
+  status: AnnouncementStatus
+): Promise<void> {
+  await betterRequest('/api/web/announcement/changeStatus', { id, status })
 }
 
 /** 删除：若后端路径不同可改此处 */

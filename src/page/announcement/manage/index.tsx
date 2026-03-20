@@ -29,8 +29,10 @@ import {
 import styles from './index.module.less'
 import shell from '../shell.module.less'
 import HomeBgBalls from '@/components/HomeBgBalls'
+import PageBrand from '@/components/PageBrand'
 import AnnouncementCard from '../../../components/AnnouncementCard'
 import {
+  changeAnnouncementStatus,
   createAnnouncement,
   deleteAnnouncement,
   updateAnnouncement,
@@ -149,7 +151,7 @@ const ManageAnnouncementPage = () => {
   }
 
   const setStatus = async (row: Announcement, status: AnnouncementStatus) => {
-    await updateAnnouncement({ id: row.id, status })
+    await changeAnnouncementStatus(row.id, status)
     message.success(status === 'published' ? '已上架' : '已下架')
     refresh()
   }
@@ -203,14 +205,17 @@ const ManageAnnouncementPage = () => {
     {
       title: '过期',
       dataIndex: 'expireAt',
-      width: 120,
-      render: (t: string) => (t ? dayjs(t).format('YYYY-MM-DD HH:mm') : '长期')
+      width: 168,
+      render: (t: string) => (
+        <span style={{ whiteSpace: 'nowrap' }}>
+          {t ? dayjs(t).format('YYYY-MM-DD HH:mm') : '长期'}
+        </span>
+      )
     },
     {
       title: '操作',
       key: 'op',
       width: 280,
-      // fixed: 'right' as const,
       render: (_: unknown, row: Announcement) => (
         <Space size="small" wrap>
           <Button type="link" size="small" onClick={() => onViewDetail(row)}>
@@ -278,8 +283,7 @@ const ManageAnnouncementPage = () => {
       <div className={shell.page}>
         <HomeBgBalls count={24} />
         <div className={shell.inner}>
-          <div className={shell.brand}>Texas Poker</div>
-          <p className={shell.sub}>公告管理 · 后台维护</p>
+          <PageBrand subtitle="公告管理 · 后台维护" />
 
           <div className={shell.glass}>
             <div className={shell.toolbar}>

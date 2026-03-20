@@ -35,7 +35,7 @@
     "react-dom": "^18.0.0",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "texas-poker-core": "^1.1.35",
+    "texas-poker-core": "^1.4.1",
     "umi-request": "^1.4.0",
     "zustand": "^5.0.12"
   },

@@ -17,14 +17,8 @@ request.interceptors.request.use((url: string, options: any) => {
   return { url: baseUrl + url, options }
 })
 
-request.interceptors.response.use(async (response) => {
-  return response
-})
-
-/**
- * @description 无视history.block, 强行跳转
- */
-function forceJumpTo(path: string, mode: 'href' | 'route' = 'route') {
+/** 统一跳转方法（支持路由跳转与 location 跳转） */
+function navigateTo(path: string, mode: 'href' | 'route' = 'route') {
   if (mode === 'href') {
     location.href = path
   } else {
@@ -53,16 +47,15 @@ async function betterRequest<R>(
     const { code, data, msg } = response
 
     if (code === 401) {
-      forceJumpTo(`/login?from=${encodeURIComponent(location.pathname)}`)
+      navigateTo(`/login?from=${encodeURIComponent(location.pathname)}`)
     } else if (code === 403) {
-      forceJumpTo('/403')
-      history.push('/403')
+      navigateTo('/403')
     } else if (code === 404) {
-      forceJumpTo('/404')
+      navigateTo('/404')
     }
 
     if (code !== 200) {
-      throw { data: { msg }, response }
+      throw { data: { msg }, response: { ...response, status: code } }
     }
     return { data, msg }
   } catch (error) {
@@ -70,10 +63,13 @@ async function betterRequest<R>(
 
     const err = error as ResponseError
     const { data, response } = err
+    const httpStatus = Number((response as any)?.status)
 
-    message.error(data.msg || '服务器内部错误')
-    if (response.status?.toString().startsWith('50')) {
-      forceJumpTo('/500')
+    if (httpStatus !== 401 && httpStatus !== 403) {
+      message.error(data.msg || '服务器内部错误')
+    }
+    if (String(httpStatus).startsWith('50')) {
+      navigateTo('/500')
     }
     throw error
   }

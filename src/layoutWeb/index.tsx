@@ -22,12 +22,12 @@ const WebLayout = () => {
     location.href = '/login'
   }
 
-  const onClickAnalysis = () => {
+  const onClickMatch = () => {
     if (!user) {
       nav('/login')
       return
     }
-    nav('/analysis/match')
+    nav('/match')
   }
 
   return (
@@ -50,24 +50,6 @@ const WebLayout = () => {
             >
               首页
             </a>
-            <a
-              className={styles.webLayout__navTextLink}
-              href="/rules"
-              target="_blank"
-              rel="noreferrer"
-            >
-              游戏规则
-            </a>
-            <a
-              className={styles.webLayout__navTextLink}
-              href="/analysis/match"
-              onClick={(e) => {
-                e.preventDefault()
-                onClickAnalysis()
-              }}
-            >
-              对局记录
-            </a>
             {user?.isAdmin && (
               <a
                 className={styles.webLayout__navTextLink}
@@ -80,6 +62,24 @@ const WebLayout = () => {
                 公告管理
               </a>
             )}
+            <a
+              className={styles.webLayout__navTextLink}
+              href="/match"
+              onClick={(e) => {
+                e.preventDefault()
+                onClickMatch()
+              }}
+            >
+              对局记录
+            </a>
+            <a
+              className={styles.webLayout__navTextLink}
+              href="/rules"
+              target="_blank"
+              rel="noreferrer"
+            >
+              游戏规则
+            </a>
 
             {user && (
               <Dropdown

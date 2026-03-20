@@ -7,6 +7,7 @@ import { Card, Empty, Space, theme, Button, ConfigProvider } from 'antd'
 import styles from './index.module.less'
 import shell from '../shell.module.less'
 import HomeBgBalls from '@/components/HomeBgBalls'
+import PageBrand from '@/components/PageBrand'
 import AnnouncementCard from '../../../components/AnnouncementCard'
 import { fetchAnnouncementValidList } from '@/service/announcement'
 
@@ -25,8 +26,7 @@ const AppDisplayAnnouncementPage = () => {
       <div className={`${shell.page} ${styles.pageFull}`}>
         <HomeBgBalls count={24} />
         <div className={`${shell.inner} ${styles.innerFull}`}>
-          <div className={shell.brand}>Texas Poker</div>
-          <p className={shell.sub}>App端展示公告 · 当前有效展示内容</p>
+          <PageBrand subtitle="App端展示公告 · 当前有效展示内容" />
 
           <div className={`${shell.glass} ${styles.glassFull}`}>
             <div className={shell.toolbar}>

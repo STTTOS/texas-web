@@ -1,8 +1,8 @@
-import type { Match } from '@/service/analysis/types'
+import type { Match } from '@/service/match/types'
 
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
-import { stageMap, handPokeMap, formatterPoke } from 'texas-poker-core'
+import { stageMap, formatterPoke, rankCategoryMap } from 'texas-poker-core'
 import {
   Tag,
   Table,
@@ -12,8 +12,9 @@ import {
   TableColumnProps
 } from 'antd'
 
-import { getMatchList } from '@/service/analysis'
+import { getMatchList } from '@/service/match'
 import HomeBgBalls from '@/components/HomeBgBalls'
+import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
 export const getMatchDuration = (start?: string, end?: string, unit = true) => {
@@ -27,24 +28,27 @@ const getMatchStatus = ({ commonPokes, endStage, endedAt }: Match) => {
 }
 export const getMatchTag = (record?: Match) => {
   if (!record) return null
-  if (getMatchStatus(record) === 'error') return <Tag color="red">异常</Tag>
+  if (getMatchStatus(record) === 'error') return <Tag color="#a78bfa">异常</Tag>
 
-  return <Tag color="green">正常</Tag>
+  return <Tag color="#fbbf24">正常</Tag>
 }
-const Page = () => {
+const MatchPage = () => {
   const { tableProps } = useAntdTable(getMatchList)
   const columns: TableColumnProps<Match>[] = [
     {
-      title: '对局Id',
+      title: 'Id',
       dataIndex: 'id'
     },
     {
       title: '底牌',
       width: 200,
       render(_, { commonPokes }) {
-        // return commonPokes
         return formatterPoke(commonPokes || [])
       }
+    },
+    {
+      title: '起始筹码',
+      dataIndex: 'initialChips'
     },
     {
       title: '盲注',
@@ -58,7 +62,7 @@ const Page = () => {
     },
     {
       title: '人数',
-      dataIndex: 'playersCount'
+      dataIndex: 'memberCount'
     },
     {
       title: '开始时间',
@@ -78,9 +82,9 @@ const Page = () => {
     },
     {
       title: '最大牌型',
-      dataIndex: 'maximumType',
-      render(_, { maximumType }) {
-        return handPokeMap.get(maximumType)
+      dataIndex: 'bestRankCategory',
+      render(_, { bestRankCategory }) {
+        return bestRankCategory && rankCategoryMap.get(bestRankCategory)
       }
     },
     {
@@ -89,7 +93,7 @@ const Page = () => {
         return (
           <Space>
             <a
-              href={`/analysis/match/detail/${record.id}`}
+              href={`/match/detail/${record.id}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -97,7 +101,7 @@ const Page = () => {
             </a>
             {!!record.errorCount && (
               <a
-                href={`/analysis/match/error/${record.id}`}
+                href={`/match/error/${record.id}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -120,8 +124,7 @@ const Page = () => {
       <div className={shell.page}>
         <HomeBgBalls count={24} />
         <div className={shell.inner}>
-          <div className={shell.brand}>Texas Poker</div>
-          <p className={shell.sub}>对局记录 · 数据回放</p>
+          <PageBrand subtitle="对局信息查询 · 数据回放" />
 
           <div className={shell.glass}>
             <div className={shell.toolbar}>
@@ -141,4 +144,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default MatchPage

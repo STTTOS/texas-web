@@ -2,11 +2,9 @@ import './index.less'
 import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'
-import { useNavigate } from 'react-router-dom'
+import RequireUserButton from '@/components/RequireUserButton'
 
 function Home() {
-  const nav = useNavigate()
-
   return (
     <div className="home">
       <HomeBgBalls />
@@ -22,16 +20,9 @@ function Home() {
             </p>
 
             <div className="home__ctaRow">
-              <a
-                className="home__btn home__btnPrimary"
-                href="/analysis/match"
-                onClick={(e) => {
-                  e.preventDefault()
-                  nav('/analysis/match')
-                }}
-              >
+              <RequireUserButton className="home__btn home__btnPrimary" to="/match">
                 查看对局记录
-              </a>
+              </RequireUserButton>
               <a
                 className="home__btn home__btnGhost"
                 href="/rules"
@@ -89,7 +80,7 @@ function Home() {
           <div className="home__glass home__card">
             <div className="home__cardTitle">分析入口</div>
             <div className="home__cardDesc">
-              直接进入对局列表与详情页，沿用现有 analysis 跳转逻辑。
+              直接进入对局列表与详情页，沿用现有对局查询跳转逻辑。
             </div>
           </div>
         </section>
@@ -102,16 +93,9 @@ function Home() {
             </div>
           </div>
           <div className="home__footerRight">
-            <a
-              className="home__btn home__btnPrimary"
-              href="/analysis/match"
-              onClick={(e) => {
-                e.preventDefault()
-                nav('/analysis/match')
-              }}
-            >
+            <RequireUserButton className="home__btn home__btnPrimary" to="/match">
               进入对局列表
-            </a>
+            </RequireUserButton>
             <a
               className="home__btn home__btnGhost"
               href="/rules"

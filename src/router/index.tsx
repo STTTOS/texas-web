@@ -77,19 +77,19 @@ const routers: MyRoute[] = [
         ]
       },
       {
-        path: '/analysis/match',
+        path: '/match',
         title: '对局列表',
-        element: lazy(() => import('@/page/analysis'))
+        element: lazy(() => import('@/page/match'))
       },
       {
-        path: '/analysis/match/detail/:id',
+        path: '/match/detail/:id',
         title: '对局详情',
-        element: lazy(() => import('@/page/analysis/detail'))
+        element: lazy(() => import('@/page/match/detail'))
       },
       {
-        path: '/analysis/match/error/:id',
+        path: '/match/error/:id',
         title: '错误详情',
-        element: lazy(() => import('@/page/analysis/error'))
+        element: lazy(() => import('@/page/match/error'))
       }
     ]
   },
