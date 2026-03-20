@@ -11,7 +11,7 @@ import {
 
 const getMatchList = async ({ pageSize, current }: Params[0]) => {
   const { data } = await request<{ list: Match[]; total: number }>(
-    'api/analysis/match/list',
+    'api/web/analysis/match/list',
     {
       pageSize,
       current
@@ -27,14 +27,14 @@ export interface MatchDetail extends Match {
 }
 const getMatchDetail = async (params: Pick<Match, 'id'>) => {
   const { data } = await request<MatchDetail>(
-    `api/analysis/match/detail/${params.id}`,
+    `api/web/analysis/match/detail/${params.id}`,
     params
   )
   return data
 }
 const getMatchErrors = async (params: Pick<Match, 'id'>) => {
   const { data } = await request<{ list: MatchError[] }>(
-    `api/analysis/match/error/${params.id}`,
+    `api/web/analysis/match/error/${params.id}`,
     params
   )
   return data.list

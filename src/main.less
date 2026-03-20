@@ -9,6 +9,51 @@ body {
   font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
     Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
     Hiragino Sans GB, Microsoft YaHei, Arial !important;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #5b21b6 0%, #4c1d95 35%, #312e81 70%, #1e1b4b 100%);
+  background-attachment: fixed;
+}
+
+#blog-app {
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -35%;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(
+      circle at 20% 18%,
+      rgba(253, 230, 138, 0.22) 0%,
+      rgba(253, 230, 138, 0) 52%
+    ),
+    radial-gradient(
+      circle at 82% 28%,
+      rgba(59, 130, 246, 0.25) 0%,
+      rgba(59, 130, 246, 0) 56%
+    ),
+    radial-gradient(
+      circle at 45% 82%,
+      rgba(236, 72, 153, 0.18) 0%,
+      rgba(236, 72, 153, 0) 58%
+    );
+  filter: blur(56px);
+  opacity: 0.9;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  filter: blur(22px);
+  opacity: 0.6;
 }
 
 code {

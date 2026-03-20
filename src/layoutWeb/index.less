@@ -1,0 +1,124 @@
+.webLayout__header {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  backdrop-filter: blur(14px) saturate(1.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
+  background: linear-gradient(
+    90deg,
+    rgba(24, 20, 64, 0.58) 0%,
+    rgba(44, 24, 93, 0.54) 45%,
+    rgba(30, 27, 75, 0.58) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 26px rgba(8, 8, 28, 0.28);
+}
+
+.webLayout__headerInner {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.webLayout__brand {
+  border: 0;
+  padding: 0;
+  display: flex;
+  cursor: pointer;
+  text-align: left;
+  background: transparent;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.webLayout__logo {
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  font-size: 14px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), #fef08a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.webLayout__tagline {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.webLayout__nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.webLayout__navLink,
+.webLayout__navLinkBtn {
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  font-size: 13px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+}
+
+.webLayout__navLinkBtn {
+  cursor: pointer;
+}
+
+.webLayout__navLink:hover,
+.webLayout__navLinkBtn:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.webLayout__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+}
+
+.webLayout__userAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: rgba(30, 27, 75, 0.98);
+  background: linear-gradient(90deg, #fde68a, #f59e0b);
+}
+
+.webLayout__userInfo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.12;
+}
+
+.webLayout__userName {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.webLayout__userAccount {
+  margin-top: 2px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.72);
+}

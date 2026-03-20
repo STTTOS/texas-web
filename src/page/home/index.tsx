@@ -6,37 +6,8 @@ import HomePlanetRing from '@/components/HomePlanetRing'
 function Home() {
   return (
     <div className="home">
-      <div className="home__bg" />
       <HomeBgBalls />
       <HomePlanetRing />
-
-      <header className="home__header">
-        <div className="home__headerInner">
-          <div className="home__brand">
-            <div className="home__logo">Texas Poker</div>
-            <div className="home__tagline">德州扑克 · 体验场</div>
-          </div>
-
-          <nav className="home__nav">
-            <a
-              className="home__navLink"
-              href="/rules"
-              target="_blank"
-              rel="noreferrer"
-            >
-              游戏规则
-            </a>
-            <a
-              className="home__navLink"
-              href="/analysis/match"
-              target="_blank"
-              rel="noreferrer"
-            >
-              对局记录
-            </a>
-          </nav>
-        </div>
-      </header>
 
       <main className="home__main">
         <section className="home__hero home__glass">

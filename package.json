@@ -35,7 +35,8 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "texas-poker-core": "^1.1.35",
-    "umi-request": "^1.4.0"
+    "umi-request": "^1.4.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@rollup/plugin-html": "^1.0.3",

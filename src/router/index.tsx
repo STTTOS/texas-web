@@ -33,10 +33,6 @@ const routers: MyRoute[] = [
     element: lazy(() => import('@/page/500'))
   },
   {
-    path: '/',
-    element: Home
-  },
-  {
     path: '/rules',
     title: '游戏规则',
     element: lazy(() => import('@/page/rules'))
@@ -57,19 +53,43 @@ const routers: MyRoute[] = [
     element: lazy(() => import('@/page/login'))
   },
   {
-    path: '/analysis/match',
-    title: '对局列表',
-    element: lazy(() => import('@/page/analysis'))
-  },
-  {
-    path: '/analysis/match/detail/:id',
-    title: '对局详情',
-    element: lazy(() => import('@/page/analysis/detail'))
-  },
-  {
-    path: '/analysis/match/error/:id',
-    title: '错误详情',
-    element: lazy(() => import('@/page/analysis/error'))
+    element: lazy(() => import('@/layoutWeb')),
+    children: [
+      {
+        path: '/',
+        element: Home
+      },
+      {
+        element: lazy(() => import('@/layoutAuth')),
+        children: [
+          {
+            path: '/announcement/manage',
+            title: '公告管理',
+            element: lazy(() => import('@/page/announcement/manage'))
+          },
+          {
+            path: '/announcement/app-display',
+            title: 'App端展示公告',
+            element: lazy(() => import('@/page/announcement/appDisplay'))
+          }
+        ]
+      },
+      {
+        path: '/analysis/match',
+        title: '对局列表',
+        element: lazy(() => import('@/page/analysis'))
+      },
+      {
+        path: '/analysis/match/detail/:id',
+        title: '对局详情',
+        element: lazy(() => import('@/page/analysis/detail'))
+      },
+      {
+        path: '/analysis/match/error/:id',
+        title: '错误详情',
+        element: lazy(() => import('@/page/analysis/error'))
+      }
+    ]
   },
   {
     path: '*',

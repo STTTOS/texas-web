@@ -1,20 +1,30 @@
-import { Space } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { Button, Space } from 'antd'
+import { LockOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './index.module.less'
-import FooterActions from '@/components/FooterActions'
 
 const Forbidden = () => {
+  const nav = useNavigate()
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.top}>
-        <ExclamationCircleOutlined className={styles.icon} />
-        <Space direction="vertical">
-          <div className={styles.title}>403</div>
-          <div className={styles.desc}>哦豁, 莫得权限哈</div>
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <LockOutlined className={styles.icon} />
+        <div className={styles.code}>403</div>
+        <div className={styles.title}>暂无访问权限</div>
+        <div className={styles.desc}>
+          当前账号无法进入该页面，请联系管理员开通权限后再试。
+        </div>
+        <Space size={12} wrap>
+          <Button className={styles.btnGhost} onClick={() => nav('/')}>
+            返回首页
+          </Button>
+          <Button className={styles.btnGold} onClick={() => nav('/login')}>
+            重新登录
+          </Button>
         </Space>
       </div>
-      <FooterActions />
     </div>
   )
 }

@@ -1,0 +1,91 @@
+.table {
+  :global {
+    .ant-table {
+      color: rgba(255, 255, 255, 0.88);
+      background: transparent;
+    }
+
+    .ant-table-thead > tr > th {
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .ant-pagination-item a,
+    .ant-pagination-item-link {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .ant-pagination-item-active {
+      border-color: #fbbf24;
+    }
+
+    .ant-pagination-item-active a {
+      color: #fbbf24;
+    }
+  }
+}
+
+.searchRow {
+  margin-bottom: 14px;
+}
+
+.searchActions {
+  margin-left: auto;
+  margin-right: 0 !important;
+}
+
+.modalForm {
+  max-height: min(70vh, 620px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.timeCol {
+  margin-bottom: 16px;
+}
+
+.detailLoading {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.detailBody {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.btnGold {
+  border: 0 !important;
+  color: rgba(30, 27, 75, 0.95) !important;
+  font-weight: 600 !important;
+  background: linear-gradient(90deg, #fde68a, #f59e0b) !important;
+}
+
+.btnGoldGhost {
+  color: #fde68a !important;
+  border-color: rgba(253, 230, 138, 0.45) !important;
+  background: transparent !important;
+}

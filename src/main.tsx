@@ -16,7 +16,6 @@ dayjs.extend(relativeTime)
 const Index = () => useRoutes(routers)
 
 const App = () => {
-
   return (
     // <StrictMode>
     <BrowserRouter>
