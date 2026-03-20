@@ -5,10 +5,14 @@
 }
 
 .innerFull {
+  /* 固定宽度 800px，大屏不再无限拉宽 */
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 800px !important;
+  margin: 0 auto;
 }
 
 .glassFull {

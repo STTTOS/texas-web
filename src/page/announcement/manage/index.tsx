@@ -29,7 +29,7 @@ import {
 import styles from './index.module.less'
 import shell from '../shell.module.less'
 import HomeBgBalls from '@/components/HomeBgBalls'
-import AnnouncementCard from '../components/AnnouncementCard'
+import AnnouncementCard from '../../../components/AnnouncementCard'
 import {
   createAnnouncement,
   deleteAnnouncement,
@@ -352,7 +352,6 @@ const ManageAnnouncementPage = () => {
             </Form>
 
             <Table<Announcement>
-              className={styles.table}
               rowKey={(r) => String(r.id)}
               loading={loading}
               columns={columns}

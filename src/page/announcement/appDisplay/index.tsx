@@ -7,7 +7,7 @@ import { Card, Empty, Space, theme, Button, ConfigProvider } from 'antd'
 import styles from './index.module.less'
 import shell from '../shell.module.less'
 import HomeBgBalls from '@/components/HomeBgBalls'
-import AnnouncementCard from '../components/AnnouncementCard'
+import AnnouncementCard from '../../../components/AnnouncementCard'
 import { fetchAnnouncementValidList } from '@/service/announcement'
 
 const AppDisplayAnnouncementPage = () => {

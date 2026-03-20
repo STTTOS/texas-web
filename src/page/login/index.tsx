@@ -1,3 +1,4 @@
+import { SHA256 } from 'crypto-js'
 import { useState, useEffect } from 'react'
 import { Form, Input, Avatar, Button, message } from 'antd'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -5,7 +6,6 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useUserInfo } from '@/model'
 import styles from './index.module.less'
 import { webLogin } from '@/service/user'
-import { sha256Hex } from '@/utils/sha256'
 import HomeBgBalls from '@/components/HomeBgBalls'
 
 interface LoginValues {
@@ -35,7 +35,7 @@ const LoginPage = () => {
     const from = search.get('from') || '/'
     setSubmitting(true)
     try {
-      const password = await sha256Hex(values.password)
+      const password = SHA256(values.password).toString()
       const loginData = await webLogin({
         username: values.username,
         password

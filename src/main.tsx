@@ -2,6 +2,7 @@ import 'animate.css'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { ConfigProvider } from 'antd'
+import zhCN from 'antd/locale/zh_CN'
 import { useRoutes } from 'react-router-dom'
 // import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -20,6 +21,7 @@ const App = () => {
     // <StrictMode>
     <BrowserRouter>
       <ConfigProvider
+        locale={zhCN}
         theme={{
           token: {
             colorPrimary: '#4c1d95',

@@ -1,10 +1,20 @@
+import type { Match } from '@/service/analysis/types'
+
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
-import { Tag, Table, TableColumnProps, Space } from 'antd'
 import { stageMap, handPokeMap, formatterPoke } from 'texas-poker-core'
+import {
+  Tag,
+  Table,
+  Space,
+  theme,
+  ConfigProvider,
+  TableColumnProps
+} from 'antd'
 
-import { Match } from '@/service/analysis/types'
 import { getMatchList } from '@/service/analysis'
+import HomeBgBalls from '@/components/HomeBgBalls'
+import shell from '@/page/announcement/shell.module.less'
 
 export const getMatchDuration = (start?: string, end?: string, unit = true) => {
   if (start && end) return dayjs(end).diff(start, 'second') + (unit ? '秒' : '')
@@ -26,12 +36,10 @@ const Page = () => {
   const columns: TableColumnProps<Match>[] = [
     {
       title: '对局Id',
-      dataIndex: 'id',
-      fixed: 'left'
+      dataIndex: 'id'
     },
     {
       title: '底牌',
-      fixed: 'left',
       width: 200,
       render(_, { commonPokes }) {
         // return commonPokes
@@ -40,12 +48,10 @@ const Page = () => {
     },
     {
       title: '盲注',
-      fixed: 'left',
       dataIndex: 'lowestBetAmount'
     },
     {
       title: '状态',
-      fixed: 'left',
       render(_, record) {
         return getMatchTag(record)
       }
@@ -79,32 +85,59 @@ const Page = () => {
     },
     {
       title: '操作',
-      fixed: 'right',
       render(_, record) {
-        return <Space>
-          <a href={`/analysis/match/detail/${record.id}`} target="_blank">
-            对局详情
-          </a>
-          {!!record.errorCount && <a href={`/analysis/match/error/${record.id}`} target="_blank">错误记录</a>}
-        </Space>
+        return (
+          <Space>
+            <a
+              href={`/analysis/match/detail/${record.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              对局详情
+            </a>
+            {!!record.errorCount && (
+              <a
+                href={`/analysis/match/error/${record.id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                错误记录
+              </a>
+            )}
+          </Space>
+        )
       }
     }
   ]
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        padding: 16
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: { colorPrimary: '#fbbf24', borderRadius: 10 }
       }}
     >
-      <Table
-        sticky
-        scroll={{ x: 'max-content' }}
-        {...tableProps}
-        columns={columns}
-        style={{ height: '100%', overflowY: 'auto' }}
-      />
-    </div>
+      <div className={shell.page}>
+        <HomeBgBalls count={24} />
+        <div className={shell.inner}>
+          <div className={shell.brand}>Texas Poker</div>
+          <p className={shell.sub}>对局记录 · 数据回放</p>
+
+          <div className={shell.glass}>
+            <div className={shell.toolbar}>
+              <h1 className={shell.pageTitle}>对局列表</h1>
+            </div>
+
+            <Table<Match>
+              rowKey={(r) => String(r.id)}
+              scroll={{ x: 1180 }}
+              {...tableProps}
+              columns={columns}
+            />
+          </div>
+        </div>
+      </div>
+    </ConfigProvider>
   )
 }
 

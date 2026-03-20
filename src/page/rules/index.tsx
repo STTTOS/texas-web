@@ -18,9 +18,6 @@ const RulesPage = () => {
           </div>
           <Space className={styles.actions} size={10}>
             <Button onClick={() => nav('/')}>返回首页</Button>
-            <Button type="primary" onClick={() => nav('/analysis/match')}>
-              对局记录
-            </Button>
           </Space>
         </div>
 

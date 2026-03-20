@@ -5,6 +5,8 @@ import { lazy } from 'react'
 import { join } from 'path-browserify'
 
 import Home from '@/page/home'
+import LayoutWeb from '@/layoutWeb'
+import LayoutAuth from '@/layoutAuth'
 import withTitleAndRedirect from '@/Hoc/withTitleAndRedirect'
 
 export interface MyRoute
@@ -53,14 +55,14 @@ const routers: MyRoute[] = [
     element: lazy(() => import('@/page/login'))
   },
   {
-    element: lazy(() => import('@/layoutWeb')),
+    element: LayoutWeb,
     children: [
       {
         path: '/',
         element: Home
       },
       {
-        element: lazy(() => import('@/layoutAuth')),
+        element: LayoutAuth,
         children: [
           {
             path: '/announcement/manage',

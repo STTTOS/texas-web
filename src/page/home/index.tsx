@@ -2,8 +2,11 @@ import './index.less'
 import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+  const nav = useNavigate()
+
   return (
     <div className="home">
       <HomeBgBalls />
@@ -22,8 +25,10 @@ function Home() {
               <a
                 className="home__btn home__btnPrimary"
                 href="/analysis/match"
-                target="_blank"
-                rel="noreferrer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  nav('/analysis/match')
+                }}
               >
                 查看对局记录
               </a>
@@ -100,8 +105,10 @@ function Home() {
             <a
               className="home__btn home__btnPrimary"
               href="/analysis/match"
-              target="_blank"
-              rel="noreferrer"
+              onClick={(e) => {
+                e.preventDefault()
+                nav('/analysis/match')
+              }}
             >
               进入对局列表
             </a>
