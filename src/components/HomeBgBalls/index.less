@@ -1,7 +1,7 @@
 .home__balls {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   overflow: hidden;
 }
@@ -20,12 +20,14 @@
     rgba(245, 158, 11, 0.12) 35%,
     rgba(245, 158, 11, 0) 70%
   );
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
   filter: blur(var(--blur));
   opacity: var(--op);
 
   animation: ballDrift var(--dur) linear infinite;
   animation-delay: var(--delay);
+
+  will-change: transform;
 }
 
 @keyframes ballDrift {

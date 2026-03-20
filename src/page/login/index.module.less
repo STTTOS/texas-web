@@ -1,0 +1,121 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    #5b21b6 0%,
+    #4c1d95 35%,
+    #312e81 70%,
+    #1e1b4b 100%
+  );
+}
+
+.wrapper {
+  position: relative;
+  z-index: 3;
+  width: min(560px, 100%);
+  padding: 26px 22px 30px;
+  border-radius: 24px;
+}
+
+.brand {
+  margin-bottom: 14px;
+  text-align: center;
+  font-size: clamp(34px, 6.2vw, 56px);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  background: linear-gradient(90deg, #fff7c2, #fbbf24 45%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.panel {
+  border-radius: 18px;
+  padding: 30px 26px 26px;
+  /* 外层 wrapper 已做毛玻璃，内层只做轻微层次 */
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+
+.form {
+  margin-top: 32px;
+}
+
+.field {
+  margin-bottom: 36px;
+
+
+
+  :global {
+    // /* 输入文字略大、水平居中（含 placeholder） */
+    .ant-input-affix-wrapper.ant-input-underlined .ant-input,
+    .ant-input.ant-input-underlined {
+      font-size: 22px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    /* antd underlined：底边 border，非 ::before */
+    .ant-input-affix-wrapper.ant-input-underlined,
+    .ant-input.ant-input-underlined {
+      color: rgba(255, 255, 255, 0.92);
+      background: transparent !important;
+      border-color: transparent transparent rgba(255, 255, 255, 0.38) transparent;
+      box-shadow: none;
+    }
+
+    .ant-input-affix-wrapper.ant-input-underlined:hover,
+    .ant-input.ant-input-underlined:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: transparent transparent rgba(255, 255, 255, 0.55) transparent;
+    }
+
+    .ant-input-affix-wrapper.ant-input-underlined:focus-within,
+    .ant-input.ant-input-underlined:focus {
+      background: rgba(255, 255, 255, 0.07) !important;
+      border-color: transparent transparent rgba(251, 191, 36, 0.85) transparent;
+      box-shadow: none;
+    }
+
+    .ant-input-affix-wrapper.ant-input-underlined .ant-input::placeholder,
+    .ant-input.ant-input-underlined::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .ant-input-clear-icon,
+    .ant-input-password-icon {
+      color: rgba(255, 255, 255, 0.55);
+    }
+  }
+}
+
+.submitRow {
+  margin-top: 10px;
+  margin-bottom: 0 !important;
+}
+
+.btn {
+  width: 100%;
+  border: 0;
+  color: rgba(30, 27, 75, 0.95);
+  font-weight: 700;
+  background: linear-gradient(90deg, #fde68a, #f59e0b) !important;
+}
+
+.extra {
+  margin-top: 12px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+

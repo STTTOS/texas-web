@@ -47,10 +47,10 @@ function makeBalls(count: number, seed = 1337): Ball[] {
     const dy = Math.round((rand() - 0.5) * 260)
 
     const size = Math.round(rand() * 10 + 6)
-    const dur = Number((rand() * 10 + 10).toFixed(1))
+    const dur = Number((rand() * 12 + 14).toFixed(1))
     const delay = -Number((rand() * dur).toFixed(1))
-    const blur = Number((rand() * 0.35 + 0.12).toFixed(2))
-    const op = Number(clamp(rand() * 0.35 + 0.38, 0.35, 0.78).toFixed(2))
+    const blur = Number((rand() * 0.13 + 0.05).toFixed(2))
+    const op = Number(clamp(rand() * 0.22 + 0.32, 0.3, 0.62).toFixed(2))
 
     result.push({ x, y, size, dx, dy, dur, delay, blur, op })
   }
@@ -58,7 +58,7 @@ function makeBalls(count: number, seed = 1337): Ball[] {
   return result
 }
 
-const HomeBgBalls: FC<HomeBgBallsProps> = ({ count = 52 }) => {
+const HomeBgBalls: FC<HomeBgBallsProps> = ({ count = 20 }) => {
   const balls = useMemo(() => makeBalls(count), [count])
 
   return (

@@ -1,5 +1,4 @@
 import './index.less'
-
 import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'

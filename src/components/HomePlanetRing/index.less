@@ -1,14 +1,14 @@
 .home__planetRing {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
   overflow: hidden;
   perspective: 1000px;
 
   --ringSize: min(60vmin, 720px);
   --ringT: clamp(10px, 1.4vmin, 18px);
-  --coinSize: clamp(64px, 7vmin, 122px);
+  --coinSize: clamp(20px, 3vmin, 39px);
   --orbitR: calc(var(--ringSize) / 2 + clamp(18px, 2.5vmin, 36px));
 }
 
@@ -36,8 +36,8 @@
     transparent 60% 100%
   );
 
-  filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.28))
-    drop-shadow(0 0 42px rgba(253, 230, 138, 0.14));
+  filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.26))
+    drop-shadow(0 0 30px rgba(253, 230, 138, 0.12));
 }
 
 .home__ring::after {
@@ -54,9 +54,10 @@
     rgba(253, 230, 138, 0.38) 74%,
     rgba(253, 230, 138, 0) 100%
   );
-  filter: blur(18px);
+  filter: blur(14px);
   opacity: 0.55;
-  animation: ringShimmer 5.8s ease-in-out infinite;
+  animation: ringShimmer 9s ease-in-out infinite;
+  will-change: opacity;
 }
 
 .home__coinPlane {
@@ -75,8 +76,9 @@
   top: 50%;
   width: 0;
   height: 0;
-  animation: coinOrbit 12s linear infinite;
+  animation: coinOrbit 16s linear infinite;
   transform-origin: 0 0;
+  will-change: transform;
 }
 
 .home__coin {
@@ -94,8 +96,8 @@
     #d19a2a 48%,
     #9a6b15 100%
   );
-  box-shadow: 0 0 34px rgba(245, 158, 11, 0.28), 0 20px 60px
-    rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.24), 0 14px 44px
+    rgba(0, 0, 0, 0.22);
 
   transform: translateX(var(--orbitR)) translate(-50%, -50%) rotateY(18deg);
 
@@ -118,8 +120,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(26px, 3.8vmin, 52px);
-  height: clamp(26px, 3.8vmin, 52px);
+  width: clamp(40px, 6vmin, 78px);
+  height: clamp(40px, 6vmin, 78px);
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(

@@ -52,6 +52,11 @@ const routers: MyRoute[] = [
     element: lazy(() => import('@/page/privacy-policy'))
   },
   {
+    path: '/login',
+    title: '登录',
+    element: lazy(() => import('@/page/login'))
+  },
+  {
     path: '/analysis/match',
     title: '对局列表',
     element: lazy(() => import('@/page/analysis'))

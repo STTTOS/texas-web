@@ -38,7 +38,7 @@
   width: 210px;
   height: 210px;
   transform: translate(-50%, -50%);
-  animation: orbitRotate 9s linear infinite;
+  animation: orbitRotate 12s linear infinite;
 }
 
 .home__chip {
@@ -52,7 +52,7 @@
   box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.22), 0 10px 28px
     rgba(245, 158, 11, 0.22);
   transform-origin: center;
-  animation: chipPulse 1.8s ease-in-out infinite;
+  animation: chipPulse 2.4s ease-in-out infinite;
 }
 
 .home__chip:nth-child(1) {
@@ -169,7 +169,7 @@
   color: rgba(255, 255, 255, 0.86);
   font-size: 12px;
   font-weight: 800;
-  animation: stagePulse 3.6s ease-in-out infinite;
+  animation: stagePulse 5s ease-in-out infinite;
 }
 
 .home__stage--preflop {
@@ -220,11 +220,9 @@
     opacity: 0;
     transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0)
       rotateY(70deg) scale(0.96);
-    filter: blur(1px);
   }
   18% {
     opacity: 1;
-    filter: blur(0);
   }
   50% {
     opacity: 1;
@@ -242,12 +240,10 @@
   0%,
   100% {
     opacity: 0.7;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     transform: translateZ(0) scale(0.98);
   }
   35% {
     opacity: 1;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     transform: translateZ(0) scale(1);
   }
 }
