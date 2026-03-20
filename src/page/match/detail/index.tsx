@@ -6,7 +6,6 @@ import {
   Space,
   Table,
   theme,
-  Avatar,
   Tag,
   ConfigProvider,
   TableColumnProps
@@ -25,6 +24,7 @@ import styles from './index.module.less'
 import { getMatchDetail } from '@/service/match'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
+import UserAvatar from '@/components/UserAvatar'
 import shell from '@/page/announcement/shell.module.less'
 import { BetRecord, StageRecord, SettleRecord } from '@/service/match/types'
 
@@ -39,11 +39,11 @@ const MatchDetailPage = () => {
     {
       title: '玩家',
       width: 150,
-      render(_, { name, avatarUrl, isFold, isAllIn }) {
+      render(_, { name, avatarUrl, avatarKey, isFold, isAllIn }) {
         return (
           <div>
             <Space>
-              <Avatar src={avatarUrl || undefined} />
+              <UserAvatar avatarUrl={avatarUrl} avatarKey={avatarKey} name={name} />
               <span className={styles.playerName}>{name}</span>
               {isFold ? (
                 <Tag color="#a78bfa">弃牌</Tag>
@@ -86,12 +86,12 @@ const MatchDetailPage = () => {
   const columnsOfRecords: TableColumnProps<BetRecord>[] = [
     {
       title: '玩家',
-      render(_, { name, avatarUrl }) {
+      render(_, { name, avatarUrl, avatarKey }) {
         return (
           <div>
             <Space>
-              <Avatar src={avatarUrl || undefined} />
-              <span>{name}</span>
+              <UserAvatar avatarUrl={avatarUrl} avatarKey={avatarKey} name={name} />
+              <span className={styles.playerName}>{name}</span>
             </Space>
           </div>
         )

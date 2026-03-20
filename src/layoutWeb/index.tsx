@@ -4,14 +4,12 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 import { useUserInfo } from '@/model'
 import { logout } from '@/service/user'
+import UserIdentityBadge from '@/components/UserIdentityBadge'
 import styles from './index.module.less'
 
 const WebLayout = () => {
   const nav = useNavigate()
   const { user, fetch } = useUserInfo()
-  const avatarText = (user?.name || user?.username || 'U')
-    .slice(0, 1)
-    .toUpperCase()
 
   useEffect(() => {
     fetch()
@@ -92,19 +90,7 @@ const WebLayout = () => {
                   }
                 }}
               >
-                <div className={styles.webLayout__user}>
-                  <div className={styles.webLayout__userAvatar}>
-                    {avatarText}
-                  </div>
-                  <div className={styles.webLayout__userInfo}>
-                    <div className={styles.webLayout__userName}>
-                      {user.name}
-                    </div>
-                    <div className={styles.webLayout__userAccount}>
-                      {user.username}
-                    </div>
-                  </div>
-                </div>
+                <UserIdentityBadge name={user.name} username={user.username} />
               </Dropdown>
             )}
           </nav>
