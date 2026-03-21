@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import { useRequest } from 'ahooks'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { Dayjs } from 'dayjs'
 import {
   Tag,
   Form,
@@ -57,6 +58,8 @@ const STATUS_OPTIONS: { value: AnnouncementStatus; label: string }[] = [
   { value: 'published', label: '上架' },
   { value: 'disabled', label: '下架' }
 ]
+
+const buildRange = (max: number) => Array.from({ length: max }, (_, i) => i)
 
 const ManageAnnouncementPage = () => {
   const nav = useNavigate()
@@ -386,13 +389,22 @@ const ManageAnnouncementPage = () => {
             layout="vertical"
             className={styles.modalForm}
             initialValues={{ priority: 0, longTerm: false }}
+            onValuesChange={(changedValues) => {
+              if ('publishAt' in changedValues) {
+                form.setFieldValue('expireAt', undefined)
+              }
+            }}
           >
             <Form.Item
               name="type"
               label="类型"
               rules={[{ required: true, message: '请选择类型' }]}
             >
-              <Select options={TYPE_OPTIONS} placeholder="请选择类型" />
+              <Select
+                options={TYPE_OPTIONS}
+                placeholder="请选择类型"
+                disabled={editingId != null}
+              />
             </Form.Item>
             <Form.Item
               name="title"
@@ -435,7 +447,9 @@ const ManageAnnouncementPage = () => {
               </Form.Item>
               <Form.Item
                 noStyle
-                shouldUpdate={(p, c) => p.longTerm !== c.longTerm}
+                shouldUpdate={(p, c) =>
+                  p.longTerm !== c.longTerm || p.publishAt !== c.publishAt
+                }
               >
                 {({ getFieldValue }) =>
                   getFieldValue('longTerm') ? null : (
@@ -444,7 +458,37 @@ const ManageAnnouncementPage = () => {
                       name="expireAt"
                       label="过期时间（可选）"
                     >
-                      <DatePicker showTime style={{ width: '100%' }} />
+                      <DatePicker
+                        showTime
+                        style={{ width: '100%' }}
+                        disabledDate={(current) => {
+                          const publishAt = getFieldValue('publishAt') as Dayjs | undefined
+                          if (!publishAt || !current) return false
+                          return current.isBefore(publishAt.startOf('day'))
+                        }}
+                        disabledTime={(current) => {
+                          const publishAt = getFieldValue('publishAt') as Dayjs | undefined
+                          if (!publishAt || !current || !current.isSame(publishAt, 'day')) {
+                            return {}
+                          }
+                          const publishHour = publishAt.hour()
+                          const publishMinute = publishAt.minute()
+                          const publishSecond = publishAt.second()
+                          return {
+                            disabledHours: () => buildRange(publishHour),
+                            disabledMinutes: (selectedHour: number) =>
+                              selectedHour === publishHour ? buildRange(publishMinute) : [],
+                            disabledSeconds: (
+                              selectedHour: number,
+                              selectedMinute: number
+                            ) =>
+                              selectedHour === publishHour &&
+                              selectedMinute === publishMinute
+                                ? buildRange(publishSecond)
+                                : []
+                          }
+                        }}
+                      />
                     </Form.Item>
                   )
                 }
