@@ -1,11 +1,6 @@
-import { Button, Space } from 'antd'
-import { useNavigate } from 'react-router-dom'
-
 import styles from './index.module.less'
 
 const RulesPage = () => {
-  const nav = useNavigate()
-
   return (
     <div className={styles.page}>
       <div className={styles.container}>
@@ -16,9 +11,6 @@ const RulesPage = () => {
               快速了解流程、下注轮次与手牌大小（偏入门版）。
             </div>
           </div>
-          <Space className={styles.actions} size={10}>
-            <Button onClick={() => nav('/')}>返回首页</Button>
-          </Space>
         </div>
 
         <div className={`${styles.glass} ${styles.card}`}>
