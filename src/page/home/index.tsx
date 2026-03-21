@@ -30,7 +30,7 @@ function Home() {
                 查看对局记录
               </RequireUserButton>
               <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
-                下载 App
+                敬请期待
               </button>
               <a
                 className="home__btn home__btnGhost"
@@ -103,7 +103,7 @@ function Home() {
           </div>
           <div className="home__downloadRight">
             <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
-              立即下载
+              即将上线
             </button>
             <button className="home__btn home__btnGhost home__btnDisabled" type="button">
               查看下载说明
