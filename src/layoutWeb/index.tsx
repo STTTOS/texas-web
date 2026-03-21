@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { useUserInfo } from '@/model'
 import { logout } from '@/service/user'
 import UserIdentityBadge from '@/components/UserIdentityBadge'
+import { BRAND_EN, BRAND_TAGLINE_ZH } from '@/constants/brand'
 import styles from './index.module.less'
 
 const WebLayout = () => {
@@ -33,8 +34,8 @@ const WebLayout = () => {
       <header className={styles.webLayout__header}>
         <div className={styles.webLayout__headerInner}>
           <button className={styles.webLayout__brand} onClick={() => nav('/')}>
-            <div className={styles.webLayout__logo}>Texas Poker</div>
-            <div className={styles.webLayout__tagline}>德州扑克 · 体验场</div>
+            <div className={styles.webLayout__logo}>{BRAND_EN}</div>
+            <div className={styles.webLayout__tagline}>{BRAND_TAGLINE_ZH}</div>
           </button>
 
           <nav className={styles.webLayout__nav}>

@@ -7,6 +7,7 @@ import { useUserInfo } from '@/model'
 import styles from './index.module.less'
 import { webLogin } from '@/service/user'
 import HomeBgBalls from '@/components/HomeBgBalls'
+import { BRAND_EN, BRAND_TAGLINE_ZH } from '@/constants/brand'
 
 interface LoginValues {
   username: string
@@ -60,12 +61,12 @@ const LoginPage = () => {
     .toUpperCase()
   const showAccountCard = !checkingUser && !!user && !useOtherAccount
 
-  console.log(showAccountCard, 'showAccountCard')
   return (
     <div className={styles.page}>
       <HomeBgBalls count={30} />
       <div className={styles.wrapper}>
-        <div className={styles.brand}>Texas Poker</div>
+        <div className={styles.brand}>{BRAND_EN}</div>
+        <div className={styles.tagline}>{BRAND_TAGLINE_ZH}</div>
         <div className={styles.panel}>
           {showAccountCard ? (
             <div className={styles.accountCard}>

@@ -3,6 +3,7 @@ import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'
 import RequireUserButton from '@/components/RequireUserButton'
+import { BRAND_EN, BRAND_SLOGAN_ZH, BRAND_ZH } from '@/constants/brand'
 
 function Home() {
   return (
@@ -13,8 +14,8 @@ function Home() {
       <main className="home__main">
         <section className="home__hero home__glass">
           <div className="home__heroLeft">
-            <div className="home__kicker">All in or fold</div>
-            <h1 className="home__title">德州扑克 · 体验场门户</h1>
+            <div className="home__kicker">{BRAND_SLOGAN_ZH}</div>
+            <h1 className="home__title">{BRAND_ZH}</h1>
             <p className="home__desc">
               用更清晰的操作记录与结算记录，回放每一手牌的关键节点。
             </p>
@@ -111,7 +112,9 @@ function Home() {
       <footer className="home__footer">
         <div className="home__footerInner">
           <div className="home__footerRow">
-            <div>© 2026 Texas Poker. 保留所有权利。</div>
+            <div>
+              © 2026 {BRAND_EN} · {BRAND_ZH}. 保留所有权利。
+            </div>
             <div className="home__footerLinks">
               <a
                 className="home__footerLink"

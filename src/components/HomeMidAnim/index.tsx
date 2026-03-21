@@ -4,7 +4,7 @@ const HomeMidAnim = () => {
   return (
     <section
       className="home__midAnim home__glass"
-      aria-label="德州扑克节奏动画"
+      aria-label="扑克派节奏动画"
     >
       <div className="home__midTop">
         <div className="home__midTitle">一手牌的翻转节奏</div>

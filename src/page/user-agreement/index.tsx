@@ -14,7 +14,7 @@ const UserAgreementPage = () => {
         <div className={`${styles.glass} ${styles.card}`}>
           <div className={styles.sectionTitle}>1. 服务说明</div>
           <p className={styles.p}>
-            本网站/应用提供德州扑克相关的对局记录展示与复盘分析等功能。你在使用服务前，应阅读并同意本协议。
+            本网站/应用由「扑克派 / Poker Party」提供，包括对局记录展示与复盘分析等功能。你在使用服务前，应阅读并同意本协议。
           </p>
 
           <div className={styles.sectionTitle}>2. 账号与使用规范</div>

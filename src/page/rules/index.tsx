@@ -11,7 +11,7 @@ const RulesPage = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
-            <h1 className={styles.title}>德州扑克 · 游戏规则</h1>
+            <h1 className={styles.title}>扑克派 · 游戏规则</h1>
             <div className={styles.subtitle}>
               快速了解流程、下注轮次与手牌大小（偏入门版）。
             </div>
