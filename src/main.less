@@ -9,18 +9,24 @@ body {
   font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
     Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
     Hiragino Sans GB, Microsoft YaHei, Arial !important;
+}
+
+#poker-app {
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow-x: hidden;
+  isolation: isolate;
   background: linear-gradient(180deg, #5b21b6 0%, #4c1d95 35%, #312e81 70%, #1e1b4b 100%);
-  background-attachment: fixed;
 }
 
-#blog-app {
+html,
+body {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
-body::before {
+#poker-app::before {
   content: '';
   position: fixed;
   inset: -35%;
@@ -45,7 +51,7 @@ body::before {
   opacity: 0.9;
 }
 
-body::after {
+#poker-app::after {
   content: '';
   position: fixed;
   inset: -10%;

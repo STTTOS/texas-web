@@ -38,4 +38,4 @@ const App = () => {
   )
 }
 
-createRoot(document.getElementById('blog-app')!).render(<App />)
+createRoot(document.getElementById('poker-app')!).render(<App />)
