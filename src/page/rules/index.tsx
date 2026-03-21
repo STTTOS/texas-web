@@ -43,9 +43,17 @@ const RulesPage = () => {
           <div className={styles.sectionTitle}>常见行动</div>
           <ul className={styles.list}>
             <li>弃牌（Fold）：放弃本局，已投入筹码不退。</li>
+            <li>过牌（Check）：在当前无人加注时，选择不下注并把行动权交给下一位。</li>
             <li>跟注（Call）：补齐到当前最高下注额。</li>
             <li>加注（Raise）：提高下注额。</li>
             <li>全下（All-in）：一次投入全部筹码。</li>
+          </ul>
+
+          <div className={styles.sectionTitle}>盲注说明</div>
+          <ul className={styles.list}>
+            <li>小盲注（SB）与大盲注（BB）是每局开始前的强制下注，用于形成初始底池。</li>
+            <li>大盲注通常是小盲注的 2 倍，具体数值以房间配置为准。</li>
+            <li>发牌后，翻牌前的行动从大盲位左侧第一位玩家开始。</li>
           </ul>
 
           <div className={styles.sectionTitle}>手牌大小（从大到小）</div>
@@ -54,10 +62,6 @@ const RulesPage = () => {
             <li>三条 &gt; 两对 &gt; 一对 &gt; 高牌</li>
           </ul>
 
-          <div className={styles.note}>
-            提示：不同平台对盲注结构、最小加注规则、结算细节可能略有差异；如果你要我把规则写成你
-            App 一样的「操作记录/结算记录」风格文案，我也可以直接按你截图的 UI 口吻重写。
-          </div>
         </div>
       </div>
     </div>

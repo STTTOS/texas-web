@@ -3,7 +3,7 @@ import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'
 import RequireUserButton from '@/components/RequireUserButton'
-import { BRAND_EN, BRAND_SLOGAN_ZH, BRAND_ZH } from '@/constants/brand'
+import { BRAND_EN, BRAND_ZH, BRAND_SLOGAN_ZH } from '@/constants/brand'
 
 function Home() {
   return (
@@ -17,13 +17,21 @@ function Home() {
             <div className="home__kicker">{BRAND_SLOGAN_ZH}</div>
             <h1 className="home__title">{BRAND_ZH}</h1>
             <p className="home__desc">
-              用更清晰的操作记录与结算记录，回放每一手牌的关键节点。
+              {BRAND_ZH} 是一款主打好友同玩的线上扑克
+              App。你可以快速创建房间、邀请朋友加入同桌，
+              在线轻松开局；同时通过对局记录、操作记录与战绩总览，随时了解自己的打法与状态。
             </p>
 
             <div className="home__ctaRow">
-              <RequireUserButton className="home__btn home__btnPrimary" to="/match">
+              <RequireUserButton
+                className="home__btn home__btnPrimary"
+                to="/match"
+              >
                 查看对局记录
               </RequireUserButton>
+              <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
+                下载 App
+              </button>
               <a
                 className="home__btn home__btnGhost"
                 href="/rules"
@@ -37,27 +45,27 @@ function Home() {
 
           <div className="home__heroRight">
             <div className="home__miniPanel">
-              <div className="home__miniTitle">本局概览</div>
+              <div className="home__miniTitle">产品亮点</div>
               <div className="home__miniGrid">
                 <div className="home__miniItem">
-                  <div className="home__miniLabel">盲注</div>
-                  <div className="home__miniValue">300</div>
+                  <div className="home__miniLabel">同玩模式</div>
+                  <div className="home__miniValue">创建房间开局</div>
                 </div>
                 <div className="home__miniItem">
-                  <div className="home__miniLabel">起始筹码</div>
-                  <div className="home__miniValue">6000</div>
+                  <div className="home__miniLabel">好友加入</div>
+                  <div className="home__miniValue">一键邀请同桌</div>
                 </div>
                 <div className="home__miniItem">
-                  <div className="home__miniLabel">总下注</div>
-                  <div className="home__miniValue">1.23K</div>
+                  <div className="home__miniLabel">记录系统</div>
+                  <div className="home__miniValue">对局/操作可追溯</div>
                 </div>
                 <div className="home__miniItem">
-                  <div className="home__miniLabel">阶段</div>
-                  <div className="home__miniValue">转牌圈</div>
+                  <div className="home__miniLabel">战绩视图</div>
+                  <div className="home__miniValue">一眼看懂战况</div>
                 </div>
               </div>
               <div className="home__miniHint">
-                以 App 同款紫色渐变与玻璃卡片风格呈现
+                适合好友局、休闲局与日常复盘。
               </div>
             </div>
           </div>
@@ -67,36 +75,57 @@ function Home() {
 
         <section className="home__grid">
           <div className="home__glass home__card">
-            <div className="home__cardTitle">结算记录</div>
+            <div className="home__cardTitle">创建房间 · 邀请同玩</div>
             <div className="home__cardDesc">
-              逐条展示底池变化、赢家与筹码增减，复盘更直观。
+              一键创建房间并分享邀请入口，和朋友在线同桌，随开随玩不受地点限制。
             </div>
           </div>
           <div className="home__glass home__card">
-            <div className="home__cardTitle">操作记录</div>
+            <div className="home__cardTitle">对局记录 · 操作记录</div>
             <div className="home__cardDesc">
-              Fold / Call / Raise / All-in 一目了然，还原对局节奏。
+              每局牌都可追溯，下注、跟注、加注、弃牌等关键行为清晰可查。
             </div>
           </div>
           <div className="home__glass home__card">
-            <div className="home__cardTitle">分析入口</div>
+            <div className="home__cardTitle">战绩总览 · 快速洞察</div>
             <div className="home__cardDesc">
-              直接进入对局列表与详情页，沿用现有对局查询跳转逻辑。
+              用聚合视图查看近期胜负与表现趋势，更快了解自己的战术偏好与风格变化。
             </div>
+          </div>
+        </section>
+
+        <section className="home__glass home__downloadCard">
+          <div className="home__downloadLeft">
+            <div className="home__downloadTitle">下载扑克派 App</div>
+            <div className="home__downloadDesc">
+              在移动端随时组局、随时查看记录。和朋友线上同桌，想玩就玩。
+            </div>
+          </div>
+          <div className="home__downloadRight">
+            <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
+              立即下载
+            </button>
+            <button className="home__btn home__btnGhost home__btnDisabled" type="button">
+              查看下载说明
+            </button>
           </div>
         </section>
 
         <section className="home__glass home__footerCard">
           <div className="home__footerLeft">
-            <div className="home__footerTitle">准备好开始复盘了吗？</div>
+            <div className="home__footerTitle">准备好开一局了吗？</div>
             <div className="home__footerDesc">
-              从对局记录进入分析页，或先读规则再上桌。
+              现在就邀请好友一起同玩，或者进入对局记录开始复盘。
             </div>
           </div>
           <div className="home__footerRight">
-            <RequireUserButton className="home__btn home__btnPrimary" to="/match">
+            <RequireUserButton
+              className="home__btn home__btnPrimary"
+              to="/match"
+            >
               进入对局列表
             </RequireUserButton>
+
             <a
               className="home__btn home__btnGhost"
               href="/rules"
