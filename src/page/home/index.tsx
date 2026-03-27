@@ -5,6 +5,8 @@ import HomePlanetRing from '@/components/HomePlanetRing'
 import RequireUserButton from '@/components/RequireUserButton'
 import { BRAND_EN, BRAND_ZH, BRAND_SLOGAN_ZH } from '@/constants/brand'
 
+const APP_DOWNLOAD_URL = 'https://cos.wishufree.com/files/app-release.apk'
+
 function Home() {
   return (
     <div className="home">
@@ -29,9 +31,14 @@ function Home() {
               >
                 查看对局记录
               </RequireUserButton>
-              <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
-                敬请期待
-              </button>
+              <a
+                className="home__btn home__btnPrimary"
+                href={APP_DOWNLOAD_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                下载 App
+              </a>
               <a
                 className="home__btn home__btnGhost"
                 href="/rules"
@@ -102,12 +109,22 @@ function Home() {
             </div>
           </div>
           <div className="home__downloadRight">
-            <button className="home__btn home__btnPrimary home__btnDisabled" type="button">
-              即将上线
-            </button>
-            <button className="home__btn home__btnGhost home__btnDisabled" type="button">
+            <a
+              className="home__btn home__btnPrimary"
+              href={APP_DOWNLOAD_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              立即下载
+            </a>
+            <a
+              className="home__btn home__btnGhost"
+              href={APP_DOWNLOAD_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
               查看下载说明
-            </button>
+            </a>
           </div>
         </section>
 

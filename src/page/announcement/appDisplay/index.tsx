@@ -44,7 +44,7 @@ const AppDisplayAnnouncementPage = () => {
 
             <div className={styles.contentScroll}>
               {loading ? (
-                <Card loading />
+                <Card loading className={styles.loadingCard} />
               ) : list.length === 0 ? (
                 <Empty description="暂无有效展示公告" />
               ) : (

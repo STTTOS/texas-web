@@ -29,6 +29,29 @@
   padding-right: 4px;
 }
 
+.loadingCard {
+  background: rgba(14, 18, 32, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  :global {
+    .ant-card-body {
+      background: transparent;
+    }
+
+    .ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-title,
+    .ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-paragraph > li {
+      background: linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.2) 25%,
+        rgba(148, 163, 184, 0.34) 37%,
+        rgba(148, 163, 184, 0.2) 63%
+      ) !important;
+      background-size: 400% 100% !important;
+    }
+  }
+}
+
 .cards {
   display: flex;
   flex-direction: column;
