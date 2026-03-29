@@ -58,7 +58,7 @@ const WebLayout = () => {
                   nav('/announcement/manage')
                 }}
               >
-                公告管理
+                管理中心
               </a>
             )}
             <a

@@ -105,7 +105,7 @@ function Home() {
           <div className="home__downloadLeft">
             <div className="home__downloadTitle">下载扑克派 App</div>
             <div className="home__downloadDesc">
-              在移动端随时组局、随时查看记录。和朋友线上同桌，想玩就玩。
+              在移动端随时组局、随时查看记录。和朋友线上同玩，想玩就玩。
             </div>
           </div>
           <div className="home__downloadRight">
