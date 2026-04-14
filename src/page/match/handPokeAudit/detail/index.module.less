@@ -157,14 +157,27 @@
 }
 
 .blockTitle {
-  margin: 8px 0 6px !important;
+  margin: 8px 0 4px !important;
   color: rgba(255, 255, 255, 0.92) !important;
 }
 
-.legend {
-  margin-bottom: 12px !important;
-  font-size: 12px !important;
-  color: rgba(255, 255, 255, 0.62) !important;
+.legendRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.legendLead {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.legendRest {
+  color: rgba(255, 255, 255, 0.62);
 }
 
 @media (max-width: 900px) {

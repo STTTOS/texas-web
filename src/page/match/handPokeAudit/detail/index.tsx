@@ -26,6 +26,7 @@ import PageBrand from '@/components/PageBrand'
 import styles from './index.module.less'
 
 const STAT_HELP_URL = 'https://www.wishufree.com/moment/share/345'
+const PEARSON_HELP_URL = 'https://www.wishufree.com/moment/share/346'
 
 const chiSquareTooltip = (
   <div className={styles.statTooltip}>
@@ -46,6 +47,21 @@ const pValueTooltip = (
       越小越常作为拒绝均匀假设的依据，便于技术排查；不等于「作弊概率」。
     </p>
     <a href={STAT_HELP_URL} target="_blank" rel="noreferrer">
+      详细解读
+    </a>
+  </div>
+)
+
+const pearsonResidualTooltip = (
+  <div className={styles.statTooltip}>
+    <p>
+      <strong>Pearson 残差</strong>定义：r = (O − E) / √E。O 为某张牌观测张数，E
+      为均匀假设下期望张数（与接口一致：E = cardCount / 52）。|r| 较小多为正常波动；|r| 较大表示相对期望偏多或偏少。
+    </p>
+    <p>
+      色块颜色与整体检验同源，便于扫览 52 张分布；仅当样本充足、服务端开启热力标尺时，才宜按残差强弱解读色温。
+    </p>
+    <a href={PEARSON_HELP_URL} target="_blank" rel="noreferrer">
       详细解读
     </a>
   </div>
@@ -226,12 +242,24 @@ const HandPokeAuditDetailPage = () => {
                 </Descriptions>
 
                 <Typography.Title level={5} className={styles.blockTitle}>
-                  52 牌面分布（Pearson 残差着色）
+                  52 牌面分布
                 </Typography.Title>
-                <Typography.Paragraph className={styles.legend} type="secondary">
-                  着色依据为 Pearson 残差 r = (O−E)/√E；|r| 小偏绿、大偏红（热力仅
-                  heatmapScaleEnabled 为 true 时启用）。悬停单格可查看次数与残差。
-                </Typography.Paragraph>
+                <div className={styles.legendRow}>
+                  <span className={styles.legendLead}>Pearson 残差</span>
+                  <Tooltip title={pearsonResidualTooltip} placement="topLeft">
+                    <span
+                      className={styles.statHintIcon}
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Pearson 残差说明"
+                    >
+                      <QuestionCircleOutlined />
+                    </span>
+                  </Tooltip>
+                  <span className={styles.legendRest}>
+                    悬停单格可查看次数与残差。
+                  </span>
+                </div>
 
                 <PokeDistributionGrid
                   items={data.pokeDistribution}
