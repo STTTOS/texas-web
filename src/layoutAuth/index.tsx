@@ -15,6 +15,9 @@ const AuthLayout = () => {
     if (location.pathname.startsWith('/system/maintenance')) {
       return ['system-maintenance']
     }
+    if (location.pathname.startsWith('/system/version')) {
+      return ['system-version']
+    }
     return ['announcement-center']
   }, [location.pathname])
 
@@ -54,7 +57,8 @@ const AuthLayout = () => {
           className={styles.authLayout__menu}
           items={[
             { key: 'announcement-center', label: '公告中心' },
-            { key: 'system-maintenance', label: '维护升级' }
+            { key: 'system-maintenance', label: '维护升级' },
+            { key: 'system-version', label: '版本管理' }
           ]}
           onClick={({ key }) => {
             if (key === 'announcement-center') {
@@ -63,6 +67,10 @@ const AuthLayout = () => {
             }
             if (key === 'system-maintenance') {
               nav('/system/maintenance')
+              return
+            }
+            if (key === 'system-version') {
+              nav('/system/version')
             }
           }}
         />

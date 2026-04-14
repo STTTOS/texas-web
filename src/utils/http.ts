@@ -7,7 +7,6 @@ import { ResBasic } from './types'
 import { baseUrl } from '@/config'
 import { history } from '@/components/BrowserRouter'
 
-// 响应code异常处理程序
 const request = extend({
   timeout: 120 * 1000,
   timeoutMessage: '网络超时'
@@ -33,7 +32,7 @@ async function betterRequest<R>(
   options?: RequestOptionsInit & { origin?: boolean }
 ) {
   try {
-    const response = await request<Promise<ResBasic<R>>>(
+    const response = await request<ResBasic<R> | R>(
       url.startsWith('http') ? url : join('/', url),
       {
         method: 'POST',
@@ -44,20 +43,15 @@ async function betterRequest<R>(
     )
     if (options?.origin) return response
 
-    const { code, data, msg } = response
-
-    if (code === 401) {
-      navigateTo(`/login?from=${encodeURIComponent(location.pathname)}`)
-    } else if (code === 403) {
-      navigateTo('/403')
-    } else if (code === 404) {
-      navigateTo('/404')
+    // 后端已移除业务 code：成功只依赖 HTTP 2xx
+    // 兼容两种成功结构：
+    // 1) { data, msg }
+    // 2) 直接返回 data
+    if (response && typeof response === 'object' && 'data' in response) {
+      const r = response as ResBasic<R>
+      return { data: r.data, msg: r.msg }
     }
-
-    if (code !== 200) {
-      throw { data: { msg }, response: { ...response, status: code } }
-    }
-    return { data, msg }
+    return { data: response as R, msg: '' }
   } catch (error) {
     if (options?.origin) throw error
 
@@ -65,8 +59,20 @@ async function betterRequest<R>(
     const { data, response } = err
     const httpStatus = Number((response as any)?.status)
 
+    if (httpStatus === 401) {
+      navigateTo(`/login?from=${encodeURIComponent(location.pathname)}`)
+    } else if (httpStatus === 403) {
+      navigateTo('/403')
+    } else if (httpStatus === 404) {
+      navigateTo('/404')
+    }
+
     if (httpStatus !== 401 && httpStatus !== 403) {
-      message.error(data.msg || '服务器内部错误')
+      const serverMsg =
+        (data as any)?.msg ||
+        (typeof data === 'string' ? data : undefined) ||
+        '服务器内部错误'
+      message.error(serverMsg)
     }
     if (String(httpStatus).startsWith('50')) {
       navigateTo('/500')

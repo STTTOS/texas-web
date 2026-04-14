@@ -73,6 +73,16 @@ const routers: MyRoute[] = [
             path: '/announcement/app-display',
             title: 'App端展示公告',
             element: lazy(() => import('@/page/announcement/appDisplay'))
+          },
+          {
+            path: '/system/maintenance',
+            title: '维护升级',
+            element: lazy(() => import('@/page/system/maintenance'))
+          },
+          {
+            path: '/system/version',
+            title: '版本管理',
+            element: lazy(() => import('@/page/system/version'))
           }
         ]
       },
