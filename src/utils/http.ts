@@ -29,7 +29,7 @@ async function betterRequest<R>(
   url: string,
   params?: Record<string, any>,
   file?: FormData,
-  options?: RequestOptionsInit & { origin?: boolean }
+  options?: RequestOptionsInit
 ) {
   try {
     const response = await request<ResBasic<R> | R>(
@@ -41,20 +41,32 @@ async function betterRequest<R>(
         ...options
       }
     )
-    if (options?.origin) return response
 
     // 后端已移除业务 code：成功只依赖 HTTP 2xx
-    // 兼容两种成功结构：
-    // 1) { data, msg }
-    // 2) 直接返回 data
+    // 兼容成功结构：
+    // 1) { ok, data, message }（Web 管理端部分接口）
+    // 2) { data, msg }
+    // 3) 直接返回 data
+    if (response && typeof response === 'object' && 'ok' in response) {
+      const r = response as {
+        ok: boolean
+        data: R
+        message?: string
+        msg?: string
+      }
+      if (r.ok === false) {
+        const errMsg = r.message || r.msg || '请求失败'
+        message.error(errMsg)
+        throw { data: { msg: errMsg }, response: { status: 400 } }
+      }
+      return { data: r.data, msg: r.message ?? r.msg ?? '' }
+    }
     if (response && typeof response === 'object' && 'data' in response) {
       const r = response as ResBasic<R>
       return { data: r.data, msg: r.msg }
     }
     return { data: response as R, msg: '' }
   } catch (error) {
-    if (options?.origin) throw error
-
     const err = error as ResponseError
     const { data, response } = err
     const httpStatus = Number((response as any)?.status)
@@ -69,6 +81,7 @@ async function betterRequest<R>(
 
     if (httpStatus !== 401 && httpStatus !== 403) {
       const serverMsg =
+        (data as any)?.message ||
         (data as any)?.msg ||
         (typeof data === 'string' ? data : undefined) ||
         '服务器内部错误'
@@ -83,7 +96,7 @@ async function betterRequest<R>(
 betterRequest.get = <R = unknown>(
   url: string,
   params?: Record<string, any>,
-  options?: RequestOptionsInit & { origin?: boolean }
+  options?: RequestOptionsInit
 ) => {
   return betterRequest<R>(url, undefined, undefined, {
     ...options,

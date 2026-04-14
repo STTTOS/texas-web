@@ -12,6 +12,9 @@ const AuthLayout = () => {
   const [ready, setReady] = useState(false)
 
   const selectedKeys = useMemo(() => {
+    if (location.pathname.startsWith('/match/hand-poke-audit')) {
+      return ['hand-poke-audit']
+    }
     if (location.pathname.startsWith('/system/maintenance')) {
       return ['system-maintenance']
     }
@@ -57,12 +60,17 @@ const AuthLayout = () => {
           className={styles.authLayout__menu}
           items={[
             { key: 'announcement-center', label: '公告中心' },
+            { key: 'hand-poke-audit', label: '手牌审计' },
             { key: 'system-maintenance', label: '维护升级' },
             { key: 'system-version', label: '版本管理' }
           ]}
           onClick={({ key }) => {
             if (key === 'announcement-center') {
               nav('/announcement/manage')
+              return
+            }
+            if (key === 'hand-poke-audit') {
+              nav('/match/hand-poke-audit')
               return
             }
             if (key === 'system-maintenance') {

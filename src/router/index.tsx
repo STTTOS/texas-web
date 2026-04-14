@@ -70,6 +70,16 @@ const routers: MyRoute[] = [
             element: lazy(() => import('@/page/announcement/manage'))
           },
           {
+            path: '/match/hand-poke-audit',
+            title: '手牌审计',
+            element: lazy(() => import('@/page/match/handPokeAudit'))
+          },
+          {
+            path: '/match/hand-poke-audit/:userId',
+            title: '手牌审计详情',
+            element: lazy(() => import('@/page/match/handPokeAudit/detail'))
+          },
+          {
             path: '/announcement/app-display',
             title: 'App端展示公告',
             element: lazy(() => import('@/page/announcement/appDisplay'))
