@@ -1,11 +1,47 @@
+import type { ReactNode } from 'react'
+
 import './index.less'
+import { message } from 'antd'
+
 import HomeMidAnim from '@/components/HomeMidAnim'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import HomePlanetRing from '@/components/HomePlanetRing'
 import RequireUserButton from '@/components/RequireUserButton'
 import { BRAND_EN, BRAND_ZH, BRAND_SLOGAN_ZH } from '@/constants/brand'
+import { getDownloadPlatform } from '@/utils/downloadPlatform'
 
 const APP_DOWNLOAD_URL = 'https://cos.wishufree.com/files/app-release.apk'
+
+const IOS_DOWNLOAD_TIP = '应用正在内测，暂不支持 iOS'
+
+/** 安卓等：直链 APK；iOS：仅提示，不跳转 */
+function AppDownloadTrigger({ children }: { children: ReactNode }) {
+  const isIos = getDownloadPlatform() === 'ios'
+  const cls = 'home__btn home__btnPrimary'
+
+  if (isIos) {
+    return (
+      <button
+        type="button"
+        className={cls}
+        onClick={() => message.info(IOS_DOWNLOAD_TIP)}
+      >
+        {children}
+      </button>
+    )
+  }
+
+  return (
+    <a
+      className={cls}
+      href={APP_DOWNLOAD_URL}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {children}
+    </a>
+  )
+}
 
 function Home() {
   return (
@@ -31,14 +67,7 @@ function Home() {
               >
                 查看对局记录
               </RequireUserButton>
-              <a
-                className="home__btn home__btnPrimary"
-                href={APP_DOWNLOAD_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
-                下载 App
-              </a>
+              <AppDownloadTrigger>下载 App</AppDownloadTrigger>
               <a
                 className="home__btn home__btnGhost"
                 href="/rules"
@@ -109,22 +138,7 @@ function Home() {
             </div>
           </div>
           <div className="home__downloadRight">
-            <a
-              className="home__btn home__btnPrimary"
-              href={APP_DOWNLOAD_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              立即下载
-            </a>
-            <a
-              className="home__btn home__btnGhost"
-              href={APP_DOWNLOAD_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              查看下载说明
-            </a>
+            <AppDownloadTrigger>立即下载</AppDownloadTrigger>
           </div>
         </section>
 
