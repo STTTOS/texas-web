@@ -29,6 +29,12 @@ export interface RoomOpsRow {
   matchCount: number
 }
 
+export interface DashboardDayPoint {
+  day: string
+  matchesEnded: number
+  engineFatals: number
+}
+
 export interface DashboardSummary {
   rangeStart: string | null
   matchesEndedLast7d: number
@@ -37,4 +43,6 @@ export interface DashboardSummary {
   roomsTotal: number
   matchesEndedToday: number
   engineFatalsToday: number
+  /** 近 7 日按自然日（含今日），与卡片汇总区间一致 */
+  dailySeries: DashboardDayPoint[]
 }

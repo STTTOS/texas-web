@@ -1,10 +1,27 @@
 import { useRequest } from 'ahooks'
-import { Card, Col, ConfigProvider, Row, Skeleton, Statistic, theme } from 'antd'
+import {
+  Card,
+  Col,
+  ConfigProvider,
+  Row,
+  Skeleton,
+  Statistic,
+  Table,
+  theme,
+  TableColumnProps
+} from 'antd'
 
 import { fetchDashboardSummary } from '@/service/ops'
+import type { DashboardDayPoint } from '@/service/ops/types'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
+
+const dayColumns: TableColumnProps<DashboardDayPoint>[] = [
+  { title: '日期', dataIndex: 'day', width: 120 },
+  { title: '已结束对局', dataIndex: 'matchesEnded', width: 120 },
+  { title: '引擎致命错误', dataIndex: 'engineFatals', width: 140 }
+]
 
 const DashboardPage = () => {
   const { data, loading } = useRequest(fetchDashboardSummary)
@@ -86,6 +103,24 @@ const DashboardPage = () => {
                   </Card>
                 </Col>
               </Row>
+
+              <h3
+                style={{
+                  margin: '24px 0 12px',
+                  color: 'rgba(255,255,255,0.92)',
+                  fontSize: 16,
+                  fontWeight: 700
+                }}
+              >
+                近 7 日按日
+              </h3>
+              <Table<DashboardDayPoint>
+                size="small"
+                pagination={false}
+                rowKey={(r) => r.day}
+                columns={dayColumns}
+                dataSource={data?.dailySeries ?? []}
+              />
             </Skeleton>
           </div>
         </div>

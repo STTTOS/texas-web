@@ -1,7 +1,11 @@
+import type { Params } from 'ahooks/lib/usePagination/types'
+
+import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
 import {
   Button,
   ConfigProvider,
+  DatePicker,
   Form,
   InputNumber,
   Space,
@@ -16,12 +20,39 @@ import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
+const { RangePicker } = DatePicker
+
 const EngineFatalPage = () => {
   const [form] = Form.useForm()
-  const { tableProps, search } = useAntdTable(fetchEngineFatalList, {
-    form,
-    defaultPageSize: 20
-  })
+  const { tableProps, search } = useAntdTable(
+    async (
+      params: Params[0] & {
+        matchId?: number
+        roomId?: number
+        dateRange?: [dayjs.Dayjs, dayjs.Dayjs] | null
+      }
+    ) => {
+      const { current, pageSize, matchId, roomId, dateRange } = params
+      const time =
+        dateRange?.[0] && dateRange[1]
+          ? ([
+            dateRange[0].startOf('day').toISOString(),
+            dateRange[1].endOf('day').toISOString()
+          ] as [string, string])
+          : undefined
+      return fetchEngineFatalList({
+        current,
+        pageSize,
+        matchId,
+        roomId,
+        time
+      })
+    },
+    {
+      form,
+      defaultPageSize: 20
+    }
+  )
 
   const columns: TableColumnProps<EngineFatalRow>[] = [
     { title: 'Id', dataIndex: 'id', width: 70 },
@@ -74,6 +105,9 @@ const EngineFatalPage = () => {
               </Form.Item>
               <Form.Item name="roomId" label="房间 Id">
                 <InputNumber min={1} controls={false} placeholder="可选" style={{ width: 120 }} />
+              </Form.Item>
+              <Form.Item name="dateRange" label="发生时间">
+                <RangePicker />
               </Form.Item>
               <Form.Item>
                 <Space>
