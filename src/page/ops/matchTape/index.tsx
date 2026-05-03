@@ -68,7 +68,8 @@ const MatchTapePage = () => {
       eventType: ''
     })
     search.submit()
-  }, [valid, tableTypeFromUrl, matchId, form, search])
+    // 仅随 URL / 对局变化触发；勿依赖 `search` 对象（引用不稳定会导致无限请求）
+  }, [valid, tableTypeFromUrl, matchId])
 
   const columns: TableColumnProps<MatchDomainEventRow>[] = [
     { title: '行 Id', dataIndex: 'id', width: 88 },
