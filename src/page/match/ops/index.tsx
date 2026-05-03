@@ -36,17 +36,22 @@ const TABLE_TYPE_OPTIONS = [
 const MatchOpsPage = () => {
   const [form] = Form.useForm()
   const { tableProps, search } = useAntdTable(
-    async ({ current, pageSize, tableType, dateRange }) => {
+    async (params) => {
+      const tableType = form.getFieldValue('tableType') as string | undefined
+      const dateRange = form.getFieldValue('dateRange') as
+        | [dayjs.Dayjs, dayjs.Dayjs]
+        | null
+        | undefined
       const time =
         dateRange?.[0] && dateRange[1]
           ? ([
-            (dateRange[0] as dayjs.Dayjs).startOf('day').toISOString(),
-            (dateRange[1] as dayjs.Dayjs).endOf('day').toISOString()
+            dateRange[0].startOf('day').toISOString(),
+            dateRange[1].endOf('day').toISOString()
           ] as [string, string])
           : undefined
       return getMatchList({
-        current,
-        pageSize,
+        current: params.current,
+        pageSize: params.pageSize,
         type: tableType === 'all' || !tableType ? undefined : tableType,
         time
       })

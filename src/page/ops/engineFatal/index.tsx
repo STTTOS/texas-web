@@ -1,5 +1,3 @@
-import type { Params } from 'ahooks/lib/usePagination/types'
-
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
 import {
@@ -25,14 +23,13 @@ const { RangePicker } = DatePicker
 const EngineFatalPage = () => {
   const [form] = Form.useForm()
   const { tableProps, search } = useAntdTable(
-    async (
-      params: Params[0] & {
-        matchId?: number
-        roomId?: number
-        dateRange?: [dayjs.Dayjs, dayjs.Dayjs] | null
-      }
-    ) => {
-      const { current, pageSize, matchId, roomId, dateRange } = params
+    async (params) => {
+      const matchId = form.getFieldValue('matchId') as number | null | undefined
+      const roomId = form.getFieldValue('roomId') as number | null | undefined
+      const dateRange = form.getFieldValue('dateRange') as
+        | [dayjs.Dayjs, dayjs.Dayjs]
+        | null
+        | undefined
       const time =
         dateRange?.[0] && dateRange[1]
           ? ([
@@ -41,10 +38,10 @@ const EngineFatalPage = () => {
           ] as [string, string])
           : undefined
       return fetchEngineFatalList({
-        current,
-        pageSize,
-        matchId,
-        roomId,
+        current: params.current,
+        pageSize: params.pageSize,
+        matchId: matchId != null && matchId > 0 ? matchId : undefined,
+        roomId: roomId != null && roomId > 0 ? roomId : undefined,
         time
       })
     },

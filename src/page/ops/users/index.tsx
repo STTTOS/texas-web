@@ -21,10 +21,22 @@ import shell from '@/page/announcement/shell.module.less'
 
 const UserOpsListPage = () => {
   const [form] = Form.useForm()
-  const { tableProps, search } = useAntdTable(fetchUserOpsList, {
-    form,
-    defaultPageSize: 20
-  })
+  const { tableProps, search } = useAntdTable(
+    async (params) => {
+      const q = form.getFieldValue('q') as string | undefined
+      const includeDeleted = Boolean(form.getFieldValue('includeDeleted'))
+      return fetchUserOpsList({
+        current: params.current,
+        pageSize: params.pageSize,
+        ...(q != null && String(q).trim() !== '' ? { q: String(q).trim() } : {}),
+        ...(includeDeleted ? { includeDeleted: true } : {})
+      })
+    },
+    {
+      form,
+      defaultPageSize: 20
+    }
+  )
 
   const columns: TableColumnProps<UserOpsRow>[] = [
     { title: 'Id', dataIndex: 'id', width: 72 },

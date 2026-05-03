@@ -30,10 +30,24 @@ const STATUS_OPTIONS = [
 
 const RoomOpsPage = () => {
   const [form] = Form.useForm()
-  const { tableProps, search } = useAntdTable(fetchRoomOpsList, {
-    form,
-    defaultPageSize: 20
-  })
+  const { tableProps, search } = useAntdTable(
+    async (params) => {
+      const gameStatus = form.getFieldValue('gameStatus') as string | undefined
+      const roomId = form.getFieldValue('roomId') as number | null | undefined
+      const ownerId = form.getFieldValue('ownerId') as number | null | undefined
+      return fetchRoomOpsList({
+        current: params.current,
+        pageSize: params.pageSize,
+        gameStatus: gameStatus && gameStatus !== 'all' ? gameStatus : undefined,
+        roomId: roomId != null && roomId > 0 ? roomId : undefined,
+        ownerId: ownerId != null && ownerId > 0 ? ownerId : undefined
+      })
+    },
+    {
+      form,
+      defaultPageSize: 20
+    }
+  )
 
   const columns: TableColumnProps<RoomOpsRow>[] = [
     { title: '房间 Id', dataIndex: 'id', width: 90 },
