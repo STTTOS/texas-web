@@ -85,6 +85,26 @@ const routers: MyRoute[] = [
             element: lazy(() => import('@/page/announcement/appDisplay'))
           },
           {
+            path: '/match/ops',
+            title: '对局运维',
+            element: lazy(() => import('@/page/match/ops'))
+          },
+          {
+            path: '/ops/engine-fatal',
+            title: '引擎事故',
+            element: lazy(() => import('@/page/ops/engineFatal'))
+          },
+          {
+            path: '/ops/room',
+            title: '房间运维',
+            element: lazy(() => import('@/page/ops/room'))
+          },
+          {
+            path: '/ops/dashboard',
+            title: '看板',
+            element: lazy(() => import('@/page/ops/dashboard'))
+          },
+          {
             path: '/system/maintenance',
             title: '维护升级',
             element: lazy(() => import('@/page/system/maintenance'))

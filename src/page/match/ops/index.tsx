@@ -1,0 +1,174 @@
+import type { Match } from '@/service/match/types'
+
+import dayjs from 'dayjs'
+import { useAntdTable } from 'ahooks'
+import { formatterPoke, rankCategoryMap, stageMap } from 'texas-poker-core'
+import {
+  Form,
+  Select,
+  DatePicker,
+  Table,
+  Space,
+  Button,
+  theme,
+  ConfigProvider,
+  TableColumnProps
+} from 'antd'
+
+import { getMatchList } from '@/service/match'
+import { getMatchDuration } from '@/page/match'
+import { getMatchStatusTag } from '@/service/match/matchStatus'
+import HomeBgBalls from '@/components/HomeBgBalls'
+import PageBrand from '@/components/PageBrand'
+import shell from '@/page/announcement/shell.module.less'
+
+const { RangePicker } = DatePicker
+
+const TABLE_TYPE_OPTIONS = [
+  { value: 'all', label: '全部桌型' },
+  { value: 'quick', label: '快速' },
+  { value: 'standard', label: '标准' },
+  { value: 'deep', label: '深筹' },
+  { value: 'custom', label: '自定义' }
+]
+
+const MatchOpsPage = () => {
+  const [form] = Form.useForm()
+  const { tableProps, search } = useAntdTable(
+    async ({ current, pageSize, tableType, dateRange }) => {
+      const time =
+        dateRange?.[0] && dateRange[1]
+          ? ([
+            (dateRange[0] as dayjs.Dayjs).startOf('day').toISOString(),
+            (dateRange[1] as dayjs.Dayjs).endOf('day').toISOString()
+          ] as [string, string])
+          : undefined
+      return getMatchList({
+        current,
+        pageSize,
+        type: tableType === 'all' || !tableType ? undefined : tableType,
+        time
+      })
+    },
+    {
+      form,
+      defaultPageSize: 20
+    }
+  )
+
+  const columns: TableColumnProps<Match>[] = [
+    { title: 'Id', dataIndex: 'id' },
+    {
+      title: '底牌',
+      width: 200,
+      render(_, { commonPokes }) {
+        return formatterPoke(commonPokes || [])
+      }
+    },
+    { title: '起始筹码', dataIndex: 'initialChips' },
+    { title: '盲注', dataIndex: 'lowestBetAmount' },
+    {
+      title: '状态',
+      render(_, record) {
+        return getMatchStatusTag(record)
+      }
+    },
+    { title: '人数', dataIndex: 'memberCount' },
+    { title: '开始时间', dataIndex: 'startedAt' },
+    {
+      title: '结束阶段',
+      render(_, { boardThroughStage }) {
+        return boardThroughStage != null ? stageMap.get(boardThroughStage) : '-'
+      }
+    },
+    {
+      title: '时长(秒)',
+      render(_, { startedAt, endedAt }) {
+        return getMatchDuration(startedAt, endedAt)
+      }
+    },
+    {
+      title: '最大牌型',
+      render(_, { bestRankCategory }) {
+        return bestRankCategory && rankCategoryMap.get(bestRankCategory)
+      }
+    },
+    {
+      title: '操作',
+      render(_, record) {
+        return (
+          <Space>
+            <a href={`/match/detail/${record.id}`} target="_blank" rel="noreferrer">
+              对局详情
+            </a>
+            {!!record.errorCount && (
+              <a href={`/match/error/${record.id}`} target="_blank" rel="noreferrer">
+                错误记录
+              </a>
+            )}
+          </Space>
+        )
+      }
+    }
+  ]
+
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: { colorPrimary: '#fbbf24', borderRadius: 10 }
+      }}
+    >
+      <div className={shell.page}>
+        <HomeBgBalls count={24} />
+        <div className={shell.inner}>
+          <PageBrand subtitle="管理员 · 对局筛选与检索" />
+
+          <div className={shell.glass}>
+            <div className={shell.toolbar}>
+              <h1 className={shell.pageTitle}>对局运维</h1>
+            </div>
+
+            <Form
+              form={form}
+              layout="inline"
+              style={{ marginBottom: 16, rowGap: 12 }}
+              onFinish={search.submit}
+            >
+              <Form.Item name="tableType" label="桌型" initialValue="all">
+                <Select options={TABLE_TYPE_OPTIONS} style={{ width: 140 }} />
+              </Form.Item>
+              <Form.Item name="dateRange" label="时间">
+                <RangePicker />
+              </Form.Item>
+              <Form.Item>
+                <Space>
+                  <Button type="primary" htmlType="submit">
+                    查询
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      form.resetFields()
+                      search.submit()
+                    }}
+                  >
+                    重置
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Form>
+
+            <Table<Match>
+              rowKey={(r) => String(r.id)}
+              scroll={{ x: 1000 }}
+              {...tableProps}
+              columns={columns}
+            />
+          </div>
+        </div>
+      </div>
+    </ConfigProvider>
+  )
+}
+
+export default MatchOpsPage

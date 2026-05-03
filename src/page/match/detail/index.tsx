@@ -19,7 +19,7 @@ import {
 } from 'texas-poker-core'
 
 import { getMatchDuration } from '..'
-import { getMatchTag } from '../index'
+import { getMatchStatusTag } from '@/service/match/matchStatus'
 import styles from './index.module.less'
 import { getMatchDetail } from '@/service/match'
 import HomeBgBalls from '@/components/HomeBgBalls'
@@ -58,7 +58,7 @@ const MatchDetailPage = () => {
     {
       title: '位置',
       render(_, { role }) {
-        return roleMap.get(role)
+        return role != null ? roleMap.get(role) : '-'
       }
     },
     {
@@ -72,6 +72,14 @@ const MatchDetailPage = () => {
       render(_, { rankCategory }) {
         if (!rankCategory) return '-'
         return rankCategoryMap.get(rankCategory) || rankCategory
+      }
+    },
+    {
+      title: '牌力签名',
+      width: 140,
+      ellipsis: true,
+      render(_, { rankSignature }) {
+        return rankSignature ?? '-'
       }
     },
     {
@@ -157,7 +165,14 @@ const MatchDetailPage = () => {
     { label: '对局时长', value: duration || '-' },
     {
       label: '结束阶段',
-      value: data?.endStage ? stageMap.get(data.endStage) : '-'
+      value:
+        data?.boardThroughStage != null
+          ? stageMap.get(data.boardThroughStage)
+          : '-'
+    },
+    {
+      label: '牌力签名(桌)',
+      value: data?.bestRankSignature ?? '-'
     },
     { label: '总下注', value: data?.totalBetAmount?.toLocaleString() || '-' },
     { label: '人数', value: data?.settleRecords?.length ?? '-' },
@@ -193,7 +208,7 @@ const MatchDetailPage = () => {
             >
               <div className={shell.toolbar}>
                 <h1 className={shell.pageTitle}>对局信息</h1>
-                <div className={styles.statusWrap}>{getMatchTag(data)}</div>
+                <div className={styles.statusWrap}>{getMatchStatusTag(data)}</div>
               </div>
 
               <div className={styles.summaryGrid}>

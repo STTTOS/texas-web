@@ -8,20 +8,32 @@ import styles from './index.module.less'
 
 const MatchErrorPage = () => {
   const query = useParams()
-  const id = query.id as unknown as number
+  const id = Number(query.id)
 
   const { loading, data: errors = [] } = useRequest(getMatchErrors, {
-    defaultParams: [{ id }]
+    defaultParams: [{ id }],
+    ready: Number.isFinite(id) && id > 0
   })
   const errorItems = useMemo(() => {
     if (errors.length === 0) return <span>暂无错误信息...</span>
 
     return errors.map((error) => {
-      const info = error.info.split('\\n').map((item) => <div key={item}>{item}</div>)
+      const lines = error.message.split('\n').filter(Boolean)
       return (
         <div key={error.id} className={styles.error_item}>
-          <div className={styles.error_item_createdAt}>{error.createdAt}</div>
-          <div className={styles.error_item_info}>{info}</div>
+          <div className={styles.error_item_createdAt}>
+            {error.createdAt} · room #{error.roomId}
+          </div>
+          <div className={styles.error_item_info}>
+            {lines.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          </div>
+          {error.payload != null && (
+            <pre className={styles.error_item_payload}>
+              {JSON.stringify(error.payload, null, 2)}
+            </pre>
+          )}
         </div>
       )
     })

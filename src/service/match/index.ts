@@ -9,12 +9,26 @@ import type {
   StageRecord
 } from './types'
 
-const getMatchList = async ({ pageSize, current }: Params[0]) => {
+export type MatchListFilters = {
+  /** 桌型筛选，对应服务端 `room.tableType` */
+  type?: string
+  /** ISO 时间闭区间 [start, end] */
+  time?: [string, string]
+}
+
+const getMatchList = async ({
+  pageSize,
+  current,
+  type,
+  time
+}: Params[0] & MatchListFilters) => {
   const { data } = await request<{ list: Match[]; total: number }>(
     'api/web/match/list',
     {
       pageSize,
-      current
+      current,
+      ...(type && type !== 'all' ? { type } : {}),
+      ...(time ? { time } : {})
     }
   )
   return data

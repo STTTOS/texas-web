@@ -3,34 +3,20 @@ import type { Match } from '@/service/match/types'
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
 import { stageMap, formatterPoke, rankCategoryMap } from 'texas-poker-core'
-import {
-  Tag,
-  Table,
-  Space,
-  theme,
-  ConfigProvider,
-  TableColumnProps
-} from 'antd'
+import { getMatchStatusTag } from '@/service/match/matchStatus'
+import { Table, Space, theme, ConfigProvider, TableColumnProps } from 'antd'
 
 import { getMatchList } from '@/service/match'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
-export const getMatchDuration = (start?: string, end?: string, unit = true) => {
+export const getMatchDuration = (
+  start?: string | null,
+  end?: string | null,
+  unit = true
+) => {
   if (start && end) return dayjs(end).diff(start, 'second') + (unit ? '秒' : '')
-}
-const getMatchStatus = ({ commonPokes, endStage, endedAt }: Match) => {
-  if (!commonPokes || commonPokes.length === 0 || !endStage || !endedAt)
-    return 'error'
-
-  return 'normal'
-}
-export const getMatchTag = (record?: Match) => {
-  if (!record) return null
-  if (getMatchStatus(record) === 'error') return <Tag color="#a78bfa">异常</Tag>
-
-  return <Tag color="#fbbf24">正常</Tag>
 }
 const MatchPage = () => {
   const { tableProps } = useAntdTable(getMatchList)
@@ -57,7 +43,7 @@ const MatchPage = () => {
     {
       title: '状态',
       render(_, record) {
-        return getMatchTag(record)
+        return getMatchStatusTag(record)
       }
     },
     {
@@ -70,8 +56,8 @@ const MatchPage = () => {
     },
     {
       title: '结束阶段',
-      render(_, { endStage }) {
-        return stageMap.get(endStage)
+      render(_, { boardThroughStage }) {
+        return boardThroughStage != null ? stageMap.get(boardThroughStage) : '-'
       }
     },
     {
@@ -85,6 +71,14 @@ const MatchPage = () => {
       dataIndex: 'bestRankCategory',
       render(_, { bestRankCategory }) {
         return bestRankCategory && rankCategoryMap.get(bestRankCategory)
+      }
+    },
+    {
+      title: '牌力签名',
+      width: 160,
+      ellipsis: true,
+      render(_, { bestRankSignature }) {
+        return bestRankSignature ?? '-'
       }
     },
     {
