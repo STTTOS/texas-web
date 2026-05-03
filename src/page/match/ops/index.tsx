@@ -102,7 +102,11 @@ const MatchOpsPage = () => {
             <a href={`/match/detail/${record.id}`} target="_blank" rel="noreferrer">
               对局详情
             </a>
-            <Link to={`/ops/match-tape/${record.id}`} target="_blank" rel="noreferrer">
+            <Link
+              to={`/ops/match-tape/${record.id}?tableType=${encodeURIComponent(record.tableType ?? 'all')}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               磁带
             </Link>
             {!!record.errorCount && (

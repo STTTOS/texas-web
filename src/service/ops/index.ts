@@ -36,23 +36,22 @@ export async function fetchUserOpsDetail(userId: number) {
 
 export type MatchDomainEventListFilters = {
   matchId: number
-  handId?: string
+  /** 与对局房间桌型一致；`all` 或不传表示不校验 */
+  tableType?: string
   eventType?: string
 }
 
 export async function fetchMatchDomainEventList(
   params: Params[0] & MatchDomainEventListFilters
 ) {
-  const { current, pageSize, matchId, handId, eventType } = params
+  const { current, pageSize, matchId, tableType, eventType } = params
   const { data } = await request<{ list: MatchDomainEventRow[]; total: number }>(
     'api/web/match-domain-event/list',
     {
       current,
       pageSize,
       matchId,
-      ...(handId != null && String(handId).trim() !== ''
-        ? { handId: String(handId).trim() }
-        : {}),
+      ...(tableType && tableType !== 'all' ? { tableType } : {}),
       ...(eventType != null && String(eventType).trim() !== ''
         ? { eventType: String(eventType).trim() }
         : {})
