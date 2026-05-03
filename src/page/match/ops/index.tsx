@@ -14,6 +14,7 @@ import {
   ConfigProvider,
   TableColumnProps
 } from 'antd'
+import { Link } from 'react-router-dom'
 
 import { getMatchList } from '@/service/match'
 import { getMatchDuration } from '@/page/match'
@@ -101,6 +102,9 @@ const MatchOpsPage = () => {
             <a href={`/match/detail/${record.id}`} target="_blank" rel="noreferrer">
               对局详情
             </a>
+            <Link to={`/ops/match-tape/${record.id}`} target="_blank" rel="noreferrer">
+              磁带
+            </Link>
             {!!record.errorCount && (
               <a href={`/match/error/${record.id}`} target="_blank" rel="noreferrer">
                 错误记录

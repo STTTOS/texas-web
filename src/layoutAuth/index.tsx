@@ -53,6 +53,7 @@ const AuthLayout = () => {
   const selectedKeys = useMemo(() => {
     const p = location.pathname
     if (p.startsWith('/match/hand-poke-audit')) return ['hand-poke-audit']
+    if (p.startsWith('/ops/match-tape')) return ['match-ops']
     if (p.startsWith('/match/ops')) return ['match-ops']
     if (p.startsWith('/ops/engine-fatal')) return ['ops-engine-fatal']
     if (p.startsWith('/ops/room')) return ['ops-room']

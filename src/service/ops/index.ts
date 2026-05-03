@@ -4,6 +4,7 @@ import request from '@/utils/http'
 import type {
   DashboardSummary,
   EngineFatalRow,
+  MatchDomainEventRow,
   RoomOpsRow,
   UserOpsDetail,
   UserOpsRow
@@ -30,6 +31,33 @@ export async function fetchUserOpsList(params: Params[0] & UserOpsListFilters) {
 
 export async function fetchUserOpsDetail(userId: number) {
   const { data } = await request<UserOpsDetail>('api/web/user-ops/detail', { userId })
+  return data
+}
+
+export type MatchDomainEventListFilters = {
+  matchId: number
+  handId?: string
+  eventType?: string
+}
+
+export async function fetchMatchDomainEventList(
+  params: Params[0] & MatchDomainEventListFilters
+) {
+  const { current, pageSize, matchId, handId, eventType } = params
+  const { data } = await request<{ list: MatchDomainEventRow[]; total: number }>(
+    'api/web/match-domain-event/list',
+    {
+      current,
+      pageSize,
+      matchId,
+      ...(handId != null && String(handId).trim() !== ''
+        ? { handId: String(handId).trim() }
+        : {}),
+      ...(eventType != null && String(eventType).trim() !== ''
+        ? { eventType: String(eventType).trim() }
+        : {})
+    }
+  )
   return data
 }
 

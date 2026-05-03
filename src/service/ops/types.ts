@@ -61,6 +61,17 @@ export interface RoomOpsRow {
   matchCount: number
 }
 
+export interface MatchDomainEventRow {
+  id: number
+  matchId: number
+  roomId: number
+  handId: string | null
+  seq: number
+  eventType: string
+  payload: unknown
+  createdAt: string | null
+}
+
 export interface DashboardDayPoint {
   day: string
   matchesEnded: number
