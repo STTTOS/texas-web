@@ -1,3 +1,35 @@
+export interface UserOpsRow {
+  id: number
+  name: string
+  username: string
+  balance: number
+  avatarUrl: string | null
+  avatarKey: string
+  pokerBackgroundKey: string | null
+  weChatId: string | null
+  isAdmin: boolean
+  createdAt: string | null
+  updatedAt: string | null
+  deletedAt: string | null
+}
+
+export interface UserOpsDetail extends UserOpsRow {
+  settings: {
+    showHistoryRecords: boolean
+    showRecordOverview: boolean
+    autoCallOnOffline: boolean
+    createdAt: string | null
+    updatedAt: string | null
+  } | null
+  _count: {
+    matchRecords: number
+    Room: number
+    roomMembers: number
+    roomChipTopUps: number
+    userRoomStats: number
+  }
+}
+
 export interface EngineFatalRow {
   id: number
   roomId: number

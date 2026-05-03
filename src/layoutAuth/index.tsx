@@ -13,6 +13,7 @@ const NAV_TARGETS: Record<string, string> = {
   'ops-engine-fatal': '/ops/engine-fatal',
   'ops-room': '/ops/room',
   'ops-dashboard': '/ops/dashboard',
+  'ops-users': '/ops/users',
   'hand-poke-audit': '/match/hand-poke-audit',
   'system-maintenance': '/system/maintenance',
   'system-version': '/system/version'
@@ -34,7 +35,8 @@ const adminMenuItems: MenuProps['items'] = [
       { key: 'match-ops', label: '对局运维' },
       { key: 'ops-engine-fatal', label: '引擎事故' },
       { key: 'ops-room', label: '房间运维' },
-      { key: 'ops-dashboard', label: '看板 / 日报' }
+      { key: 'ops-dashboard', label: '看板 / 日报' },
+      { key: 'ops-users', label: '用户运维' }
     ]
   },
   { key: 'hand-poke-audit', label: '手牌审计' },
@@ -55,6 +57,7 @@ const AuthLayout = () => {
     if (p.startsWith('/ops/engine-fatal')) return ['ops-engine-fatal']
     if (p.startsWith('/ops/room')) return ['ops-room']
     if (p.startsWith('/ops/dashboard')) return ['ops-dashboard']
+    if (p.startsWith('/ops/users')) return ['ops-users']
     if (p.startsWith('/announcement/app-display')) return ['announcement-app-display']
     if (p.startsWith('/announcement/manage')) return ['announcement-manage']
     if (p.startsWith('/system/maintenance')) return ['system-maintenance']

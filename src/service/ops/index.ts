@@ -1,7 +1,37 @@
 import type { Params } from 'ahooks/lib/usePagination/types'
 
 import request from '@/utils/http'
-import type { DashboardSummary, EngineFatalRow, RoomOpsRow } from './types'
+import type {
+  DashboardSummary,
+  EngineFatalRow,
+  RoomOpsRow,
+  UserOpsDetail,
+  UserOpsRow
+} from './types'
+
+export type UserOpsListFilters = {
+  q?: string
+  includeDeleted?: boolean
+}
+
+export async function fetchUserOpsList(params: Params[0] & UserOpsListFilters) {
+  const { current, pageSize, q, includeDeleted } = params
+  const { data } = await request<{ list: UserOpsRow[]; total: number }>(
+    'api/web/user-ops/list',
+    {
+      current,
+      pageSize,
+      ...(q != null && String(q).trim() !== '' ? { q: String(q).trim() } : {}),
+      ...(includeDeleted ? { includeDeleted: true } : {})
+    }
+  )
+  return data
+}
+
+export async function fetchUserOpsDetail(userId: number) {
+  const { data } = await request<UserOpsDetail>('api/web/user-ops/detail', { userId })
+  return data
+}
 
 export type EngineFatalListFilters = {
   matchId?: number
