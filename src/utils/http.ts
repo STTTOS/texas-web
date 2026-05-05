@@ -72,7 +72,9 @@ async function betterRequest<R>(
     const httpStatus = Number((response as any)?.status)
 
     if (httpStatus === 401) {
-      navigateTo(`/login?from=${encodeURIComponent(location.pathname)}`)
+      if (!location.pathname.startsWith('/login')) {
+        navigateTo(`/login?from=${encodeURIComponent(location.pathname)}`)
+      }
     } else if (httpStatus === 403) {
       navigateTo('/403')
     } else if (httpStatus === 404) {

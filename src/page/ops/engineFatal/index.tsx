@@ -13,6 +13,7 @@ import {
 } from 'antd'
 
 import { fetchEngineFatalList } from '@/service/ops'
+import { dayRangeToClosedIso } from '@/utils/dayRangeToClosedIso'
 import type { EngineFatalRow } from '@/service/ops/types'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
@@ -30,13 +31,7 @@ const EngineFatalPage = () => {
         | [dayjs.Dayjs, dayjs.Dayjs]
         | null
         | undefined
-      const time =
-        dateRange?.[0] && dateRange[1]
-          ? ([
-            dateRange[0].startOf('day').toISOString(),
-            dateRange[1].endOf('day').toISOString()
-          ] as [string, string])
-          : undefined
+      const time = dayRangeToClosedIso(dateRange ?? undefined)
       return fetchEngineFatalList({
         current: params.current,
         pageSize: params.pageSize,

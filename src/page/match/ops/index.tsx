@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { getMatchList } from '@/service/match'
 import { getMatchDuration } from '@/page/match'
 import { getMatchStatusTag } from '@/service/match/matchStatus'
+import { dayRangeToClosedIso } from '@/utils/dayRangeToClosedIso'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
@@ -42,13 +43,7 @@ const MatchOpsPage = () => {
         | [dayjs.Dayjs, dayjs.Dayjs]
         | null
         | undefined
-      const time =
-        dateRange?.[0] && dateRange[1]
-          ? ([
-            dateRange[0].startOf('day').toISOString(),
-            dateRange[1].endOf('day').toISOString()
-          ] as [string, string])
-          : undefined
+      const time = dayRangeToClosedIso(dateRange ?? undefined)
       return getMatchList({
         current: params.current,
         pageSize: params.pageSize,
