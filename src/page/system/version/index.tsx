@@ -1,9 +1,52 @@
-import { Card, ConfigProvider, Descriptions, theme, Typography } from 'antd'
+import { useRequest } from 'ahooks'
+import {
+  Button,
+  Card,
+  ConfigProvider,
+  Descriptions,
+  Input,
+  Space,
+  Typography,
+  theme,
+  message
+} from 'antd'
+import { useEffect, useState } from 'react'
 
+import {
+  fetchClientMinVersionDetail,
+  setClientMinVersion
+} from '@/service/system/clientVersion'
 import pkg from '../../../../package.json'
 import styles from './index.module.less'
 
+const semverHint =
+  '须为三位版本号，如 1.0.1，与 Expo app.json 的 expo.version 一致。低于该版本的 App 请求 /api/client/* 将收到 403，客户端会清登录态并弹出不可关闭的升级提示。'
+
 const VersionPage = () => {
+  const [minVersion, setMinVersionInput] = useState('')
+  const { data: policy, loading: policyLoading, refresh } = useRequest(
+    fetchClientMinVersionDetail
+  )
+
+  useEffect(() => {
+    if (policy?.minVersion != null) setMinVersionInput(policy.minVersion)
+  }, [policy?.minVersion])
+
+  const onSave = async () => {
+    const v = minVersion.trim()
+    if (!/^\d+\.\d+\.\d+/.test(v)) {
+      message.error('格式须为 x.y.z，如 1.0.2')
+      return
+    }
+    try {
+      await setClientMinVersion(v)
+      message.success('已保存最低客户端版本')
+      refresh()
+    } catch {
+      /* http 已 toast */
+    }
+  }
+
   return (
     <ConfigProvider
       theme={{
@@ -12,12 +55,12 @@ const VersionPage = () => {
       }}
     >
       <div className={styles.page}>
-        <Card className={styles.card}>
+        <Card className={styles.card} loading={policyLoading}>
           <Typography.Title level={4} className={styles.title}>
             版本管理
           </Typography.Title>
           <Typography.Paragraph className={styles.desc}>
-            当前为客户端（App）构建信息；App版本可在接入接口后展示于此。
+            管理原生 App 最低可用版本（服务端校验）。Web 管理端自身版本见下表。
           </Typography.Paragraph>
           <Descriptions
             column={1}
@@ -27,9 +70,32 @@ const VersionPage = () => {
             contentStyle={{ color: 'rgba(255,255,255,0.92)' }}
             items={[
               { key: 'name', label: '项目', children: pkg.name },
-              { key: 'ver', label: 'Web 版本', children: pkg.version }
+              { key: 'ver', label: 'Web 版本', children: pkg.version },
+              {
+                key: 'minApp',
+                label: '当前最低 App 版本',
+                children: policy?.minVersion ?? '—'
+              }
             ]}
           />
+
+          <Typography.Title level={5} className={styles.sectionTitle}>
+            最低 App 版本（强制升级）
+          </Typography.Title>
+          <Typography.Paragraph className={styles.policyHint}>
+            {policy?.hint ?? semverHint}
+          </Typography.Paragraph>
+          <Space.Compact style={{ maxWidth: 360, width: '100%', marginTop: 12 }}>
+            <Input
+              value={minVersion}
+              onChange={(e) => setMinVersionInput(e.target.value)}
+              placeholder="例如 1.0.2"
+              allowClear
+            />
+            <Button type="primary" onClick={onSave}>
+              保存
+            </Button>
+          </Space.Compact>
         </Card>
       </div>
     </ConfigProvider>
