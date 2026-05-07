@@ -106,7 +106,7 @@ const routers: MyRoute[] = [
           },
           {
             path: '/ops/asset-usage',
-            title: '藏品使用',
+            title: '卡面 / 牌桌频次',
             element: lazy(() => import('@/page/ops/assetUsage'))
           },
           {
