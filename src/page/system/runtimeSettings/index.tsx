@@ -7,6 +7,7 @@ import {
   Form,
   InputNumber,
   Space,
+  Spin,
   Typography,
   theme,
   message
@@ -47,7 +48,8 @@ const RuntimeSettingsPage = () => {
     return Math.trunc(a) + Math.trunc(b)
   }, [lockMs, tailMs])
 
-  const { data, loading, refresh } = useRequest(fetchRuntimeSettingsDetail)
+  const { data, loading, refreshAsync } = useRequest(fetchRuntimeSettingsDetail)
+  const initialLoading = loading && data === undefined
 
   useEffect(() => {
     if (!data?.snapshot) return
@@ -78,7 +80,7 @@ const RuntimeSettingsPage = () => {
       }
       await updateRuntimeSettings(patch)
       message.success('已保存，新开局与新的局间倒计时会使用新参数')
-      refresh()
+      await refreshAsync()
     } catch (e) {
       if (e && typeof e === 'object' && 'errorFields' in e) return
       message.error('保存失败')
@@ -95,8 +97,9 @@ const RuntimeSettingsPage = () => {
       }}
     >
       <div className={styles.page}>
-        <Card loading={loading} className={styles.card}>
-          <Space direction="vertical" size={20} style={{ width: '100%' }}>
+        <Card className={styles.card}>
+          <Spin spinning={initialLoading}>
+            <Space direction="vertical" size={20} style={{ width: '100%' }}>
             <div>
               <Typography.Title level={4} className={styles.title}>
                 系统设置 · 游戏运行时参数
@@ -119,7 +122,12 @@ const RuntimeSettingsPage = () => {
               }
             />
 
-            <Form form={form} layout="vertical" className={styles.form}>
+            <Form
+              form={form}
+              layout="vertical"
+              className={styles.form}
+              disabled={initialLoading}
+            >
               {groupOrder.map((g) => {
                 const list = fieldsByGroup.get(g) ?? []
                 if (list.length === 0) return null
@@ -175,10 +183,16 @@ const RuntimeSettingsPage = () => {
               })}
             </Form>
 
-            <Button type="primary" onClick={onSave} loading={saving} disabled={loading}>
+            <Button
+              type="primary"
+              onClick={onSave}
+              loading={saving}
+              disabled={!data || initialLoading}
+            >
               保存全部参数
             </Button>
-          </Space>
+            </Space>
+          </Spin>
         </Card>
       </div>
     </ConfigProvider>
