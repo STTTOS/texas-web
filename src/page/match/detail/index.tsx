@@ -38,20 +38,14 @@ const MatchDetailPage = () => {
   const columnsOfSettles: TableColumnProps<SettleRecord>[] = [
     {
       title: '玩家',
-      width: 150,
       render(_, { name, avatarUrl, avatarKey, isFold, isAllIn }) {
         return (
-          <div>
-            <Space>
-              <UserAvatar avatarUrl={avatarUrl} avatarKey={avatarKey} name={name} />
-              <span className={styles.playerName}>{name}</span>
-              {isFold ? (
-                <Tag color="#a78bfa">弃牌</Tag>
-              ) : isAllIn ? (
-                <Tag color="#fbbf24">All In</Tag>
-              ) : null}
-            </Space>
-          </div>
+          <Space size="small" align="center" wrap={false}>
+            <UserAvatar avatarUrl={avatarUrl} avatarKey={avatarKey} name={name} />
+            <span className={styles.playerName}>{name}</span>
+            {isFold ? <Tag color="#a78bfa">弃牌</Tag> : null}
+            {isAllIn ? <Tag color="#fbbf24">All In</Tag> : null}
+          </Space>
         )
       }
     },
@@ -227,6 +221,7 @@ const MatchDetailPage = () => {
                 columns={columnsOfSettles}
                 dataSource={data?.settleRecords}
                 rowKey={(r) => String(r.id)}
+                scroll={{ x: 'max-content' }}
               />
 
               <h3 className={styles.sectionTitle}>阶段记录</h3>

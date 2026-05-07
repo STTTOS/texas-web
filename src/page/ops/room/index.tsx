@@ -14,6 +14,7 @@ import {
 
 import { fetchRoomOpsList } from '@/service/ops'
 import type { RoomOpsRow } from '@/service/ops/types'
+import { formatTableType } from '@/utils/tableTypeLabel'
 import UserAvatar from '@/components/UserAvatar'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
@@ -58,7 +59,12 @@ const RoomOpsPage = () => {
       width: 120,
       render: (s: string) => <Tag color="blue">{s}</Tag>
     },
-    { title: '桌型', dataIndex: 'tableType', width: 90 },
+    {
+      title: '桌型',
+      dataIndex: 'tableType',
+      width: 90,
+      render: (t: string) => formatTableType(t)
+    },
     { title: '大盲', dataIndex: 'lowestBetAmount', width: 80 },
     { title: '初始筹码', dataIndex: 'initialChips', width: 90 },
     { title: '成员', dataIndex: 'memberCount', width: 70 },
