@@ -133,6 +133,11 @@ const routers: MyRoute[] = [
             path: '/system/version',
             title: '版本管理',
             element: lazy(() => import('@/page/system/version'))
+          },
+          {
+            path: '/system/runtime-settings',
+            title: '游戏运行时设置',
+            element: lazy(() => import('@/page/system/runtimeSettings'))
           }
         ]
       },

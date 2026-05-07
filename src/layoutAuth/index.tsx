@@ -17,7 +17,8 @@ const NAV_TARGETS: Record<string, string> = {
   'ops-users': '/ops/users',
   'hand-poke-audit': '/match/hand-poke-audit',
   'system-maintenance': '/system/maintenance',
-  'system-version': '/system/version'
+  'system-version': '/system/version',
+  'system-runtime-settings': '/system/runtime-settings'
 }
 
 const adminMenuItems: MenuProps['items'] = [
@@ -43,7 +44,8 @@ const adminMenuItems: MenuProps['items'] = [
   },
   { key: 'hand-poke-audit', label: '手牌审计' },
   { key: 'system-maintenance', label: '维护升级' },
-  { key: 'system-version', label: '版本管理' }
+  { key: 'system-version', label: '版本管理' },
+  { key: 'system-runtime-settings', label: '游戏运行时' }
 ]
 
 const AuthLayout = () => {
@@ -66,6 +68,7 @@ const AuthLayout = () => {
     if (p.startsWith('/announcement/manage')) return ['announcement-manage']
     if (p.startsWith('/system/maintenance')) return ['system-maintenance']
     if (p.startsWith('/system/version')) return ['system-version']
+    if (p.startsWith('/system/runtime-settings')) return ['system-runtime-settings']
     return ['announcement-manage']
   }, [location.pathname])
 
