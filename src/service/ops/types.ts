@@ -89,3 +89,14 @@ export interface DashboardSummary {
   /** 近 7 日按自然日（含今日），与卡片汇总区间一致 */
   dailySeries: DashboardDayPoint[]
 }
+
+export interface AssetUsageSummaryRow {
+  assetType: 'poker_back' | 'table_bg'
+  assetId: string
+  count: number
+}
+
+export interface AssetUsageSummary {
+  total: number
+  rows: AssetUsageSummaryRow[]
+}

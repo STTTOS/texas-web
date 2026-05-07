@@ -2,6 +2,7 @@ import type { Params } from 'ahooks/lib/usePagination/types'
 
 import request from '@/utils/http'
 import type {
+  AssetUsageSummary,
   DashboardSummary,
   EngineFatalRow,
   MatchDomainEventRow,
@@ -103,5 +104,20 @@ export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
 
 export async function fetchDashboardSummary() {
   const { data } = await request<DashboardSummary>('api/web/dashboard/summary', {})
+  return data
+}
+
+export type AssetUsageSummaryParams = {
+  time?: [string, string]
+  assetType?: 'poker_back' | 'table_bg' | 'all'
+}
+
+export async function fetchAssetUsageSummary(params: AssetUsageSummaryParams) {
+  const { data } = await request<AssetUsageSummary>('api/web/asset-usage/summary', {
+    ...(params.time ? { time: params.time } : {}),
+    ...(params.assetType && params.assetType !== 'all'
+      ? { assetType: params.assetType }
+      : {})
+  })
   return data
 }

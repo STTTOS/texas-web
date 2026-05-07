@@ -105,6 +105,11 @@ const routers: MyRoute[] = [
             element: lazy(() => import('@/page/ops/dashboard'))
           },
           {
+            path: '/ops/asset-usage',
+            title: '藏品使用',
+            element: lazy(() => import('@/page/ops/assetUsage'))
+          },
+          {
             path: '/ops/users',
             title: '用户运维',
             element: lazy(() => import('@/page/ops/users'))
