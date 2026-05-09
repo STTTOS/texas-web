@@ -54,6 +54,15 @@ const DashboardPage = () => {
                     bordered={false}
                     style={{ background: 'rgba(255,255,255,0.06)' }}
                   >
+                    <Statistic title="已结束总对局" value={data?.matchesEndedTotal ?? 0} />
+                  </Card>
+                </Col>
+                <Col xs={24} sm={12} lg={8}>
+                  <Card
+                    size="small"
+                    bordered={false}
+                    style={{ background: 'rgba(255,255,255,0.06)' }}
+                  >
                     <Statistic title="已结束对局（7 日）" value={data?.matchesEndedLast7d ?? 0} />
                   </Card>
                 </Col>

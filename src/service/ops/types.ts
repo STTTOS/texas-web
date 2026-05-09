@@ -3,6 +3,8 @@ export interface UserOpsRow {
   name: string
   username: string
   balance: number
+  /** 参与对局条数（PlayerMatchRecord），列表展示「总对局」 */
+  matchRecordsCount: number
   avatarUrl: string | null
   avatarKey: string
   pokerBackgroundKey: string | null
@@ -81,6 +83,8 @@ export interface DashboardDayPoint {
 export interface DashboardSummary {
   rangeStart: string | null
   matchesEndedLast7d: number
+  /** 历史累计已结束对局 */
+  matchesEndedTotal: number
   engineFatalsLast7d: number
   roomsInPlay: number
   roomsTotal: number

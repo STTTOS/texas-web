@@ -43,10 +43,10 @@ const UserOpsListPage = () => {
     { title: '昵称', dataIndex: 'name', width: 140, ellipsis: true },
     { title: '用户名', dataIndex: 'username', width: 120, ellipsis: true },
     {
-      title: '余额',
-      dataIndex: 'balance',
-      width: 100,
-      render: (v: number) => v?.toLocaleString?.() ?? v
+      title: '总对局',
+      dataIndex: 'matchRecordsCount',
+      width: 88,
+      render: (v: number) => (v != null ? v.toLocaleString() : '-')
     },
     {
       title: '管理员',
