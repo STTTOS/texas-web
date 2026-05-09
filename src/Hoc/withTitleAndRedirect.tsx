@@ -5,6 +5,7 @@ import { useMemo, Suspense, useEffect } from 'react'
 
 import Loading from '@/components/Loading'
 import Redirect from '@/components/Redirect'
+import { BRAND_TITLE_DEFAULT } from '@/constants/brand'
 
 type Props = Pick<MyRoute, 'element' | 'title' | 'redirect'> & {
   basePath: string
@@ -21,6 +22,8 @@ function withTitleAndRedirect({
     useEffect(() => {
       if (title) {
         document.title = title
+      } else {
+        document.title = BRAND_TITLE_DEFAULT
       }
     }, [title])
 
