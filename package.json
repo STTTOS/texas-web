@@ -4,6 +4,8 @@
   "version": "0.0.2",
   "scripts": {
     "dev": "vite --host --port=8000",
+    "dev:local": "TEXAS_DEV_PROXY_TARGET=http://localhost:7501 vite --host --port=8000",
+    "dev:remote": "TEXAS_DEV_PROXY_TARGET=https://texas.wishufree.com vite --host --port=8000",
     "server:mock": "nodemon -w mock --ext .ts --exec ts-node -T ./server/index.ts",
     "dev:mock": "npm run dev & npm run server:mock",
     "build": "vite build",

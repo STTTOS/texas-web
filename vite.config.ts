@@ -7,9 +7,9 @@ const fs = require('fs')
 
 // const base = process.env.NODE_ENV === 'development' ? '/' : 'https://xuan-1313104191.cos.ap-chengdu.myqcloud.com/base/blog';
 // https://vitejs.dev/config/
+/** Dev 代理上游：`npm run dev:local` / `dev:origin` 注入，未设置时默认本地 */
 const target =
-  'https://texas.wishufree.com'
-  // 'http://localhost:7500'
+  process.env.TEXAS_DEV_PROXY_TARGET ?? 'http://localhost:7501'
 export default defineConfig({
   // base,
   plugins: [react()],
