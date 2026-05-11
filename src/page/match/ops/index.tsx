@@ -26,20 +26,12 @@ import { getMatchList } from '@/service/match'
 import { getMatchDuration } from '@/page/match'
 import { getMatchStatusTag } from '@/service/match/matchStatus'
 import { dayRangeToClosedIso } from '@/utils/dayRangeToClosedIso'
-import { formatTableType } from '@/utils/tableTypeLabel'
+import { formatTableType, TABLE_TYPE_FILTER_OPTIONS } from '@/utils/tableTypeLabel'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
 const { RangePicker } = DatePicker
-
-const TABLE_TYPE_OPTIONS = [
-  { value: 'all', label: '全部桌型' },
-  { value: 'quick', label: '快速' },
-  { value: 'standard', label: '标准' },
-  { value: 'deep', label: '深筹' },
-  { value: 'custom', label: '自定义' }
-]
 
 const MATCH_STATUS_OPTIONS = [
   { value: 'all', label: '全部' },
@@ -174,7 +166,7 @@ const MatchOpsPage = () => {
               onFinish={search.submit}
             >
               <Form.Item name="tableType" label="桌型" initialValue="all">
-                <Select options={TABLE_TYPE_OPTIONS} style={{ width: 140 }} />
+                <Select options={TABLE_TYPE_FILTER_OPTIONS} style={{ width: 140 }} />
               </Form.Item>
               <Form.Item name="matchStatus" label="状态" initialValue="all">
                 <Select options={MATCH_STATUS_OPTIONS} style={{ width: 120 }} />
@@ -195,7 +187,7 @@ const MatchOpsPage = () => {
                 <RangePicker />
               </Form.Item>
               <Form.Item name="playerName" label="参与用户昵称">
-                <Input allowClear placeholder="模糊，仅管理员" style={{ width: 160 }} />
+                <Input allowClear placeholder="模糊" style={{ width: 160 }} />
               </Form.Item>
               <Form.Item>
                 <Space>

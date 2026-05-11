@@ -3,7 +3,7 @@ import {
   Button,
   ConfigProvider,
   Form,
-  InputNumber,
+  Input,
   Select,
   Space,
   Table,
@@ -14,7 +14,7 @@ import {
 
 import { fetchRoomOpsList } from '@/service/ops'
 import type { RoomOpsRow } from '@/service/ops/types'
-import { formatTableType } from '@/utils/tableTypeLabel'
+import { formatTableType, TABLE_TYPE_FILTER_OPTIONS } from '@/utils/tableTypeLabel'
 import UserAvatar from '@/components/UserAvatar'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
@@ -34,14 +34,18 @@ const RoomOpsPage = () => {
   const { tableProps, search } = useAntdTable(
     async (params) => {
       const gameStatus = form.getFieldValue('gameStatus') as string | undefined
-      const roomId = form.getFieldValue('roomId') as number | null | undefined
-      const ownerId = form.getFieldValue('ownerId') as number | null | undefined
+      const tableType = form.getFieldValue('tableType') as string | undefined
+      const ownerNameContains = form.getFieldValue('ownerNameContains') as
+        | string
+        | undefined
       return fetchRoomOpsList({
         current: params.current,
         pageSize: params.pageSize,
         gameStatus: gameStatus && gameStatus !== 'all' ? gameStatus : undefined,
-        roomId: roomId != null && roomId > 0 ? roomId : undefined,
-        ownerId: ownerId != null && ownerId > 0 ? ownerId : undefined
+        tableType: tableType === 'all' || !tableType ? undefined : tableType,
+        ...(ownerNameContains != null && String(ownerNameContains).trim() !== ''
+          ? { ownerNameContains: String(ownerNameContains).trim() }
+          : {})
       })
     },
     {
@@ -128,11 +132,11 @@ const RoomOpsPage = () => {
               <Form.Item name="gameStatus" label="状态" initialValue="all">
                 <Select options={STATUS_OPTIONS} style={{ width: 160 }} />
               </Form.Item>
-              <Form.Item name="roomId" label="房间 Id">
-                <InputNumber min={1} controls={false} placeholder="可选" style={{ width: 120 }} />
+              <Form.Item name="tableType" label="桌型" initialValue="all">
+                <Select options={TABLE_TYPE_FILTER_OPTIONS} style={{ width: 140 }} />
               </Form.Item>
-              <Form.Item name="ownerId" label="房主用户 Id">
-                <InputNumber min={1} controls={false} placeholder="可选" style={{ width: 140 }} />
+              <Form.Item name="ownerNameContains" label="房主昵称">
+                <Input allowClear placeholder="模糊匹配游戏昵称" style={{ width: 200 }} />
               </Form.Item>
               <Form.Item>
                 <Space>
@@ -141,8 +145,7 @@ const RoomOpsPage = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      form.resetFields()
-                      search.submit()
+                      search.reset()
                     }}
                   >
                     重置

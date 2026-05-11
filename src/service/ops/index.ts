@@ -90,20 +90,26 @@ export async function fetchEngineFatalList(
 
 export type RoomOpsListFilters = {
   gameStatus?: string
-  roomId?: number
-  ownerId?: number
+  /** 房主游戏昵称 `User.name` 子串（模糊） */
+  ownerNameContains?: string
+  /** `all` | `quick` | `standard` | `deep` | `custom` */
+  tableType?: string
 }
 
 export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
-  const { current, pageSize, gameStatus, roomId, ownerId } = params
+  const { current, pageSize, gameStatus, ownerNameContains, tableType } = params
+  const ownerNameTrimmed =
+    ownerNameContains != null && String(ownerNameContains).trim() !== ''
+      ? String(ownerNameContains).trim()
+      : undefined
   const { data } = await request<{ list: RoomOpsRow[]; total: number }>(
     'api/web/room-ops/list',
     {
       current,
       pageSize,
       ...(gameStatus && gameStatus !== 'all' ? { gameStatus } : {}),
-      ...(roomId != null && roomId > 0 ? { roomId } : {}),
-      ...(ownerId != null && ownerId > 0 ? { ownerId } : {})
+      ...(ownerNameTrimmed ? { ownerNameContains: ownerNameTrimmed } : {}),
+      ...(tableType && tableType !== 'all' ? { tableType } : {})
     }
   )
   return data
