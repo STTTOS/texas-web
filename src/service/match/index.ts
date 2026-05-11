@@ -14,21 +14,39 @@ export type MatchListFilters = {
   type?: string
   /** ISO 时间闭区间 [start, end] */
   time?: [string, string]
+  /** 管理员：参与用户游戏昵称模糊查询，对应服务端 `playerName` */
+  playerName?: string
+  /** `all` | `in_progress` | `ended` → 服务端 `matchStatus` */
+  matchStatus?: string
+  /** `all` | `pre_flop` | `flop` | `turn` | `river` → 服务端 `boardThroughStage` */
+  boardThroughStage?: string
 }
 
 const getMatchList = async ({
   pageSize,
   current,
   type,
-  time
+  time,
+  playerName,
+  matchStatus,
+  boardThroughStage
 }: Params[0] & MatchListFilters) => {
+  const trimmed =
+    playerName != null && String(playerName).trim() !== ''
+      ? String(playerName).trim()
+      : undefined
   const { data } = await request<{ list: Match[]; total: number }>(
     'api/web/match/list',
     {
       pageSize,
       current,
       ...(type && type !== 'all' ? { type } : {}),
-      ...(time ? { time } : {})
+      ...(time ? { time } : {}),
+      ...(trimmed ? { playerName: trimmed } : {}),
+      ...(matchStatus && matchStatus !== 'all' ? { matchStatus } : {}),
+      ...(boardThroughStage && boardThroughStage !== 'all'
+        ? { boardThroughStage }
+        : {})
     }
   )
   return data

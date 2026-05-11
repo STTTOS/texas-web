@@ -26,6 +26,7 @@ import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import UserAvatar from '@/components/UserAvatar'
 import shell from '@/page/announcement/shell.module.less'
+import { formatTableType } from '@/utils/tableTypeLabel'
 import { BetRecord, StageRecord, SettleRecord } from '@/service/match/types'
 
 const MatchDetailPage = () => {
@@ -156,6 +157,15 @@ const MatchDetailPage = () => {
   const summaryItems = [
     { label: '开始时间', value: data?.startedAt || '-' },
     { label: '结束时间', value: data?.endedAt || '-' },
+    {
+      label: '起始筹码',
+      value:
+        data?.initialChips != null ? data.initialChips.toLocaleString() : '-'
+    },
+    {
+      label: '桌型',
+      value: formatTableType(data?.tableType)
+    },
     { label: '对局时长', value: duration || '-' },
     {
       label: '结束阶段',

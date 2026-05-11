@@ -65,6 +65,17 @@ const RoomOpsPage = () => {
       width: 90,
       render: (t: string) => formatTableType(t)
     },
+    {
+      title: '是否公开',
+      dataIndex: 'isPrivate',
+      width: 96,
+      render: (isPrivate: boolean) =>
+        isPrivate ? (
+          <Tag color="default">否</Tag>
+        ) : (
+          <Tag color="blue">是</Tag>
+        )
+    },
     { title: '大盲', dataIndex: 'lowestBetAmount', width: 80 },
     { title: '初始筹码', dataIndex: 'initialChips', width: 90 },
     { title: '成员', dataIndex: 'memberCount', width: 70 },
@@ -142,7 +153,7 @@ const RoomOpsPage = () => {
 
             <Table<RoomOpsRow>
               rowKey={(r) => String(r.id)}
-              scroll={{ x: 1100 }}
+              scroll={{ x: 1180 }}
               {...tableProps}
               columns={columns}
             />

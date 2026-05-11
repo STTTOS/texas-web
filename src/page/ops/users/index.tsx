@@ -1,3 +1,5 @@
+import type { Params } from 'ahooks/lib/usePagination/types'
+
 import { useAntdTable } from 'ahooks'
 import {
   Button,
@@ -11,25 +13,40 @@ import {
   theme,
   TableColumnProps
 } from 'antd'
+import type { SorterResult } from 'antd/es/table/interface'
+import { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { fetchUserOpsList } from '@/service/ops'
 import type { UserOpsRow } from '@/service/ops/types'
+import {
+  matchRecordsColumnSortOrder,
+  userOpsListSortParams
+} from '@/utils/userOpsTableSort'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
+type UserOpsTableParams = Params[0] & {
+  sorter?: SorterResult<UserOpsRow> | SorterResult<UserOpsRow>[]
+}
+
 const UserOpsListPage = () => {
   const [form] = Form.useForm()
+  const [matchRecordsSortOrder, setMatchRecordsSortOrder] = useState<
+    ReturnType<typeof matchRecordsColumnSortOrder>
+  >(undefined)
+
   const { tableProps, search } = useAntdTable(
-    async (params) => {
+    async (params: UserOpsTableParams) => {
       const q = form.getFieldValue('q') as string | undefined
       const includeDeleted = Boolean(form.getFieldValue('includeDeleted'))
       return fetchUserOpsList({
         current: params.current,
         pageSize: params.pageSize,
         ...(q != null && String(q).trim() !== '' ? { q: String(q).trim() } : {}),
-        ...(includeDeleted ? { includeDeleted: true } : {})
+        ...(includeDeleted ? { includeDeleted: true } : {}),
+        ...userOpsListSortParams(params.sorter)
       })
     },
     {
@@ -38,7 +55,19 @@ const UserOpsListPage = () => {
     }
   )
 
-  const columns: TableColumnProps<UserOpsRow>[] = [
+  const { onChange: antdListOnChange, ...restTableProps } = tableProps
+  const onTableChange = useCallback<
+    NonNullable<typeof antdListOnChange>
+  >(
+    (pagination, filters, sorter, extra) => {
+      setMatchRecordsSortOrder(matchRecordsColumnSortOrder(sorter))
+      antdListOnChange?.(pagination, filters, sorter, extra)
+    },
+    [antdListOnChange]
+  )
+
+  const columns: TableColumnProps<UserOpsRow>[] = useMemo(
+    () => [
     { title: 'Id', dataIndex: 'id', width: 72 },
     { title: '昵称', dataIndex: 'name', width: 140, ellipsis: true },
     { title: '用户名', dataIndex: 'username', width: 120, ellipsis: true },
@@ -46,6 +75,9 @@ const UserOpsListPage = () => {
       title: '总对局',
       dataIndex: 'matchRecordsCount',
       width: 88,
+      sorter: true,
+      sortDirections: ['descend', 'ascend'],
+      sortOrder: matchRecordsSortOrder,
       render: (v: number) => (v != null ? v.toLocaleString() : '-')
     },
     {
@@ -66,7 +98,9 @@ const UserOpsListPage = () => {
       width: 100,
       render: (_, r) => <Link to={`/ops/users/${r.id}`}>详情</Link>
     }
-  ]
+  ],
+    [matchRecordsSortOrder]
+  )
 
   return (
     <ConfigProvider
@@ -104,8 +138,9 @@ const UserOpsListPage = () => {
                   </Button>
                   <Button
                     onClick={() => {
+                      setMatchRecordsSortOrder(undefined)
                       form.resetFields()
-                      search.submit()
+                      search.reset()
                     }}
                   >
                     重置
@@ -117,7 +152,8 @@ const UserOpsListPage = () => {
             <Table<UserOpsRow>
               rowKey={(r) => String(r.id)}
               scroll={{ x: 960 }}
-              {...tableProps}
+              {...restTableProps}
+              onChange={onTableChange}
               columns={columns}
             />
           </div>

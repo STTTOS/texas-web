@@ -2,7 +2,12 @@ import type { Match } from '@/service/match/types'
 
 import dayjs from 'dayjs'
 import { useAntdTable } from 'ahooks'
-import { formatterPoke, rankCategoryMap, stageMap } from 'texas-poker-core'
+import {
+  formatterPoke,
+  rankCategoryMap,
+  stageMap,
+  type Stage
+} from 'texas-poker-core'
 import {
   Form,
   Select,
@@ -12,7 +17,8 @@ import {
   Button,
   theme,
   ConfigProvider,
-  TableColumnProps
+  TableColumnProps,
+  Input
 } from 'antd'
 import { Link } from 'react-router-dom'
 
@@ -20,6 +26,7 @@ import { getMatchList } from '@/service/match'
 import { getMatchDuration } from '@/page/match'
 import { getMatchStatusTag } from '@/service/match/matchStatus'
 import { dayRangeToClosedIso } from '@/utils/dayRangeToClosedIso'
+import { formatTableType } from '@/utils/tableTypeLabel'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
@@ -34,11 +41,24 @@ const TABLE_TYPE_OPTIONS = [
   { value: 'custom', label: '自定义' }
 ]
 
+const MATCH_STATUS_OPTIONS = [
+  { value: 'all', label: '全部' },
+  { value: 'in_progress', label: '进行中' },
+  { value: 'ended', label: '已结束' }
+]
+
+const BOARD_STAGE_KEYS = ['pre_flop', 'flop', 'turn', 'river'] as const
+
 const MatchOpsPage = () => {
   const [form] = Form.useForm()
   const { tableProps, search } = useAntdTable(
     async (params) => {
       const tableType = form.getFieldValue('tableType') as string | undefined
+      const matchStatus = form.getFieldValue('matchStatus') as string | undefined
+      const boardThroughStage = form.getFieldValue('boardThroughStage') as
+        | string
+        | undefined
+      const playerName = form.getFieldValue('playerName') as string | undefined
       const dateRange = form.getFieldValue('dateRange') as
         | [dayjs.Dayjs, dayjs.Dayjs]
         | null
@@ -48,7 +68,16 @@ const MatchOpsPage = () => {
         current: params.current,
         pageSize: params.pageSize,
         type: tableType === 'all' || !tableType ? undefined : tableType,
-        time
+        time,
+        matchStatus:
+          matchStatus && matchStatus !== 'all' ? matchStatus : undefined,
+        boardThroughStage:
+          boardThroughStage && boardThroughStage !== 'all'
+            ? boardThroughStage
+            : undefined,
+        ...(playerName != null && String(playerName).trim() !== ''
+          ? { playerName: String(playerName).trim() }
+          : {})
       })
     },
     {
@@ -67,6 +96,11 @@ const MatchOpsPage = () => {
       }
     },
     { title: '起始筹码', dataIndex: 'initialChips' },
+    {
+      title: '桌型',
+      dataIndex: 'tableType',
+      render: (t: string | undefined) => formatTableType(t)
+    },
     { title: '盲注', dataIndex: 'lowestBetAmount' },
     {
       title: '状态',
@@ -142,8 +176,26 @@ const MatchOpsPage = () => {
               <Form.Item name="tableType" label="桌型" initialValue="all">
                 <Select options={TABLE_TYPE_OPTIONS} style={{ width: 140 }} />
               </Form.Item>
+              <Form.Item name="matchStatus" label="状态" initialValue="all">
+                <Select options={MATCH_STATUS_OPTIONS} style={{ width: 120 }} />
+              </Form.Item>
+              <Form.Item name="boardThroughStage" label="结束阶段" initialValue="all">
+                <Select
+                  style={{ width: 140 }}
+                  options={[
+                    { value: 'all', label: '全部' },
+                    ...BOARD_STAGE_KEYS.map((k) => ({
+                      value: k,
+                      label: stageMap.get(k as Stage) ?? k
+                    }))
+                  ]}
+                />
+              </Form.Item>
               <Form.Item name="dateRange" label="时间">
                 <RangePicker />
+              </Form.Item>
+              <Form.Item name="playerName" label="参与用户昵称">
+                <Input allowClear placeholder="模糊，仅管理员" style={{ width: 160 }} />
               </Form.Item>
               <Form.Item>
                 <Space>
@@ -152,8 +204,7 @@ const MatchOpsPage = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      form.resetFields()
-                      search.submit()
+                      search.reset()
                     }}
                   >
                     重置
@@ -164,7 +215,7 @@ const MatchOpsPage = () => {
 
             <Table<Match>
               rowKey={(r) => String(r.id)}
-              scroll={{ x: 1000 }}
+              scroll={{ x: 1280 }}
               {...tableProps}
               columns={columns}
             />

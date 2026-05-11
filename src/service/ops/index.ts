@@ -14,17 +14,24 @@ import type {
 export type UserOpsListFilters = {
   q?: string
   includeDeleted?: boolean
+  /** 与 `sortOrder` 成对：`matchRecordsCount` */
+  sortField?: 'matchRecordsCount'
+  sortOrder?: 'asc' | 'desc'
 }
 
 export async function fetchUserOpsList(params: Params[0] & UserOpsListFilters) {
-  const { current, pageSize, q, includeDeleted } = params
+  const { current, pageSize, q, includeDeleted, sortField, sortOrder } = params
   const { data } = await request<{ list: UserOpsRow[]; total: number }>(
     'api/web/user-ops/list',
     {
       current,
       pageSize,
       ...(q != null && String(q).trim() !== '' ? { q: String(q).trim() } : {}),
-      ...(includeDeleted ? { includeDeleted: true } : {})
+      ...(includeDeleted ? { includeDeleted: true } : {}),
+      ...(sortField === 'matchRecordsCount' &&
+      (sortOrder === 'asc' || sortOrder === 'desc')
+        ? { sortField, sortOrder }
+        : {})
     }
   )
   return data
