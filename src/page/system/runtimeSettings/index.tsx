@@ -100,97 +100,97 @@ const RuntimeSettingsPage = () => {
         <Card className={styles.card}>
           <Spin spinning={initialLoading}>
             <Space direction="vertical" size={20} style={{ width: '100%' }}>
-            <div>
-              <Typography.Title level={4} className={styles.title}>
+              <div>
+                <Typography.Title level={4} className={styles.title}>
                 系统设置 · 游戏运行时参数
-              </Typography.Title>
-              <Typography.Paragraph type="secondary" className={styles.lead}>
+                </Typography.Title>
+                <Typography.Paragraph type="secondary" className={styles.lead}>
                 以下为进程内单例配置，修改后无需重启服务；已排队的定时器仍按旧值执行。单位均为毫秒，范围
                 0～120000。仅管理员可访问。
-              </Typography.Paragraph>
-            </div>
+                </Typography.Paragraph>
+              </div>
 
-            <Alert
-              type="info"
-              showIcon
-              message="局间倒计时"
-              description={
-                <>
+              <Alert
+                type="info"
+                showIcon
+                message="局间倒计时"
+                description={
+                  <>
                   锁座时刻与分配角色时刻由两项相加得到 WS 中的 <Typography.Text code>endsAt</Typography.Text>{' '}
                   相对偏移（派生值见表单下方）。请勿再使用已废弃的单独「总 ends」字段，以免锁座顺序配反。
-                </>
-              }
-            />
+                  </>
+                }
+              />
 
-            <Form
-              form={form}
-              layout="vertical"
-              className={styles.form}
-              disabled={initialLoading}
-            >
-              {groupOrder.map((g) => {
-                const list = fieldsByGroup.get(g) ?? []
-                if (list.length === 0) return null
-                return (
-                  <div key={g} className={styles.group}>
-                    <Typography.Title level={5} className={styles.groupTitle}>
-                      {groupTitle[g]}
-                    </Typography.Title>
-                    {list.map((f) => (
-                      <Form.Item
-                        key={f.key}
-                        name={f.key}
-                        label={
-                          <span>
-                            <Typography.Text strong>{f.label}</Typography.Text>
-                            <Typography.Text type="secondary" className={styles.keyHint}>
-                              {' '}
+              <Form
+                form={form}
+                layout="vertical"
+                className={styles.form}
+                disabled={initialLoading}
+              >
+                {groupOrder.map((g) => {
+                  const list = fieldsByGroup.get(g) ?? []
+                  if (list.length === 0) return null
+                  return (
+                    <div key={g} className={styles.group}>
+                      <Typography.Title level={5} className={styles.groupTitle}>
+                        {groupTitle[g]}
+                      </Typography.Title>
+                      {list.map((f) => (
+                        <Form.Item
+                          key={f.key}
+                          name={f.key}
+                          label={
+                            <span>
+                              <Typography.Text strong>{f.label}</Typography.Text>
+                              <Typography.Text type="secondary" className={styles.keyHint}>
+                                {' '}
                               ({f.key})
-                            </Typography.Text>
-                          </span>
-                        }
-                        rules={[
-                          { required: true, message: '请输入数值' },
-                          {
-                            type: 'number',
-                            min: f.minMs,
-                            max: f.maxMs,
-                            message: `须在 ${f.minMs}～${f.maxMs} 之间`
+                              </Typography.Text>
+                            </span>
                           }
-                        ]}
-                        extra={
-                          <Typography.Paragraph className={styles.fieldDesc}>
-                            {f.description}
-                          </Typography.Paragraph>
-                        }
-                      >
-                        <InputNumber
-                          className={styles.inputNum}
-                          min={f.minMs}
-                          max={f.maxMs}
-                          step={100}
-                        />
-                      </Form.Item>
-                    ))}
-                    {g === 'nextHand' && derivedEnds != null ? (
-                      <Typography.Paragraph type="secondary" className={styles.derived}>
+                          rules={[
+                            { required: true, message: '请输入数值' },
+                            {
+                              type: 'number',
+                              min: f.minMs,
+                              max: f.maxMs,
+                              message: `须在 ${f.minMs}～${f.maxMs} 之间`
+                            }
+                          ]}
+                          extra={
+                            <Typography.Paragraph className={styles.fieldDesc}>
+                              {f.description}
+                            </Typography.Paragraph>
+                          }
+                        >
+                          <InputNumber
+                            className={styles.inputNum}
+                            min={f.minMs}
+                            max={f.maxMs}
+                            step={100}
+                          />
+                        </Form.Item>
+                      ))}
+                      {g === 'nextHand' && derivedEnds != null ? (
+                        <Typography.Paragraph type="secondary" className={styles.derived}>
                         当前派生的 <Typography.Text code>nextHandEndsAtOffsetMs</Typography.Text>（锁座偏移 +
                         锁座后尾段）= <Typography.Text strong>{derivedEnds}</Typography.Text> ms
-                      </Typography.Paragraph>
-                    ) : null}
-                  </div>
-                )
-              })}
-            </Form>
+                        </Typography.Paragraph>
+                      ) : null}
+                    </div>
+                  )
+                })}
+              </Form>
 
-            <Button
-              type="primary"
-              onClick={onSave}
-              loading={saving}
-              disabled={!data || initialLoading}
-            >
+              <Button
+                type="primary"
+                onClick={onSave}
+                loading={saving}
+                disabled={!data || initialLoading}
+              >
               保存全部参数
-            </Button>
+              </Button>
             </Space>
           </Spin>
         </Card>

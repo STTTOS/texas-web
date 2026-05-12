@@ -11,22 +11,24 @@ import {
   TableColumnProps,
   Tag
 } from 'antd'
+import { Link } from 'react-router-dom'
 
 import { fetchRoomOpsList } from '@/service/ops'
 import type { RoomOpsRow } from '@/service/ops/types'
 import { formatTableType, TABLE_TYPE_FILTER_OPTIONS } from '@/utils/tableTypeLabel'
+import {
+  formatRoomGameStatus,
+  ROOM_GAME_STATUS_FILTER_OPTIONS
+} from '@/utils/roomGameStatusLabel'
 import UserAvatar from '@/components/UserAvatar'
 import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
-const STATUS_OPTIONS = [
-  { value: 'all', label: '全部状态' },
-  { value: 'waiting', label: '等待' },
-  { value: 'entering', label: '进入中' },
-  { value: 'starting_hand', label: '开局中' },
-  { value: 'in_hand', label: '本手进行中' },
-  { value: 'between_hands', label: '局间' }
+const ROOM_LIFECYCLE_OPTIONS = [
+  { value: 'all', label: '全部（含已解散）' },
+  { value: 'active', label: '仅有效' },
+  { value: 'dissolved', label: '仅已解散' }
 ]
 
 const RoomOpsPage = () => {
@@ -38,11 +40,16 @@ const RoomOpsPage = () => {
       const ownerNameContains = form.getFieldValue('ownerNameContains') as
         | string
         | undefined
+      const roomLifecycle = form.getFieldValue('roomLifecycle') as
+        | string
+        | undefined
       return fetchRoomOpsList({
         current: params.current,
         pageSize: params.pageSize,
         gameStatus: gameStatus && gameStatus !== 'all' ? gameStatus : undefined,
         tableType: tableType === 'all' || !tableType ? undefined : tableType,
+        roomLifecycle:
+          roomLifecycle && roomLifecycle !== 'all' ? roomLifecycle : undefined,
         ...(ownerNameContains != null && String(ownerNameContains).trim() !== ''
           ? { ownerNameContains: String(ownerNameContains).trim() }
           : {})
@@ -58,10 +65,32 @@ const RoomOpsPage = () => {
     { title: '房间 Id', dataIndex: 'id', width: 90 },
     { title: '邀请码', dataIndex: 'activeCode', width: 100, render: (v) => v || '-' },
     {
+      title: '成员',
+      width: 80,
+      render(_, row) {
+        const n = row.deletedAt ? row.historicalMemberCount : row.memberCount
+        return n
+      }
+    },
+    { title: '对局数', dataIndex: 'matchCount', width: 80 },
+    {
+      title: '房间',
+      width: 100,
+      render(_, row) {
+        return row.deletedAt ? (
+          <Tag color="red">已解散</Tag>
+        ) : (
+          <Tag color="green">有效</Tag>
+        )
+      }
+    },
+    {
       title: '状态',
       dataIndex: 'gameStatus',
       width: 120,
-      render: (s: string) => <Tag color="blue">{s}</Tag>
+      render: (s: string) => (
+        <Tag color="blue">{formatRoomGameStatus(s)}</Tag>
+      )
     },
     {
       title: '桌型',
@@ -82,8 +111,6 @@ const RoomOpsPage = () => {
     },
     { title: '大盲', dataIndex: 'lowestBetAmount', width: 80 },
     { title: '初始筹码', dataIndex: 'initialChips', width: 90 },
-    { title: '成员', dataIndex: 'memberCount', width: 70 },
-    { title: '对局数', dataIndex: 'matchCount', width: 80 },
     { title: '创建', dataIndex: 'createdAt', width: 170 },
     {
       title: '房主',
@@ -101,6 +128,18 @@ const RoomOpsPage = () => {
               {o.name} (#{o.id})
             </span>
           </Space>
+        )
+      }
+    },
+    {
+      title: '操作',
+      width: 120,
+      fixed: 'right',
+      render(_, row) {
+        return row.matchCount > 0 ? (
+          <Link to={`/ops/room/${row.id}/summary`}>对局汇总</Link>
+        ) : (
+          <span style={{ opacity: 0.45 }}>—</span>
         )
       }
     }
@@ -129,8 +168,11 @@ const RoomOpsPage = () => {
               style={{ marginBottom: 16, rowGap: 12 }}
               onFinish={search.submit}
             >
+              <Form.Item name="roomLifecycle" label="房间范围" initialValue="all">
+                <Select options={ROOM_LIFECYCLE_OPTIONS} style={{ width: 160 }} />
+              </Form.Item>
               <Form.Item name="gameStatus" label="状态" initialValue="all">
-                <Select options={STATUS_OPTIONS} style={{ width: 160 }} />
+                <Select options={ROOM_GAME_STATUS_FILTER_OPTIONS} style={{ width: 160 }} />
               </Form.Item>
               <Form.Item name="tableType" label="桌型" initialValue="all">
                 <Select options={TABLE_TYPE_FILTER_OPTIONS} style={{ width: 140 }} />
@@ -156,7 +198,7 @@ const RoomOpsPage = () => {
 
             <Table<RoomOpsRow>
               rowKey={(r) => String(r.id)}
-              scroll={{ x: 1180 }}
+              scroll={{ x: 1320 }}
               {...tableProps}
               columns={columns}
             />

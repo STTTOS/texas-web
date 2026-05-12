@@ -95,6 +95,11 @@ const routers: MyRoute[] = [
             element: lazy(() => import('@/page/ops/engineFatal'))
           },
           {
+            path: '/ops/room/:roomId/summary',
+            title: '房间对局汇总',
+            element: lazy(() => import('@/page/ops/room/summary'))
+          },
+          {
             path: '/ops/room',
             title: '房间运维',
             element: lazy(() => import('@/page/ops/room'))

@@ -68,37 +68,37 @@ const UserOpsListPage = () => {
 
   const columns: TableColumnProps<UserOpsRow>[] = useMemo(
     () => [
-    { title: 'Id', dataIndex: 'id', width: 72 },
-    { title: '昵称', dataIndex: 'name', width: 140, ellipsis: true },
-    { title: '用户名', dataIndex: 'username', width: 120, ellipsis: true },
-    {
-      title: '总对局',
-      dataIndex: 'matchRecordsCount',
-      width: 88,
-      sorter: true,
-      sortDirections: ['descend', 'ascend'],
-      sortOrder: matchRecordsSortOrder,
-      render: (v: number) => (v != null ? v.toLocaleString() : '-')
-    },
-    {
-      title: '管理员',
-      dataIndex: 'isAdmin',
-      width: 88,
-      render: (v: boolean) => (v ? <Tag color="gold">是</Tag> : <Tag>否</Tag>)
-    },
-    {
-      title: '状态',
-      width: 88,
-      render: (_, r) =>
-        r.deletedAt ? <Tag color="red">已删</Tag> : <Tag color="green">正常</Tag>
-    },
-    { title: '注册', dataIndex: 'createdAt', width: 170 },
-    {
-      title: '操作',
-      width: 100,
-      render: (_, r) => <Link to={`/ops/users/${r.id}`}>详情</Link>
-    }
-  ],
+      { title: 'Id', dataIndex: 'id', width: 72 },
+      { title: '昵称', dataIndex: 'name', width: 140, ellipsis: true },
+      { title: '用户名', dataIndex: 'username', width: 120, ellipsis: true },
+      {
+        title: '总对局',
+        dataIndex: 'matchRecordsCount',
+        width: 88,
+        sorter: true,
+        sortDirections: ['descend', 'ascend'],
+        sortOrder: matchRecordsSortOrder,
+        render: (v: number) => (v != null ? v.toLocaleString() : '-')
+      },
+      {
+        title: '管理员',
+        dataIndex: 'isAdmin',
+        width: 88,
+        render: (v: boolean) => (v ? <Tag color="gold">是</Tag> : <Tag>否</Tag>)
+      },
+      {
+        title: '状态',
+        width: 88,
+        render: (_, r) =>
+          r.deletedAt ? <Tag color="red">已删</Tag> : <Tag color="green">正常</Tag>
+      },
+      { title: '注册', dataIndex: 'createdAt', width: 170 },
+      {
+        title: '操作',
+        width: 100,
+        render: (_, r) => <Link to={`/ops/users/${r.id}`}>详情</Link>
+      }
+    ],
     [matchRecordsSortOrder]
   )
 

@@ -6,6 +6,7 @@ import type {
   DashboardSummary,
   EngineFatalRow,
   MatchDomainEventRow,
+  RoomOpsDetailPayload,
   RoomOpsRow,
   UserOpsDetail,
   UserOpsRow
@@ -94,10 +95,13 @@ export type RoomOpsListFilters = {
   ownerNameContains?: string
   /** `all` | `quick` | `standard` | `deep` | `custom` */
   tableType?: string
+  /** `all` 含已解散 | `active` 仅有效 | `dissolved` 仅已解散 */
+  roomLifecycle?: 'all' | 'active' | 'dissolved'
 }
 
 export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
-  const { current, pageSize, gameStatus, ownerNameContains, tableType } = params
+  const { current, pageSize, gameStatus, ownerNameContains, tableType, roomLifecycle } =
+    params
   const ownerNameTrimmed =
     ownerNameContains != null && String(ownerNameContains).trim() !== ''
       ? String(ownerNameContains).trim()
@@ -109,9 +113,17 @@ export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
       pageSize,
       ...(gameStatus && gameStatus !== 'all' ? { gameStatus } : {}),
       ...(ownerNameTrimmed ? { ownerNameContains: ownerNameTrimmed } : {}),
-      ...(tableType && tableType !== 'all' ? { tableType } : {})
+      ...(tableType && tableType !== 'all' ? { tableType } : {}),
+      ...(roomLifecycle && roomLifecycle !== 'all' ? { roomLifecycle } : {})
     }
   )
+  return data
+}
+
+export async function fetchRoomOpsDetail(roomId: number) {
+  const { data } = await request<RoomOpsDetailPayload>('api/web/room-ops/detail', {
+    roomId
+  })
   return data
 }
 
