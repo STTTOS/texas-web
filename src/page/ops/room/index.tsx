@@ -11,7 +11,6 @@ import {
   TableColumnProps,
   Tag
 } from 'antd'
-import { Link } from 'react-router-dom'
 
 import { fetchRoomOpsList } from '@/service/ops'
 import type { RoomOpsRow } from '@/service/ops/types'
@@ -40,7 +39,7 @@ const RoomOpsPage = () => {
       const ownerNameContains = form.getFieldValue('ownerNameContains') as
         | string
         | undefined
-      const roomLifecycle = form.getFieldValue('roomLifecycle') as
+      const roomLifecycleRaw = form.getFieldValue('roomLifecycle') as
         | string
         | undefined
       return fetchRoomOpsList({
@@ -49,7 +48,9 @@ const RoomOpsPage = () => {
         gameStatus: gameStatus && gameStatus !== 'all' ? gameStatus : undefined,
         tableType: tableType === 'all' || !tableType ? undefined : tableType,
         roomLifecycle:
-          roomLifecycle && roomLifecycle !== 'all' ? roomLifecycle : undefined,
+          roomLifecycleRaw === 'active' || roomLifecycleRaw === 'dissolved'
+            ? roomLifecycleRaw
+            : undefined,
         ...(ownerNameContains != null && String(ownerNameContains).trim() !== ''
           ? { ownerNameContains: String(ownerNameContains).trim() }
           : {})
@@ -137,7 +138,14 @@ const RoomOpsPage = () => {
       fixed: 'right',
       render(_, row) {
         return row.matchCount > 0 ? (
-          <Link to={`/ops/room/${row.id}/summary`}>对局汇总</Link>
+          <a
+            href={`/ops/room/${row.id}/summary`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#fbbf24' }}
+          >
+            对局汇总
+          </a>
         ) : (
           <span style={{ opacity: 0.45 }}>—</span>
         )
