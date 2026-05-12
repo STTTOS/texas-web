@@ -1,5 +1,10 @@
+import {
+  ROOM_OPS_GAME_STATUSES,
+  type RoomOpsGameStatus
+} from '@/service/ops/types'
+
 /** 与后端 `RoomGameStatus` 枚举一致，用于运维展示与筛选 */
-export const ROOM_GAME_STATUS_ZH: Record<string, string> = {
+export const ROOM_GAME_STATUS_ZH: Record<RoomOpsGameStatus, string> = {
   waiting: '等待',
   entering: '进入中',
   starting_hand: '开局中',
@@ -9,13 +14,17 @@ export const ROOM_GAME_STATUS_ZH: Record<string, string> = {
 
 export function formatRoomGameStatus(status: string | null | undefined): string {
   if (status == null || status === '') return '—'
-  return ROOM_GAME_STATUS_ZH[status] ?? status
+  const key = ROOM_OPS_GAME_STATUSES.find((k) => k === status)
+  return key ? ROOM_GAME_STATUS_ZH[key] : status
 }
 
-export const ROOM_GAME_STATUS_FILTER_OPTIONS = [
+export const ROOM_GAME_STATUS_FILTER_OPTIONS: {
+  value: 'all' | RoomOpsGameStatus
+  label: string
+}[] = [
   { value: 'all', label: '全部' },
-  ...Object.entries(ROOM_GAME_STATUS_ZH).map(([value, label]) => ({
+  ...ROOM_OPS_GAME_STATUSES.map((value) => ({
     value,
-    label
+    label: ROOM_GAME_STATUS_ZH[value]
   }))
 ]

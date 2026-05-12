@@ -13,7 +13,7 @@ import {
 } from 'antd'
 
 import { fetchRoomOpsList } from '@/service/ops'
-import type { RoomOpsRow } from '@/service/ops/types'
+import type { RoomOpsRow, RoomOpsSearchFormValues } from '@/service/ops/types'
 import { formatTableType, TABLE_TYPE_FILTER_OPTIONS } from '@/utils/tableTypeLabel'
 import {
   formatRoomGameStatus,
@@ -24,33 +24,31 @@ import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 
-const ROOM_LIFECYCLE_OPTIONS = [
+const ROOM_LIFECYCLE_OPTIONS: {
+  value: RoomOpsSearchFormValues['roomLifecycle']
+  label: string
+}[] = [
   { value: 'all', label: '全部（含已解散）' },
   { value: 'active', label: '仅有效' },
   { value: 'dissolved', label: '仅已解散' }
 ]
 
 const RoomOpsPage = () => {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<RoomOpsSearchFormValues>()
   const { tableProps, search } = useAntdTable(
     async (params) => {
-      const gameStatus = form.getFieldValue('gameStatus') as string | undefined
-      const tableType = form.getFieldValue('tableType') as string | undefined
-      const ownerNameContains = form.getFieldValue('ownerNameContains') as
-        | string
-        | undefined
-      const roomLifecycleRaw = form.getFieldValue('roomLifecycle') as
-        | string
-        | undefined
+      const {
+        gameStatus = 'all',
+        tableType = 'all',
+        roomLifecycle = 'all',
+        ownerNameContains
+      } = form.getFieldsValue()
       return fetchRoomOpsList({
         current: params.current,
         pageSize: params.pageSize,
-        gameStatus: gameStatus && gameStatus !== 'all' ? gameStatus : undefined,
-        tableType: tableType === 'all' || !tableType ? undefined : tableType,
-        roomLifecycle:
-          roomLifecycleRaw === 'active' || roomLifecycleRaw === 'dissolved'
-            ? roomLifecycleRaw
-            : undefined,
+        gameStatus: gameStatus === 'all' ? undefined : gameStatus,
+        tableType: tableType === 'all' ? undefined : tableType,
+        roomLifecycle: roomLifecycle === 'all' ? undefined : roomLifecycle,
         ...(ownerNameContains != null && String(ownerNameContains).trim() !== ''
           ? { ownerNameContains: String(ownerNameContains).trim() }
           : {})
@@ -170,7 +168,7 @@ const RoomOpsPage = () => {
               <h1 className={shell.pageTitle}>房间运维</h1>
             </div>
 
-            <Form
+            <Form<RoomOpsSearchFormValues>
               form={form}
               layout="inline"
               style={{ marginBottom: 16, rowGap: 12 }}

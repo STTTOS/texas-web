@@ -7,7 +7,10 @@ import type {
   EngineFatalRow,
   MatchDomainEventRow,
   RoomOpsDetailPayload,
+  RoomOpsGameStatus,
+  RoomOpsLifecycleFilter,
   RoomOpsRow,
+  RoomOpsTableType,
   UserOpsDetail,
   UserOpsRow
 } from './types'
@@ -90,13 +93,11 @@ export async function fetchEngineFatalList(
 }
 
 export type RoomOpsListFilters = {
-  gameStatus?: string
+  gameStatus?: RoomOpsGameStatus
   /** 房主游戏昵称 `User.name` 子串（模糊） */
   ownerNameContains?: string
-  /** `all` | `quick` | `standard` | `deep` | `custom` */
-  tableType?: string
-  /** `all` 含已解散 | `active` 仅有效 | `dissolved` 仅已解散 */
-  roomLifecycle?: 'all' | 'active' | 'dissolved'
+  tableType?: RoomOpsTableType
+  roomLifecycle?: RoomOpsLifecycleFilter
 }
 
 export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
@@ -111,10 +112,10 @@ export async function fetchRoomOpsList(params: Params[0] & RoomOpsListFilters) {
     {
       current,
       pageSize,
-      ...(gameStatus && gameStatus !== 'all' ? { gameStatus } : {}),
+      ...(gameStatus ? { gameStatus } : {}),
       ...(ownerNameTrimmed ? { ownerNameContains: ownerNameTrimmed } : {}),
-      ...(tableType && tableType !== 'all' ? { tableType } : {}),
-      ...(roomLifecycle && roomLifecycle !== 'all' ? { roomLifecycle } : {})
+      ...(tableType ? { tableType } : {}),
+      ...(roomLifecycle ? { roomLifecycle } : {})
     }
   )
   return data

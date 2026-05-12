@@ -41,6 +41,33 @@ export interface EngineFatalRow {
   createdAt: string | null
 }
 
+/** 与 Prisma `RoomGameStatus`、服务端 `room-ops/list` 的 `gameStatus` 一致 */
+export const ROOM_OPS_GAME_STATUSES = [
+  'waiting',
+  'entering',
+  'starting_hand',
+  'in_hand',
+  'between_hands'
+] as const
+
+export type RoomOpsGameStatus = (typeof ROOM_OPS_GAME_STATUSES)[number]
+
+/** 与 Prisma `RoomTableType`、`ROOM_TABLE_TYPES` 一致 */
+export const ROOM_OPS_TABLE_TYPES = ['quick', 'standard', 'deep', 'custom'] as const
+
+export type RoomOpsTableType = (typeof ROOM_OPS_TABLE_TYPES)[number]
+
+/** 请求体 `roomLifecycle`（不含 `all`；不传表示全部生命周期） */
+export type RoomOpsLifecycleFilter = 'active' | 'dissolved'
+
+/** 房间运维列表筛选表单（与 `Select` 的 `value` 一致） */
+export interface RoomOpsSearchFormValues {
+  roomLifecycle: 'all' | RoomOpsLifecycleFilter
+  gameStatus: 'all' | RoomOpsGameStatus
+  tableType: 'all' | RoomOpsTableType
+  ownerNameContains?: string
+}
+
 export interface RoomOpsRow {
   id: number
   activeCode: string | null
