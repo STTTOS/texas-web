@@ -10,13 +10,15 @@ import type {
 const TYPE_LABEL: Record<AnnouncementType, string> = {
   activity: '活动',
   update: '更新',
-  maintenance: '维护'
+  maintenance: '维护',
+  notice: '通知'
 }
 
 const TYPE_COLOR: Record<AnnouncementType, string> = {
   activity: 'green',
   update: 'blue',
-  maintenance: 'volcano'
+  maintenance: 'volcano',
+  notice: 'purple'
 }
 
 interface Props {

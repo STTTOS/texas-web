@@ -44,7 +44,8 @@ import {
 const TYPE_LABEL: Record<AnnouncementType, string> = {
   activity: '活动',
   update: '更新',
-  maintenance: '维护'
+  maintenance: '维护',
+  notice: '通知'
 }
 
 const TYPE_OPTIONS = (Object.keys(TYPE_LABEL) as AnnouncementType[]).map(

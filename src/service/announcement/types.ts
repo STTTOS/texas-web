@@ -1,4 +1,8 @@
-export type AnnouncementType = 'activity' | 'update' | 'maintenance'
+export type AnnouncementType =
+  | 'activity'
+  | 'update'
+  | 'maintenance'
+  | 'notice'
 
 export type AnnouncementStatus = 'published' | 'disabled'
 
