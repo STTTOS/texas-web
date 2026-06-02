@@ -6,6 +6,7 @@ import type {
   Announcement,
   AnnouncementType
 } from '@/service/announcement/types'
+import { formatClientVersionRange } from '@/service/announcement/types'
 
 const TYPE_LABEL: Record<AnnouncementType, string> = {
   activity: '活动',
@@ -49,6 +50,7 @@ const AnnouncementCard: React.FC<Props> = ({ item }) => {
       <p className={styles.content}>{item.content}</p>
       <div className={styles.meta}>
         <div>优先级：{item.priority ?? 0}</div>
+        <div>版本范围：{formatClientVersionRange(item)}</div>
         <div>
           创建时间：{item.createdAt || '—'}
         </div>

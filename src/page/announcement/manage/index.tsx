@@ -3,6 +3,11 @@ import type {
   AnnouncementType,
   AnnouncementStatus
 } from '@/service/announcement/types'
+import {
+  compareSemverCore,
+  formatClientVersionRange,
+  isSemverCore
+} from '@/service/announcement/types'
 
 import dayjs from 'dayjs'
 import { useRequest } from 'ahooks'
@@ -62,6 +67,37 @@ const STATUS_OPTIONS: { value: AnnouncementStatus; label: string }[] = [
 
 const buildRange = (max: number) => Array.from({ length: max }, (_, i) => i)
 
+const validateSemverField = (_: unknown, value: unknown) => {
+  if (value == null || String(value).trim() === '') return Promise.resolve()
+  if (!isSemverCore(String(value))) {
+    return Promise.reject(new Error('须为 x.y.z 格式，如 1.0.0'))
+  }
+  return Promise.resolve()
+}
+
+const validateVersionRangeOrder = (getFieldValue: (name: string) => unknown) => {
+  return (_: unknown, value: unknown) => {
+    const min = getFieldValue('minClientVersion')
+    const max = value
+    if (
+      min == null ||
+      String(min).trim() === '' ||
+      max == null ||
+      String(max).trim() === ''
+    ) {
+      return Promise.resolve()
+    }
+    const cmp = compareSemverCore(String(min), String(max))
+    if (cmp == null) {
+      return Promise.reject(new Error('版本格式异常'))
+    }
+    if (cmp > 0) {
+      return Promise.reject(new Error('最低版本不能高于最高版本'))
+    }
+    return Promise.resolve()
+  }
+}
+
 const ManageAnnouncementPage = () => {
   const nav = useNavigate()
   const [form] = Form.useForm()
@@ -93,7 +129,8 @@ const ManageAnnouncementPage = () => {
       form.resetFields()
       form.setFieldsValue({
         priority: 0,
-        longTerm: false
+        longTerm: false,
+        allVersions: true
       })
       return
     }
@@ -111,7 +148,10 @@ const ManageAnnouncementPage = () => {
           priority: d.priority ?? 0,
           publishAt: d.publishAt ? dayjs(d.publishAt) : undefined,
           expireAt: d.expireAt ? dayjs(d.expireAt) : undefined,
-          longTerm: !d.expireAt
+          longTerm: !d.expireAt,
+          allVersions: !d.minClientVersion && !d.maxClientVersion,
+          minClientVersion: d.minClientVersion ?? undefined,
+          maxClientVersion: d.maxClientVersion ?? undefined
         })
       })
       .catch(() => {
@@ -123,10 +163,24 @@ const ManageAnnouncementPage = () => {
   }, [open, editingId, form])
 
   const buildPayload = (values: Record<string, unknown>) => {
-    const { longTerm, expireAt, priority, ...rest } = values
+    const {
+      longTerm,
+      expireAt,
+      priority,
+      allVersions,
+      minClientVersion,
+      maxClientVersion,
+      ...rest
+    } = values
+    const minText =
+      typeof minClientVersion === 'string' ? minClientVersion.trim() : ''
+    const maxText =
+      typeof maxClientVersion === 'string' ? maxClientVersion.trim() : ''
     return {
       ...rest,
       priority: priority ?? 0,
+      minClientVersion: allVersions ? null : minText || null,
+      maxClientVersion: allVersions ? null : maxText || null,
       ...(longTerm ? {} : expireAt ? { expireAt } : {})
     }
   }
@@ -200,6 +254,12 @@ const ManageAnnouncementPage = () => {
         s === 'published' ? <Tag color="gold">上架</Tag> : <Tag>下架</Tag>
     },
     { title: '优先级', dataIndex: 'priority', width: 88 },
+    {
+      title: '版本范围',
+      key: 'clientVersion',
+      width: 140,
+      render: (_: unknown, row: Announcement) => formatClientVersionRange(row)
+    },
     {
       title: '发布时间',
       dataIndex: 'publishAt',
@@ -389,7 +449,7 @@ const ManageAnnouncementPage = () => {
             form={form}
             layout="vertical"
             className={styles.modalForm}
-            initialValues={{ priority: 0, longTerm: false }}
+            initialValues={{ priority: 0, longTerm: false, allVersions: true }}
             onValuesChange={(changedValues) => {
               if ('publishAt' in changedValues) {
                 form.setFieldValue('expireAt', undefined)
@@ -497,6 +557,40 @@ const ManageAnnouncementPage = () => {
             </div>
             <Form.Item name="longTerm" valuePropName="checked">
               <Checkbox>长期有效（不传过期时间）</Checkbox>
+            </Form.Item>
+            <Form.Item name="allVersions" valuePropName="checked">
+              <Checkbox>全部版本（不限客户端版本）</Checkbox>
+            </Form.Item>
+            <Form.Item
+              noStyle
+              shouldUpdate={(p, c) => p.allVersions !== c.allVersions}
+            >
+              {({ getFieldValue }) =>
+                getFieldValue('allVersions') ? null : (
+                  <div className={styles.timeRow}>
+                    <Form.Item
+                      className={styles.timeCol}
+                      name="minClientVersion"
+                      label="最低版本（可选）"
+                      rules={[{ validator: validateSemverField }]}
+                    >
+                      <Input placeholder="如 1.0.1，留空表示不限" />
+                    </Form.Item>
+                    <Form.Item
+                      className={styles.timeCol}
+                      name="maxClientVersion"
+                      label="最高版本（可选）"
+                      dependencies={['minClientVersion']}
+                      rules={[
+                        { validator: validateSemverField },
+                        { validator: validateVersionRangeOrder(getFieldValue) }
+                      ]}
+                    >
+                      <Input placeholder="如 1.0.2，留空表示不限" />
+                    </Form.Item>
+                  </div>
+                )
+              }
             </Form.Item>
           </Form>
         </Modal>
