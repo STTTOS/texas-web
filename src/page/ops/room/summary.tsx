@@ -67,9 +67,11 @@ const RoomOpsSummaryPage = () => {
       title: '总输赢',
       dataIndex: 'totalWager',
       render: (v: number) => {
-        if (v > 0) return <span style={winStyle}>+{v}</span>
-        if (v < 0) return <span>{v}</span>
-        return <span>0</span>
+        const n = Number(v)
+        if (!Number.isFinite(n)) return <span>0</span>
+        if (n > 0) return <span style={winStyle}>+{n.toLocaleString()}</span>
+        if (n < 0) return <span>{n.toLocaleString()}</span>
+        return <span>{n.toLocaleString()}</span>
       }
     },
     {
