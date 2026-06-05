@@ -10,7 +10,7 @@ import RequireUserButton from '@/components/RequireUserButton'
 import { BRAND_EN, BRAND_ZH, BRAND_SLOGAN_ZH } from '@/constants/brand'
 import { getDownloadPlatform } from '@/utils/downloadPlatform'
 
-const APP_DOWNLOAD_URL = 'https://cos.wishufree.com/files/app-release.apk'
+const APP_DOWNLOAD_URL = 'https://cos.wishufree.com/files/poker_party.apk'
 
 const IOS_DOWNLOAD_TIP = '应用正在内测，暂不支持 iOS'
 
