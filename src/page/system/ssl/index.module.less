@@ -1,0 +1,63 @@
+.page {
+  padding: 4px 0 0;
+}
+
+.card {
+  border-radius: 18px;
+  background: rgba(17, 14, 48, 0.52) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.3);
+
+  :global {
+    .ant-card-body {
+      padding: 22px 20px;
+    }
+  }
+}
+
+.title {
+  margin: 0 0 8px !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.desc {
+  display: block;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.upload {
+  margin-bottom: 0;
+
+  :global {
+    .ant-upload-drag {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .ant-upload-text,
+    .ant-upload-hint {
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+  }
+}
+
+.output {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.86);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+}

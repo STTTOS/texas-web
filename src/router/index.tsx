@@ -143,6 +143,11 @@ const routers: MyRoute[] = [
             path: '/system/runtime-settings',
             title: '游戏运行时设置',
             element: lazy(() => import('@/page/system/runtimeSettings'))
+          },
+          {
+            path: '/system/ssl',
+            title: 'SSL 证书',
+            element: lazy(() => import('@/page/system/ssl'))
           }
         ]
       },
