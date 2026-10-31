@@ -41,13 +41,13 @@ const TAG_COLOR: Record<StyleRadarTagTone, string> = {
 
 const AXIS_HELP: Record<StyleRadarAxisKey, string> = {
   skill:
-    '技术分：L1 去跑马战绩 + L2 入池选牌合规（仅统计有洞牌的入池手，limp 轻罚）+ L3 红/蓝线 + L4 极端泄漏（权重 40/30/22/8）。',
+    '技术分：L1 去跑马战绩 + L2 入池选牌合规（仅统计有洞牌的入池手，limp 轻罚）+ L3 红/蓝线 + L4 极端打法漏洞（权重 40/30/22/8）。',
   vpip: '翻前主动入池比例（跟注/加注等，不含被迫盲注）。越高越松。',
   pfr: '翻前加注比例。与 VPIP 差距反映 limp / cold-call 习惯。',
   threeBet: '面对 open 后再加注的频率。样本需更多才稳定。',
   afq: '翻后主动进攻动作占比（bet+raise+allIn）/（同集合+call+check）；分母不含 fold，对齐常见 PT。',
   cbet: '作为翻前进攻方，在翻牌继续下注的频率。',
-  wtsd: '看过翻牌后进入摊牌的比例。过高且被动常见于跟注站。',
+  wtsd: '看过翻牌后进入摊牌的比例。过高且胜率差常见于「爱跟到底」。',
   wsd: '摊牌时的胜率。与 WTSD 合看可判断跟注质量。'
 }
 
@@ -141,7 +141,7 @@ const UserOpsRadarPage = () => {
                       type="info"
                       showIcon
                       style={{ marginBottom: 16 }}
-                      message="橙色为泄漏类标签；悬停可看判定说明。标签由当前物化轴实时计算，不落库。"
+                      message="橙色为打法漏洞类标签；悬停可看判定说明。标签由当前物化轴实时计算，不落库。"
                     />
                   )}
 
@@ -189,7 +189,7 @@ const UserOpsRadarPage = () => {
                               ['L1 去跑马', data.skill.l1, 40],
                               ['L2 选牌', data.skill.l2, 30],
                               ['L3 红蓝线', data.skill.l3, 22],
-                              ['L4 泄漏扣分', data.skill.l4, 8]
+                              ['L4 打法漏洞', data.skill.l4, 8]
                             ] as const
                           ).map(([label, val, w]) => (
                             <div key={label} style={{ marginBottom: 8 }}>
