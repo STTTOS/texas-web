@@ -50,6 +50,15 @@ export interface StyleRadarAxis {
   avg: number | null
 }
 
+export type StyleRadarTagTone = 'sample' | 'style' | 'leak'
+
+export interface StyleRadarTag {
+  key: string
+  label: string
+  tone: StyleRadarTagTone
+  hint: string
+}
+
 export interface UserOpsRadar {
   userId: number
   name: string
@@ -59,6 +68,8 @@ export interface UserOpsRadar {
   sampleStatus: 'insufficient' | 'reference' | 'ok'
   statsVersion: number
   updatedAt: string | null
+  /** 读时派生；旧接口可能缺省 */
+  tags?: StyleRadarTag[]
   axes: StyleRadarAxis[]
   skill: {
     score: number | null

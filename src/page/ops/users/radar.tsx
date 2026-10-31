@@ -22,11 +22,22 @@ import HomeBgBalls from '@/components/HomeBgBalls'
 import PageBrand from '@/components/PageBrand'
 import shell from '@/page/announcement/shell.module.less'
 import { fetchUserOpsRadar } from '@/service/ops'
-import type { StyleRadarAxis, StyleRadarAxisKey } from '@/service/ops/types'
+import type {
+  StyleRadarAxis,
+  StyleRadarAxisKey,
+  StyleRadarTag,
+  StyleRadarTagTone
+} from '@/service/ops/types'
 
 import StyleRadarChart, { formatRadarAxisValue } from './StyleRadarChart'
 
 const { Text } = Typography
+
+const TAG_COLOR: Record<StyleRadarTagTone, string> = {
+  sample: 'default',
+  style: 'blue',
+  leak: 'volcano'
+}
 
 const AXIS_HELP: Record<StyleRadarAxisKey, string> = {
   skill:
@@ -44,6 +55,19 @@ const sampleTag = (s: string) => {
   if (s === 'insufficient') return <Tag color="default">样本不足</Tag>
   if (s === 'reference') return <Tag color="gold">参考</Tag>
   return <Tag color="green">可信</Tag>
+}
+
+const renderStyleTags = (tags: StyleRadarTag[] | undefined) => {
+  if (!tags?.length) return <Text type="secondary">—</Text>
+  return (
+    <Space size={[8, 8]} wrap>
+      {tags.map((t) => (
+        <Tag key={t.key} color={TAG_COLOR[t.tone]} title={t.hint}>
+          {t.label}
+        </Tag>
+      ))}
+    </Space>
+  )
 }
 
 const UserOpsRadarPage = () => {
@@ -108,7 +132,18 @@ const UserOpsRadarPage = () => {
                     <Descriptions.Item label="更新时间">
                       {data.updatedAt ?? '—'}
                     </Descriptions.Item>
+                    <Descriptions.Item label="风格标签" span={2}>
+                      {renderStyleTags(data.tags)}
+                    </Descriptions.Item>
                   </Descriptions>
+                  {!!data.tags?.some((t) => t.tone === 'leak') && (
+                    <Alert
+                      type="info"
+                      showIcon
+                      style={{ marginBottom: 16 }}
+                      message="橙色为泄漏类标签；悬停可看判定说明。标签由当前物化轴实时计算，不落库。"
+                    />
+                  )}
 
                   {dimmed && (
                     <Alert
