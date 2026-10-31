@@ -12,6 +12,7 @@ import type {
   RoomOpsRow,
   RoomOpsTableType,
   UserOpsDetail,
+  UserOpsRadar,
   UserOpsRow
 } from './types'
 
@@ -43,6 +44,14 @@ export async function fetchUserOpsList(params: Params[0] & UserOpsListFilters) {
 
 export async function fetchUserOpsDetail(userId: number) {
   const { data } = await request<UserOpsDetail>('api/web/user-ops/detail', { userId })
+  return data
+}
+
+export async function fetchUserOpsRadar(userId: number, scope?: string) {
+  const { data } = await request<UserOpsRadar>('api/web/user-ops/radar', {
+    userId,
+    ...(scope ? { scope } : {})
+  })
   return data
 }
 

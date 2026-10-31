@@ -41,7 +41,10 @@ const UserOpsDetailPage = () => {
           <div className={shell.glass}>
             <div className={shell.toolbar}>
               <h1 className={shell.pageTitle}>用户 #{id}</h1>
-              <Link to="/ops/users">返回列表</Link>
+              <Space>
+                <Link to={`/ops/users/${id}/radar`}>数据雷达</Link>
+                <Link to="/ops/users">返回列表</Link>
+              </Space>
             </div>
 
             <Skeleton loading={loading} active paragraph={{ rows: 6 }}>

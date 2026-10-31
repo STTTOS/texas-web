@@ -125,6 +125,11 @@ const routers: MyRoute[] = [
             element: lazy(() => import('@/page/ops/users/detail'))
           },
           {
+            path: '/ops/users/:id/radar',
+            title: '数据雷达',
+            element: lazy(() => import('@/page/ops/users/radar'))
+          },
+          {
             path: '/ops/match-tape/:matchId',
             title: '领域磁带',
             element: lazy(() => import('@/page/ops/matchTape'))

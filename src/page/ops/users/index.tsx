@@ -95,8 +95,14 @@ const UserOpsListPage = () => {
       { title: '注册', dataIndex: 'createdAt', width: 170 },
       {
         title: '操作',
-        width: 100,
-        render: (_, r) => <Link to={`/ops/users/${r.id}`}>详情</Link>
+        width: 160,
+        render: (_, r) => (
+          <>
+            <Link to={`/ops/users/${r.id}`}>详情</Link>
+            {' · '}
+            <Link to={`/ops/users/${r.id}/radar`}>数据雷达</Link>
+          </>
+        )
       }
     ],
     [matchRecordsSortOrder]

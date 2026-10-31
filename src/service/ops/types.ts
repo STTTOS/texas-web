@@ -32,6 +32,43 @@ export interface UserOpsDetail extends UserOpsRow {
   }
 }
 
+/** 与服务端 `getUserStyleRadar` / POST user-ops/radar 对齐 */
+export type StyleRadarAxisKey =
+  | 'vpip'
+  | 'pfr'
+  | 'threeBet'
+  | 'afq'
+  | 'cbet'
+  | 'wtsd'
+  | 'wsd'
+  | 'skill'
+
+export interface StyleRadarAxis {
+  key: StyleRadarAxisKey
+  label: string
+  value: number | null
+  avg: number | null
+}
+
+export interface UserOpsRadar {
+  userId: number
+  name: string
+  username: string
+  scope: string
+  hands: number
+  sampleStatus: 'insufficient' | 'reference' | 'ok'
+  statsVersion: number
+  updatedAt: string | null
+  axes: StyleRadarAxis[]
+  skill: {
+    score: number | null
+    l1: number | null
+    l2: number | null
+    l3: number | null
+    l4: number | null
+  }
+}
+
 export interface EngineFatalRow {
   id: number
   roomId: number
