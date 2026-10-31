@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-import type { StyleRadarAxis } from '@/service/ops/types'
+import type { StyleRadarAxis, StyleRadarAxisKey } from '@/service/ops/types'
 
 const CX = 180
 const CY = 180
@@ -11,21 +11,22 @@ const polar = (i: number, n: number, ratio: number) => {
   return { x: CX + Math.cos(a) * R * ratio, y: CY + Math.sin(a) * R * ratio }
 }
 
-/** 展示值归一：技术分 0–100；频率轴按常见上限裁切 */
-const normValue = (axis: StyleRadarAxis): number => {
-  if (axis.value == null) return 0.08
-  if (axis.key === 'skill') return Math.max(0.08, Math.min(1, axis.value / 100))
-  const max =
-    axis.key === 'threeBet' ? 20 : axis.key === 'wtsd' ? 50 : axis.key === 'afq' ? 80 : 60
-  return Math.max(0.08, Math.min(1, axis.value / max))
+/**
+ * 各轴满格对应的「真实单位」上限（与展示文案同单位）。
+ * 频率轴用 100（%），避免旧版 max=60 把 68%/78% 都夹成满格。
+ * 3Bet 常见更低，用 40 保留可读跨度；技术分 0–100。
+ */
+const axisFullScale = (key: StyleRadarAxisKey): number => {
+  if (key === 'skill') return 100
+  if (key === 'threeBet') return 40
+  return 100
 }
 
-const normAvg = (axis: StyleRadarAxis): number => {
-  if (axis.avg == null) return 0.08
-  if (axis.key === 'skill') return Math.max(0.08, Math.min(1, axis.avg / 100))
-  const max =
-    axis.key === 'threeBet' ? 20 : axis.key === 'wtsd' ? 50 : axis.key === 'afq' ? 80 : 60
-  return Math.max(0.08, Math.min(1, axis.avg / max))
+/** 展示值 → 雷达半径比 0.08–1 */
+const toRatio = (key: StyleRadarAxisKey, raw: number | null): number => {
+  if (raw == null) return 0.08
+  const max = axisFullScale(key)
+  return Math.max(0.08, Math.min(1, raw / max))
 }
 
 const fmt = (axis: StyleRadarAxis, v: number | null) => {
@@ -64,14 +65,14 @@ const StyleRadarChart = ({ axes, activeKey, onSelect, dimmed }: Props) => {
 
   const mePts = axes
     .map((a, i) => {
-      const p = polar(i, n, normValue(a))
+      const p = polar(i, n, toRatio(a.key, a.value))
       return `${p.x},${p.y}`
     })
     .join(' ')
 
   const avgPts = axes
     .map((a, i) => {
-      const p = polar(i, n, normAvg(a))
+      const p = polar(i, n, toRatio(a.key, a.avg))
       return `${p.x},${p.y}`
     })
     .join(' ')
@@ -120,7 +121,9 @@ const StyleRadarChart = ({ axes, activeKey, onSelect, dimmed }: Props) => {
         strokeWidth={2.2}
       />
       {axes.map((axis, i) => {
-        const tip = polar(i, n, 1)
+        const rim = polar(i, n, 1)
+        const valuePt = polar(i, n, toRatio(axis.key, axis.value))
+        const avgPt = polar(i, n, toRatio(axis.key, axis.avg))
         const lp = polar(i, n, 1.28)
         const active = activeKey === axis.key || hover === axis.key
         return (
@@ -131,7 +134,8 @@ const StyleRadarChart = ({ axes, activeKey, onSelect, dimmed }: Props) => {
             onMouseEnter={() => setHover(axis.key)}
             onMouseLeave={() => setHover(null)}
           >
-            <circle cx={tip.x} cy={tip.y} r={16} fill="transparent" />
+            {/* 轴端热区仍在外圈，便于点选标签 */}
+            <circle cx={rim.x} cy={rim.y} r={16} fill="transparent" />
             <rect
               x={lp.x - 28}
               y={lp.y - 22}
@@ -161,9 +165,18 @@ const StyleRadarChart = ({ axes, activeKey, onSelect, dimmed }: Props) => {
             >
               {fmt(axis, axis.value)}
             </text>
+            {axis.avg != null && (
+              <circle
+                cx={avgPt.x}
+                cy={avgPt.y}
+                r={2.5}
+                fill="#fb7185"
+                opacity={0.9}
+              />
+            )}
             <circle
-              cx={tip.x}
-              cy={tip.y}
+              cx={valuePt.x}
+              cy={valuePt.y}
               r={3.5}
               fill="#5eead4"
               stroke={active ? '#fff' : 'none'}

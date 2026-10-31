@@ -30,7 +30,7 @@ const { Text } = Typography
 
 const AXIS_HELP: Record<StyleRadarAxisKey, string> = {
   skill:
-    '技术分：去跑马战绩（All-in Adj）+ 入池选牌 + 红/蓝线结构 + 极端泄漏扣分（权重 40/30/22/8）。',
+    '技术分：L1 去跑马战绩 + L2 入池选牌合规（仅统计有洞牌的入池手，limp 轻罚）+ L3 红/蓝线 + L4 极端泄漏（权重 40/30/22/8）。',
   vpip: '翻前主动入池比例（跟注/加注等，不含被迫盲注）。越高越松。',
   pfr: '翻前加注比例。与 VPIP 差距反映 limp / cold-call 习惯。',
   threeBet: '面对 open 后再加注的频率。样本需更多才稳定。',
