@@ -34,7 +34,7 @@ const AXIS_HELP: Record<StyleRadarAxisKey, string> = {
   vpip: '翻前主动入池比例（跟注/加注等，不含被迫盲注）。越高越松。',
   pfr: '翻前加注比例。与 VPIP 差距反映 limp / cold-call 习惯。',
   threeBet: '面对 open 后再加注的频率。样本需更多才稳定。',
-  afq: '翻后主动进攻动作占比（下注/加注 / 全部翻后行动）。',
+  afq: '翻后主动进攻动作占比（bet+raise+allIn）/（同集合+call+check）；分母不含 fold，对齐常见 PT。',
   cbet: '作为翻前进攻方，在翻牌继续下注的频率。',
   wtsd: '看过翻牌后进入摊牌的比例。过高且被动常见于跟注站。',
   wsd: '摊牌时的胜率。与 WTSD 合看可判断跟注质量。'
